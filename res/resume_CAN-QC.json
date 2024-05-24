@@ -145,7 +145,7 @@
         "Bullet-point list items that you would like to include along with (or instead of) a summary paragraph."
       ],
       "details": {
-        "context-mission": "Service Architecture/Powertrain - Conception d'équipements véhicule:\\\\11/16>03/17: Renault Zoé Ph.2 (Véhicule électrique) Conception/archi compartiment moteur/Sous-caisse;\\\\ 08/17>07/19: PHEV (Hybride Rechargeable), Plateformes CMF1/CMF-B, Conception et pilotage conception-archi Sous-caisse;\\\\04/19>09/19: Euro7 \\& HEV (Hybride), Plateforme Utilitaire CD1, Conception et pilotage Sous-caisse.",
+        "context-mission": "Service Architecture/Powertrain - Conception d'équipements véhicule:\\\\11/16>03/17: Renault Zoé Ph.2 (Véhicule électrique) Conception/archi compartiment moteur/Sous-caisse;\\\\08/17>07/19: PHEV (Hybride Rechargeable), Plateformes CMF1/CMF-B, Conception et pilotage conception-archi Sous-caisse;\\\\04/19>09/19: Euro7 \\& HEV (Hybride), Plateforme Utilitaire CD1, Conception et pilotage Sous-caisse.",
         "goals": [  ],
         "achievements": [ 
           "Définition produit (Géométrie, Interfaces): Tout type de pièce dans les zones d'architecture concernées.",

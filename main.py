@@ -22,7 +22,7 @@ class ResumeGenerator:
     def createResumes(self):
         outputFilesDirPath = os.path.join(ROOT_DIR,"out")
 
-        for filename in ["resume_FR.tex", "resume_FR_detailed.tex"]:#, "resume_CAN.tex", "resume_CAN_detailed.tex"]:
+        for filename in ["resume_FR.tex", "resume_FR_detailed.tex", "resume_CAN.tex", "resume_CAN_detailed.tex", "resume_CAN-QC.tex", "resume_CAN-QC_detailed.tex"]:
             outputFilePath = os.path.join(outputFilesDirPath,filename)
             detailed = "detailed" in filename
             countryCode = filename.split(".")[0].split("_")[1]
@@ -178,7 +178,7 @@ France"""
         otherSections = self.buildAsideOtherSections()
         aside = f"\\begin{{aside}}"
 
-        if targetCountryCode not in ["USA","CAN"]:
+        if targetCountryCode not in ["USA","CAN","CAN-QC"]:
              aside += f"\n\\includegraphics[scale=0.28]{{res/img/Photo_CV.jpg}}"
 
         aside += f"""\n%\\begin{{flushleft}}
@@ -254,8 +254,6 @@ France"""
             city = exp['location']['city']
             countryCode = exp['location']['countryCode']
             summary = exp['summary']
-            details = exp['details']
-
 
             expStr = f"""
 \\begin{{entrylist}}
@@ -266,6 +264,85 @@ France"""
     {{{summary}}}
 \\end{{entrylist}}
 """
+            if not detailed:
+                experiences += expStr
+                continue
+            details = exp['details']
+            contextMission = details['context-mission']
+            goals = details['goals']
+            achievements = details['achievements']
+            results = details['results']
+            techEnv = details['tech-env']
+
+            detailsStr = f"""\\vspace{{-10pt}}
+\\begin{{minipage}}[t]{{0.65\\linewidth}}
+\\underline{{{self.resumeData['document']['sections']['workExperience']['details']['context-mission']}}}\\\\
+{contextMission}\\\\
+\\end{{minipage}} % no space if you would like to put them side by side"""
+            techEnvStr = ""
+            for idx_tEnv, tEnv in enumerate(techEnv):
+                line = tEnv.split(": ")
+                techEnvStr += f"\n\\underline{{\\textit{{{line[0]}}}}}: {line[1]}"
+                if idx_tEnv != len(techEnv)-1:
+                    techEnvStr += "\\\\"
+            if techEnvStr:
+                techEnvStr = f"""\n\\begin{{minipage}}[t]{{0.38\\textwidth}}
+    \\underline{{{self.resumeData['document']['sections']['workExperience']['details']['tech-env']}}}\\
+    \\vspace{{1mm}}
+    {techEnvStr}
+    \\end{{minipage}}"""
+                detailsStr += techEnvStr
+
+            goalStr = ""
+            for idx_goal, goal in enumerate(goals):
+                goalStr += f"\n\\item {goal}"
+            if goalStr:
+                goalStr = f"""\n\\vspace{{1.5mm}}
+\\underline{{{self.resumeData['document']['sections']['workExperience']['details']['goals']}}}\\\\
+
+\\begin{{itemize}}
+\\setlength{{\\itemsep}}{{1pt}}
+\\setlength{{\\parskip}}{{0pt}}
+\\setlength{{\\parsep}}{{0pt}}
+{goalStr}
+\\end{{itemize}}
+"""
+                detailsStr += goalStr
+
+            
+            achievementsStr = ""
+            for idx_achievement, achievement in enumerate(achievements):
+                achievementsStr += f"\n\\item {achievement}"
+            if achievementsStr:
+                achievementsStr = f"""\n\\vspace{{1.5mm}}
+\\underline{{{self.resumeData['document']['sections']['workExperience']['details']['achievements']}}}\\\\
+
+\\begin{{itemize}}
+\\setlength{{\\itemsep}}{{1pt}}
+\\setlength{{\\parskip}}{{0pt}}
+\\setlength{{\\parsep}}{{0pt}}
+{achievementsStr}
+\\end{{itemize}}
+"""
+                detailsStr += achievementsStr
+
+            resultsStr = ""
+            for idx_result, result in enumerate(results):
+                resultsStr += f"\n\\item {result}"
+            if resultsStr:
+                resultsStr = f"""\n\\vspace{{1.5mm}}
+\\underline{{{self.resumeData['document']['sections']['workExperience']['details']['results']}}}\\\\
+
+\\begin{{itemize}}
+\\setlength{{\\itemsep}}{{1pt}}
+\\setlength{{\\parskip}}{{0pt}}
+\\setlength{{\\parsep}}{{0pt}}
+{resultsStr}
+\\end{{itemize}}
+"""
+                detailsStr += resultsStr
+
+            expStr += detailsStr
             experiences += expStr
 
         experience = f"""\\section{{{self.resumeData['document']['sections']['workExperience']['name']}}}
@@ -292,7 +369,7 @@ France"""
             coursesRaw = edu['coursesRaw']
 
 
-            eduStr = f"""
+            eduStr = f"""\\vspace{{0.5mm}}
 \\begin{{entrylist}}
   \\entry
     {{{startDate} - {endDate}}}
@@ -318,7 +395,8 @@ France"""
             educations += eduStr
         
         
-        education = f"""\\section{{{self.resumeData['document']['sections']['education']['name']}}}
+        education = f"""\\vspace*{{0.45cm}}
+\\section{{{self.resumeData['document']['sections']['education']['name']}}}
 \\vspace*{{-0.25cm}}
 {educations}"""
         return education

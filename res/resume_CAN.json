@@ -7,7 +7,7 @@
     "phone": "+33 670525552",
     "degree": "",
     "website": "",
-    "summary": "~~Full Stack Web \\& Mobile Developer Engineer",
+    "summary": "~~~~~~Full Stack Web \\& Mobile Developer Engineer",
     "catchPhrase":"Engineer with IT and Mechanical Systems skills, curious and passionate about technologies I love to learn and meet new challenges!",
     "location": {
       "Paris,France":{
@@ -57,7 +57,7 @@
       ],
       "details": {
         "context-mission": "Automate and improve company's repowering* service reactivity (*: Identify and offer replacement solar panels to solar plant owners whose panels are either ageing or damaged",
-        "goal": [ 
+        "goals": [ 
           "Relieve commercial service in the process dealing with repowering quotation requests and reduce reply time to potential clients.",
           "Identify and immediately access client's plant's panels' specifications",
           "Automate the search for compatible panels available either in our shop or at suppliers.",
@@ -87,7 +87,7 @@
     },
     {
       "company": "Böllhoff (via Davricourt)",
-      "position": "R&D Engineer",
+      "position": "R\\&D Engineer",
       "website": "https://www.boellhoff.com",
       "startDate": "2019-11-01",
       "endDate": "2022-04-30",
@@ -97,13 +97,14 @@
         "countryCode": "FR",
         "zipcode":"73"
       },
-      "summary": "Automotive Mechatronic Product design & development",
+      "summary": "Automotive Mechatronic Product design \\& development",
       "highlights": [
         "Bullet-point list items that you would like to include along with (or instead of) a summary paragraph."
       ],
       "details": {
-        "context-mission": "R&D Innovation Service, development of a new range of products with high value - instrumented assembly systems and fasteners.",
-        "goal": [ 
+        "context-mission": "R\\&D Innovation Service, development of a new range of products with high value - instrumented assembly systems and fasteners.",
+        "goals": [  ],
+        "achievements": [ 
           "Products and Process/Trials related products design (geometry, CAD/CAE, dimensioning, optimization, interfaces): Sensors, Preconstraint screwed assemblies, Body-fixed elements (tank, roofbox,...), Automotive suspension/Ground liaison elements (McPherson, Flexible, Blade,..), Custom Machines (glueing, pneumatic prehension/command)",
           "Technical drawing, Functional dimensioning, Chains of dimensions (Arithmetic, Quadratic)",
           "Ensure plays with environment (architectural, thermal, ...)",
@@ -115,7 +116,6 @@
           "3D Prototyping: FDM 3D printing, Supplier Contact for other prototype parts",
           "Take part in design review meetings : progress and problems sharing, action plan definition and realization."
          ],
-        "achievements": [  ],
         "results": [  ],
         "tech-env": [ 
           "CAD: DS Catia V5, PTC Creo 7",
@@ -145,8 +145,9 @@
         "Bullet-point list items that you would like to include along with (or instead of) a summary paragraph."
       ],
       "details": {
-        "context-mission": "Architecture/Powertrain Service- Vehicle parts design: 11/16>03/17: Renault Zoé Ph.2 (EV) Engine compartment/Underbody Design/archi; 04/17>07/17: Euro6Dtemp CMF1 Platform, Cooling System Design; 06/17>09/17: Twingo/Smart 2P/4P Engine Compartment Design-archi; 08/17>07/19: PHEV, CMF1/CMF-B Platforms, Underbody Design-archi and Technical Management; 04/19>09/19: Euro7 & HEV, CD1 Utility Vehicle Platform, Underbody Design-archi and Technical management.",
-        "goal": [ 
+        "context-mission": "Architecture/Powertrain Service- Vehicle parts design: \\\\11/16>03/17: Renault Zoé Ph.2 (EV) Engine compartment/Underbody Design/archi;\\\\08/17>07/19: PHEV, CMF1/CMF-B Platforms, Underbody Design-archi and Technical Management;\\\\04/19>09/19: Euro7 \\& HEV, CD1 Utility Vehicle Platform, Underbody Design-archi and Technical management.",
+        "goals": [  ],
+        "achievements": [ 
           "Product definition (Geometry, Interfaces): All kind of part in designated architecture area.",
           "Ensure plays with environment (Archi, Thermal,...) with fixed or moving parts",
           "Ensure mountability, positioning and fixation of parts with manual or automatic means",
@@ -155,13 +156,12 @@
           "Team management (Management of French and off-site designers)",
           "Organize and lead design review meetings, problem presentations, action plan definition and application."
          ],
-        "achievements": [  ],
         "results": [  ],
         "tech-env": [ 
           "CAD: DS Catia V6",
           "PDM: NewPDM",
           "Languages: French, English (international team)",
-          "Others: Excel, Powerpoint, VBA"
+          "Others: Excel, Powerpoint, VBA\n\\vspace{15mm}"
          ]
       }
     }
@@ -170,30 +170,30 @@
   "education": [
     {
       "institution": "EPSI",
-      "area": "Bachelor Concepteur Développeur d'Applications",
+      "area": "Bachelor Degree in Software Design \\& Development",
       "location":{
         "city":"Lyon",
         "country": "France",
         "countryCode": "FR",
         "zipcode":"69"
       },
-      "studyType": "RNCP Niv.6 - Spécialité Data/IA; \\hspace{7mm} 09/23: Certification d'état CDA",
+      "studyType": "RNCP Lvl.6 - Data/IA minor; \\hspace{7mm} 09/23: Government Skill Certification",
       "startDate": "2022-09-15",
       "endDate": "2023-08-01",
       "gpa": "",
       "courses": [ ],
-      "coursesRaw": "\\vspace*{-0.65cm}\n\\begin{itemize}\n\\setlength{\\itemsep}{1pt}\n\\setlength{\\parskip}{0pt}\n\\setlength{\\parsep}{0pt}\n\\begin{multicols}{2}\n\\item Développement: \\newline Java, Python, Dart/Flutter, etc.\n\\columnbreak\n\\item Data, Bases de données, etc.\n\\item Tests et intégration continue (CI/CD)\n\\end{multicols}\n\\end{itemize}"
+      "coursesRaw": "\\vspace*{-0.65cm}\n\\begin{itemize}\n\\setlength{\\itemsep}{1pt}\n\\setlength{\\parskip}{0pt}\n\\setlength{\\parsep}{0pt}\n\\begin{multicols}{2}\n\\item Development: \\newline Java, Python, Dart/Flutter, etc.\n\\columnbreak\n\\item Data, Databases, etc.\n\\item Tests \\& CI/CD\n\\end{multicols}\n\\end{itemize}"
     },
     {
       "institution": "Epitech",
-      "area": "Formation d'Intégrateur-développeur web",
+      "area": "Web Developer Formation",
       "location":{
         "city":"Paris",
         "country": "France",
         "countryCode": "FR",
         "zipcode":"75"
       },
-      "studyType": "RNCP Niv.5",
+      "studyType": "RNCP Lvl.5",
       "startDate": "2022-06-01",
       "endDate": "2022-08-31",
       "gpa": "",
@@ -204,14 +204,14 @@
     },
     {
       "institution": "UTT",
-      "area": "Diplôme d'Ingénieur en Systèmes Mécaniques",
+      "area": "Master degree in Mechanical Systems Engineering",
       "location":{
         "city":"Troyes",
         "country": "France",
         "countryCode": "FR",
         "zipcode":"10"
       },
-      "studyType": "RNCP Niv.7; Conception et Industrialisation, en lien avec l’Environnement",
+      "studyType": "RNCP Lvl.7; Environmental Design \\& Industrialization minor",
       "startDate": "2013-09-01",
       "endDate": "2016-08-31",
       "gpa": "",
@@ -220,26 +220,26 @@
     },
     {
       "institution": "IUT",
-      "area": "DUT Génie Mécanique et Productique",
+      "area": "2-Year Degree in Mechanical Engineering",
       "location":{
         "city":"Troyes",
         "country": "France",
         "countryCode": "FR",
         "zipcode":"10"
       },
-      "studyType": "RNCP Niv.5",
+      "studyType": "RNCP Lvl.5",
       "startDate": "2011-09-01",
       "endDate": "2013-06-30",
       "gpa": "",
       "courses": [  ],
-      "coursesRaw": "\\vspace*{-0.4cm}\n\\begin{itemize}\n\\setlength{\\itemsep}{1pt}\n\\setlength{\\parskip}{0pt}\n\\setlength{\\parsep}{0pt}\n\\item Conception, dimensionnement, asservissement et programmation d’un robot pour participer à la coupe de France de robotique (E=M6)\n\\end{itemize}"
+      "coursesRaw": "\\vspace*{-0.4cm}\n\\begin{itemize}\n\\setlength{\\itemsep}{1pt}\n\\setlength{\\parskip}{0pt}\n\\setlength{\\parsep}{0pt}\n\\item Design, Functional dimensioning, enslavement and programming of a robot to take part in the Franch robotic cup.\n\\end{itemize}"
     }
   ],
   "awards": [  ],
   "publications": [  ],
   "skills": [
     {
-      "name": "Mobile",
+      "name": "Mobile Development",
       "type": "rankedItems",
       "items":[
         {
@@ -260,7 +260,7 @@
       ]
     },
     {
-      "name": "Developpement web",
+      "name": "Web Development",
       "type": "rankedItems",
       "items":[
         {
@@ -276,7 +276,7 @@
       ]
     },
     {
-      "name": "Frameworks web",
+      "name": "Web Frameworks",
       "type": "rankedItems",
       "items":[
         {
@@ -300,7 +300,7 @@
       "name": "columnBreak"
     },
     {
-      "name": "Application / Serveur",
+      "name": "Back-end / Server",
       "type": "rankedItems",
       "items":[
         {
@@ -423,7 +423,7 @@
       ]
     },
     {
-      "name": "IA \\& Outils",
+      "name": "AI \\& Tools",
       "type": "rankedItems",
       "items":[
         {
@@ -463,52 +463,59 @@
   "document": {
     "sections":{
       "itSkills":{
-        "name":"Compétences Informatiques"
+        "name":"IT-Skills"
       },
       "workExperience":{
-        "name":"Expérience"
+        "name":"Work Experience",
+        "details": {
+          "context-mission": "Context - Mission: ",
+          "goals": "Goal: ",
+          "achievements": "Tasks - Achievements: ",
+          "results": "Results: ",
+          "tech-env": "Tech. Envir.: "
+        }
       },
       "education":{
-        "name":"Formation - Certifications"
+        "name":"Education - Certifications"
       },
       "hobbies":{
-        "name":"Centres d'intérêt"
+        "name":"Hobbies"
       }
     },
     "aside": {
       "sections": {
         "infos":{
           "name":"Infos",
-          "content":"%30 ans\nPermis A,B"
+          "content":"%30 yo\nFull driving licence A,B"
         },
         "address":{
-          "name":"Addresse",
-          "mobility":"Mobile à l'international"
+          "name":"Address",
+          "mobility":"International mobility"
         },
         "contact":{
           "name":"Contact"
         },
         "onlineProfiles":{
-          "name":"Profil en ligne"
+          "name":"Online Profiles"
         },
         "languages":{
-          "name":"Langues"
+          "name":"Languages"
         },
         "softSkills":{
           "name":"Soft Skills",
           "content": [ 
-            "Travail d'équipe",
-            "Initiative",
-            "Curiosité",
-            "Résolution de.problèmes",
+            "Teamwork",
+            "Organization",
+            "Creativity",
+            "Adaptability",
             "\\vspace{2mm}Management\\vspace{2mm}",
-            "Organisation"
+            "Initiative"
            ]
         }
       },  
       "otherSections": [ 
           {
-            "name":"CAO / FAO",
+            "name":"CAD / CAM",
             "type": "rankedItems",
             "items":[
               {
@@ -520,7 +527,7 @@
                 "level": "4"
               },
               {
-                "name":"Impression 3D",
+                "name":"3D Printing",
                 "level": "3"
               }
             ]
@@ -540,7 +547,7 @@
             ]
           },
           {
-            "name":"Calcul / FEM",
+            "name":"FEM / CAE",
             "type": "rankedItems",
             "items":[
               {
@@ -587,7 +594,7 @@
       "keywords": [
         "Keywords under this category (e.g. 'Cricket', 'Football', 'Golf')"
       ],
-      "raw":"\\vspace*{-0.45cm}\n\\setlength{\\columnsep}{-2cm}\n\\begin{multicols}{2}\n\\begin{itemize}\n\\setlength{\\itemsep}{1pt}\n\\setlength{\\parskip}{0pt}\n\\setlength{\\parsep}{0pt}\n\\item Sorties: \\\\\nRandonnée, Concerts,  Moto, Photo\\\\\n\\item Musique: \\\\\nBatterie, Piano\\\\\n\\columnbreak\n\\item Voyages: \\\\\nSuède, Cambodge, Thaïlande, Allemagne\\\\\n\\item Lecture: \\\\\nB.Werber, M.Chattam, F.Thilliez\n\\end{itemize}\n\\end{multicols}"
+      "raw":"\\vspace*{-0.45cm}\n\\setlength{\\columnsep}{-2cm}\n\\begin{multicols}{2}\n\\begin{itemize}\n\\setlength{\\itemsep}{1pt}\n\\setlength{\\parskip}{0pt}\n\\setlength{\\parsep}{0pt}\n\\item Outings: \\\\\nHiking, Concerts,  Motorcycle, Photo\\\\\n\\item Music: \\\\\nDrums, Piano\\\\\n\\columnbreak\n\\item Travels: \\\\\nSweden, Cambodia, Thaïland, Germany\\\\\n\\item Reading: \\\\\nB.Werber, M.Chattam, F.Thilliez\n\\end{itemize}\n\\end{multicols}"
     }
   ]
 }
