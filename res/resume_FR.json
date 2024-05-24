@@ -1,0 +1,593 @@
+{
+  "basics": {
+    "name": "Yoann Chamillard",
+    "label": "",
+    "picture": "",
+    "email": "yoann.chamillard@gmail.com",
+    "phone": "+33 6 70 52 55 52",
+    "degree": "",
+    "website": "",
+    "summary": "~~~~~~~~~~~~~~~~Ingénieur Développeur Web \\& Mobile Full Stack",
+    "catchPhrase":"Ingénieur avec une double compétence informatique/mécanique , curieux et passionné de technologies j'adore apprendre et relever de nouveaux défis!",
+    "location": {
+      "Paris,France":{
+        "address": "82 rue Lady Ashburton",
+        "postalCode": "95150",
+        "city": "Taverny",
+        "countryCode": "FR",
+        "region": "Ile de France"
+      },
+      "Lyon,France":{
+        "address": "35 rue Pierre Bonnaud",
+        "postalCode": "69003",
+        "city": "Lyon",
+        "countryCode": "FR",
+        "region": "Rhone-Alpes"
+      }
+    },
+    "profiles": [
+      {
+        "network": "LinkedIn",
+        "username": "Yoann Chamillard",
+        "url": "http://fr.linkedin.com/in/yoannchamillard"
+      },
+      {
+        "network": "GitHub",
+        "username": "Nokheenig",
+        "url": "https://github.com/Nokheenig?tab=stars"
+      }
+    ]
+  },
+  "work": [
+    {
+      "company": "Synapsun",
+      "position": "Développeur web \\& mobile",
+      "website": "https://synapsun.com",
+      "startDate": "2022-09-15",
+      "endDate": "2023-11-01",
+      "location":{
+        "city":"Lyon",
+        "country": "France",
+        "countryCode": "FR",
+        "zipcode":"69"
+      },
+      "summary": "Développements fullstack web \\& mobile Android:\\hspace*{8mm}Flutter, Python, Kotlin",
+      "highlights": [
+        "Bullet-point list items that you would like to include along with (or instead of) a summary paragraph."
+      ],
+      "details": {
+        "context-mission": "Automatiser et améliorer la réactivité du service de repowering (identifier et proposer des panneaux solaires de remplacement aux exploitants de centrales solaire endommagées ou vieillissantes)",
+        "goal": [ 
+          "Soulager le service commercial dans le traitement des dossiers de repowering et améliorer le temps de réponse au client",
+          "Identifier et accéder instantanément aux caractéristiques des panneaux de l'installation du client",
+          "Automatiser la recherche de panneaux compatibles au catalogue de la société ou disponibles chez nos fournisseurs",
+          "Fournir aux clients une appli mobile pour le guider jusqu'à l'émission d'une demande de devis sur les références compatibles identifiées."
+         ],
+        "achievements": [ 
+          "Recueil du besoin, construction d'un cahier des charges et de spécifications fonctionnelles et techniques.",
+          "Développement d'un web scraper en Python",
+          "Conception de modèles de données",
+          "Rédaction de spécifications d'API au standard OpenAPI / Swagger",
+          "Mise en place d'une base de données produits MongoDB et d'une API Python FastAPI",
+          "Développement d'un clien mobile multi-plateforme Flutter.",
+          "Gestion des accès par token JWT (Json Web Token)",
+          "Mise en place d'une base de données PostgreSQL et d'un back-end Python Django pour la gestion des utilisateurs et des devis.",
+          "Contact fournisseur/prestataire pour les travaux outsourcés"
+         ],
+        "results": [  ],
+        "tech-env": [ 
+          "Mobile: Android, Flutter, Kotlin",
+          "Web: Python, Django, Javascript, PHP, HTML, CSS",
+          "Devops, CI/CD: Git, GitLab",
+          "Bases de données: PostgreSQL, MongoDB",
+          "Langues: Français, Anglais (équipe internationale)",
+          "Autres: OpenAPI, API, Jira, VBA"
+         ]
+      }
+    },
+    {
+      "company": "Böllhoff (via Davricourt)",
+      "position": "Ingénieur développement produit",
+      "website": "https://www.boellhoff.com",
+      "startDate": "2019-11-01",
+      "endDate": "2022-04-30",
+      "location":{
+        "city":"Chambéry",
+        "country": "France",
+        "countryCode": "FR",
+        "zipcode":"73"
+      },
+      "summary": "Conception produit mécatronique automobile",
+      "highlights": [
+        "Bullet-point list items that you would like to include along with (or instead of) a summary paragraph."
+      ],
+      "details": {
+        "context-mission": "Service R&D Innovation, développement d'une nouvelle gamme de produits à haute valeur ajoutée - fixations et Systèmes d'assemblage instrumentés.",
+        "goal": [ 
+          "Définition produit et produits liés au(x) process/essais (Géométrie, Simu/Calcul, Dimensionnement, Optimisation, Interfaces): Capteurs, Assemblages vissés sous précontrainte, Élément fixé sur caisse (réservoir, coffre de toit, ...), Élément de suspension/train (McPherson, Torsible, à lames), Machine spéciale (collage, préhension/commande pneumatique)",
+          "Mise en plan, Cotation fonctionnelle, Chaines de cotes (Arithmétiques, Quadratiques)",
+          "Assurer les jeux avec l'environnement (Archi, Thermiques,...)",
+          "Assurer la montabilité, la mise et maintien en position des produits par les moyens de montage",
+          "Rédaction de méthodes d’essai et réalisation d’essais de validation : Essais Labo, Sous-Système et Système, Essais de flexion, Essais de traction-compression",
+          "Plans d’Expérience/Taguchi/Design-Of-Experiments : Définition, Analyse",
+          "Extensométrie, Acquisition: Vérifier la tenue mécanique et la concordance des prototypes avec leur modèle simu à l’aide de jauges de déformation pelliculaires (HBM)",
+          "Plasturgie : Conception de pièces de boitier module avec fonctions d’étanchéité",
+          "Prototypage 3D FDM, Consultation fournisseur",
+          "Participation aux design review : présentation synthétique des problèmes, établissement de plans d’action, suivi de leur application"
+         ],
+        "achievements": [  ],
+        "results": [  ],
+        "tech-env": [ 
+          "CAD: DS Catia V5, PTC Creo 7",
+          "PDM: Windchill",
+          "CAE: Ansys Workbench, Creo Simulate, Altair Simsolid",
+          "DOE, Statistiques: Minitab",
+          "Extensométrie, Acquisition: Jauges de déformation pelliculaires HBM, Catman Easy, Multimètre Oscilloscope Kickstart",
+          "Langues: Français, Anglais (équipe internationale)",
+          "Autres: Excel, Powerpoint, VBA"
+         ]
+      }
+    },
+    {
+      "company": "Renault (via Bertrandt)",
+      "position": "Ingénieur d'étude automobile",
+      "website": "https://www.renault.fr",
+      "startDate": "2016-11-01",
+      "endDate": "2019-09-01",
+      "location":{
+        "city":"Vélizy",
+        "country": "France",
+        "countryCode": "FR",
+        "zipcode":"78"
+      },
+      "summary": "Conception \\& architecture sous-caisse et compartiment moteur",
+      "highlights": [
+        "Bullet-point list items that you would like to include along with (or instead of) a summary paragraph."
+      ],
+      "details": {
+        "context-mission": "Service Architecture/Powertrain - Conception d'équipements véhicule: 11/16>03/17: Renault Zoé Ph.2 (Véhicule électrique) Conception/archi compartiment moteur/Sous-caisse; 04/17>07/17: Euro6Dtemp Plateforme CMF1, Conception Systèmes de refroidissement; 06/17>09/17: Twingo/Smart 2P/4P Conception-archi Compartiment moteur; 08/17>07/19: PHEV (Hybride Rechargeable), Plateformes CMF1/CMF-B, Conception et pilotage conception-archi Sous-caisse; 04/19>09/19: Euro7 & HEV (Hybride), Plateforme Utilitaire CD1, Conception et pilotage Sous-caisse.",
+        "goal": [ 
+          "Définition produit (Géométrie, Interfaces): Tout type de pièce dans les zones d'architecture concernées.",
+          "Assurer les jeux avec l'environnement (Archi, Thermiques,...) avec les pièces fixes et mobiles",
+          "Assurer la montabilité, la mise et maintien en position des produits par les moyens de montage autos et manuels",
+          "Mise en plan, Cotation fonctionnelle, Chaines de cotes (Arithmétiques, Quadratiques)",
+          "Suivi de convergence du périmètre archi",
+          "Animation de groupe de travail (Pilotage de concepteurs français et à l'étranger)",
+          "Organisation et animation de design review : présentation synthétique des problèmes, établissement de plans d’action, suivi de leur application"
+         ],
+        "achievements": [  ],
+        "results": [  ],
+        "tech-env": [ 
+          "CAD: DS Catia V6",
+          "PDM: NewPDM",
+          "Langues: Français, Anglais (équipe internationale)",
+          "Autres: Excel, Powerpoint, VBA"
+         ]
+      }
+    }
+  ],
+  "volunteer": [ ],
+  "education": [
+    {
+      "institution": "EPSI",
+      "area": "Bachelor Concepteur Développeur d'Applications",
+      "location":{
+        "city":"Lyon",
+        "country": "France",
+        "countryCode": "FR",
+        "zipcode":"69"
+      },
+      "studyType": "RNCP Niv.6 - Spécialité Data/IA; \\hspace{7mm} 09/23: Certification d'état CDA",
+      "startDate": "2022-09-15",
+      "endDate": "2023-08-01",
+      "gpa": "",
+      "courses": [ ],
+      "coursesRaw": "\\vspace*{-0.65cm}\n\\begin{itemize}\n\\setlength{\\itemsep}{1pt}\n\\setlength{\\parskip}{0pt}\n\\setlength{\\parsep}{0pt}\n\\begin{multicols}{2}\n\\item Développement: \\newline Java, Python, Dart/Flutter, etc.\n\\columnbreak\n\\item Data, Bases de données, etc.\n\\item Tests et intégration continue (CI/CD)\n\\end{multicols}\n\\end{itemize}"
+    },
+    {
+      "institution": "Epitech",
+      "area": "Formation d'Intégrateur-développeur web",
+      "location":{
+        "city":"Paris",
+        "country": "France",
+        "countryCode": "FR",
+        "zipcode":"75"
+      },
+      "studyType": "RNCP Niv.5",
+      "startDate": "2022-06-01",
+      "endDate": "2022-08-31",
+      "gpa": "",
+      "courses": [ 
+        "PHP, HTML, CSS, JavaScript, Vue.Js, Laravel, Bash, Git"
+       ],
+      "coursesRaw": null
+    },
+    {
+      "institution": "UTT",
+      "area": "Diplôme d'Ingénieur en Systèmes Mécaniques",
+      "location":{
+        "city":"Troyes",
+        "country": "France",
+        "countryCode": "FR",
+        "zipcode":"10"
+      },
+      "studyType": "RNCP Niv.7; Conception et Industrialisation, en lien avec l’Environnement",
+      "startDate": "2013-09-01",
+      "endDate": "2016-08-31",
+      "gpa": "",
+      "courses": [  ],
+      "coursesRaw": null
+    },
+    {
+      "institution": "IUT",
+      "area": "DUT Génie Mécanique et Productique",
+      "location":{
+        "city":"Troyes",
+        "country": "France",
+        "countryCode": "FR",
+        "zipcode":"10"
+      },
+      "studyType": "RNCP Niv.5",
+      "startDate": "2011-09-01",
+      "endDate": "2013-06-30",
+      "gpa": "",
+      "courses": [  ],
+      "coursesRaw": "\\vspace*{-0.4cm}\n\\begin{itemize}\n\\setlength{\\itemsep}{1pt}\n\\setlength{\\parskip}{0pt}\n\\setlength{\\parsep}{0pt}\n\\item Conception, dimensionnement, asservissement et programmation d’un robot pour participer à la coupe de France de robotique (E=M6)\n\\end{itemize}"
+    }
+  ],
+  "awards": [  ],
+  "publications": [  ],
+  "skills": [
+    {
+      "name": "Mobile",
+      "type": "rankedItems",
+      "items":[
+        {
+          "name":"Kotlin",
+          "level": "4",
+          "details": "\\\\Room, Firebase, Gson, Jetpack Compose, Retrofit, MVVM, Coroutine\\\\\\vspace{2mm}"
+        },
+        {
+          "name":"Flutter",
+          "level": "4",
+          "details": ""
+        },
+        {
+          "name":"Android",
+          "level": "4",
+          "details": ""
+        }
+      ]
+    },
+    {
+      "name": "Developpement web",
+      "type": "rankedItems",
+      "items":[
+        {
+          "name":"HTML,CSS",
+          "level": "4",
+          "details": ""
+        },
+        {
+          "name":"JavaScript",
+          "level": "4",
+          "details": ""
+        }
+      ]
+    },
+    {
+      "name": "Frameworks web",
+      "type": "rankedItems",
+      "items":[
+        {
+          "name":"Django",
+          "level": "4",
+          "details": ""
+        },
+        {
+          "name":"Vue.Js",
+          "level": "4",
+          "details": ""
+        },
+        {
+          "name":"PHP-Laravel",
+          "level": "3",
+          "details": ""
+        }
+      ]
+    },
+    {
+      "name": "columnBreak"
+    },
+    {
+      "name": "Application / Serveur",
+      "type": "rankedItems",
+      "items":[
+        {
+          "name":"Python",
+          "level": "5",
+          "details": "\\\\Flask, SQLAlchemy, PyMongo, PyTest, FastAPI, Numpy\\\\\\vspace{2mm}"
+        },
+        {
+          "name":"Java",
+          "level": "3",
+          "details": ""
+        },
+        {
+          "name":"Nginx",
+          "level": "3",
+          "details": ""
+        },
+        {
+          "name":"Apache",
+          "level": "3",
+          "details": ""
+        },
+        {
+          "name":"API",
+          "level": "4",
+          "details": ""
+        }
+      ]
+    },
+    {
+      "name": "Authentication",
+      "type": "rankedItems",
+      "items":[
+        {
+          "name":"JWT Auth",
+          "level": "4",
+          "details": ""
+        },
+        {
+          "name":"OAuth",
+          "level": "3",
+          "details": ""
+        }
+      ]
+    },
+    {
+      "name": "Devops, CI/CD",
+      "type": "rankedItems",
+      "items":[
+        {
+          "name":"Git / GitLab",
+          "level": "4",
+          "details": ""
+        },
+        {
+          "name":"Docker",
+          "level": "3",
+          "details": ""
+        },
+        {
+          "name":"Jenkins",
+          "level": "3",
+          "details": ""
+        }
+      ]
+    },
+    {
+      "name": "columnBreak"
+    },
+    {
+      "name": "Databases",
+      "type": "rankedItems",
+      "items":[
+        {
+          "name":"MySQL",
+          "level": "4",
+          "details": ""
+        },
+        {
+          "name":"PostgreSQL",
+          "level": "3",
+          "details": ""
+        },
+        {
+          "name":"MongoDB",
+          "level": "4",
+          "details": ""
+        },
+        {
+          "name":"SQLite",
+          "level": "3",
+          "details": ""
+        }
+      ]
+    },
+    {
+      "name": "Data",
+      "type": "rankedItems",
+      "items":[
+        {
+          "name":"Shiny",
+          "level": "4",
+          "details": ""
+        },
+        {
+          "name":"Pandas",
+          "level": "4",
+          "details": ""
+        },
+        {
+          "name":"Matplotlib",
+          "level": "4",
+          "details": ""
+        },
+        {
+          "name":"Jupyter",
+          "level": "4",
+          "details": ""
+        }
+      ]
+    },
+    {
+      "name": "IA \\& Outils",
+      "type": "rankedItems",
+      "items":[
+        {
+          "name":"Tensorflow",
+          "level": "3",
+          "details": ""
+        },
+        {
+          "name":"Keras",
+          "level": "3",
+          "details": ""
+        }
+      ]
+    },
+    {
+      "name": "Others",
+      "type": "rankedItems",
+      "items":[
+        {
+          "name":"Bash",
+          "level": "3",
+          "details": ""
+        },
+        {
+          "name":"OpenAPI",
+          "level": "4",
+          "details": ""
+        },
+        {
+          "name":"Jira",
+          "level": "4",
+          "details": ""
+        }
+      ]
+    }
+  ],
+  "document": {
+    "sections":{
+      "itSkills":{
+        "name":"Compétences Informatiques"
+      },
+      "workExperience":{
+        "name":"Expérience"
+      },
+      "education":{
+        "name":"Formation - Certifications"
+      },
+      "hobbies":{
+        "name":"Centres d'intérêt"
+      }
+    },
+    "aside": {
+      "sections": {
+        "infos":{
+          "name":"Infos",
+          "content":"%30 ans\nPermis A,B"
+        },
+        "address":{
+          "name":"Addresse",
+          "mobility":"Mobile à l'international"
+        },
+        "contact":{
+          "name":"Contact"
+        },
+        "onlineProfiles":{
+          "name":"Profil en ligne"
+        },
+        "languages":{
+          "name":"Langues"
+        },
+        "softSkills":{
+          "name":"Soft Skills",
+          "content": [ 
+            "Travail d'équipe",
+            "Initiative",
+            "Curiosité",
+            "Résolution de.problèmes",
+            "\\vspace{2mm}Management\\vspace{2mm}",
+            "Organisation"
+           ]
+        }
+      },  
+      "otherSections": [ 
+          {
+            "name":"CAO / FAO",
+            "type": "rankedItems",
+            "items":[
+              {
+                "name":"Catia V5\\&V6",
+                "level": "5"
+              },
+              {
+                "name":"Creo 4.0",
+                "level": "4"
+              },
+              {
+                "name":"Impression 3D",
+                "level": "3"
+              }
+            ]
+          },
+          {
+            "name":"PLM / PDM",
+            "type": "rankedItems",
+            "items":[
+              {
+                "name":"NewPDM",
+                "level": "4"
+              },
+              {
+                "name":"Windchill",
+                "level": "3"
+              }
+            ]
+          },
+          {
+            "name":"Calcul / FEM",
+            "type": "rankedItems",
+            "items":[
+              {
+                "name":"Ansys Wbench",
+                "level": "3"
+              },
+              {
+                "name":"Abaqus",
+                "level": "3"
+              },
+              {
+                "name":"Hyperworks",
+                "level": "2-5"
+              },
+              {
+                "name":"Hypermesh",
+                "level": "2-5"
+              }
+            ]
+          }
+        ]
+    }
+   },
+  "languages": [
+    {
+      "language": "FRE",
+      "fluency": "5",
+      "test": ""
+    },
+    {
+      "language": "ENG",
+      "fluency": "4",
+      "test": "(C1,Bulats)"
+    },
+    {
+      "language": "GER",
+      "fluency": "2-5",
+      "test": "(B1)"
+    }
+  ],
+  "interests": [
+    {
+      "name": "A category of interests (e.g. 'Sports')",
+      "keywords": [
+        "Keywords under this category (e.g. 'Cricket', 'Football', 'Golf')"
+      ],
+      "raw":"\\vspace*{-0.45cm}\n\\setlength{\\columnsep}{-2cm}\n\\begin{multicols}{2}\n\\begin{itemize}\n\\setlength{\\itemsep}{1pt}\n\\setlength{\\parskip}{0pt}\n\\setlength{\\parsep}{0pt}\n\\item Sorties: \\\\\nRandonnée, Concerts,  Moto, Photo\\\\\n\\item Musique: \\\\\nBatterie, Piano\\\\\n\\columnbreak\n\\item Voyages: \\\\\nSuède, Cambodge, Thaïlande, Allemagne\\\\\n\\item Lecture: \\\\\nB.Werber, M.Chattam, F.Thilliez\n\\end{itemize}\n\\end{multicols}"
+    }
+  ]
+}

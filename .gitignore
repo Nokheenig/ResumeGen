@@ -1,0 +1,8 @@
+arc/
+logs/
+__pycache__/
+*.log
+*.aux
+*.bcf
+*.out
+*.xml
