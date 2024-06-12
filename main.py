@@ -22,11 +22,20 @@ class ResumeGenerator:
     def createResumes(self):
         outputFilesDirPath = os.path.join(ROOT_DIR,"out")
 
-        for filename in ["resume_FR.tex", "resume_FR_detailed.tex", "resume_CAN.tex", "resume_CAN_detailed.tex", "resume_CAN-QC.tex", "resume_CAN-QC_detailed.tex"]:
+        for filename in ["resume_FR.tex", "resume_FR_detailed.tex", "resume_CAN.tex", "resume_CAN_detailed.tex", "resume_CAN-QC.tex", "resume_CAN-QC_detailed.tex", "resume_AS_detailed.tex"]:
             outputFilePath = os.path.join(outputFilesDirPath,filename)
             detailed = "detailed" in filename
             countryCode = filename.split(".")[0].split("_")[1]
-            self.loadResumeData(targetCountryCode=countryCode)
+            dataRedirectCountryCode = None
+            dataRedirectCountryCodes = {
+                "US": ["CAN", "AS", "UK"],
+                "FR": ["CAN-QC"],
+            }
+            for k, v in dataRedirectCountryCodes.items():
+                if countryCode in v:
+                    dataRedirectCountryCode = k
+                    break
+            self.loadResumeData(targetCountryCode=dataRedirectCountryCode if dataRedirectCountryCode else countryCode)
             outFileContent = self.buildResume(targetCountryCode=countryCode, detailed=detailed)
             print(outFileContent)
             with open(outputFilePath, "w", encoding='utf-8') as f:
@@ -53,9 +62,9 @@ class ResumeGenerator:
 {skills}
 {experience}
 {education}
-{hobbies}
-\\end{{document}} 
 """
+        if detailed: resume += f"""{hobbies}\n"""
+        resume += f"""\\end{{document}}""" 
         return resume
     
     def buildHeader(self) -> str:
@@ -72,8 +81,7 @@ class ResumeGenerator:
     def buildAsideInfos(self) -> str:
         sectionName = self.resumeData["document"]["aside"]["sections"]["infos"]["name"]
         sectionContent = self.resumeData["document"]["aside"]["sections"]["infos"]["content"]
-        infos = f"""\\section{{{sectionName}}}
-{sectionContent}"""
+        infos = f"""{sectionContent}"""
         return infos
 
     def buildAsideAddress(self) -> str:
@@ -85,11 +93,10 @@ class ResumeGenerator:
         countryCode = location["countryCode"]
         region = location["region"]
         mobility = self.resumeData["document"]["aside"]["sections"]["address"]["mobility"]
-        address = f"""\\section{{{sectionName}}}
-{address}
+        address = f"""{address}
 {postalCode} {city},
 France"""
-        if mobility: address += f"\n{mobility}"
+        if mobility: address += f"\\vspace{{1.5mm}}\n{mobility}"
 
         return address
         
@@ -97,56 +104,46 @@ France"""
     def buildAsideContact(self) -> str:
         sectionName = self.resumeData["document"]["aside"]["sections"]["contact"]["name"]
         phone = self.resumeData["basics"]["phone"]
-        mail = self.resumeData["basics"]["email"].split("@")
-        contact = f"""\\section{{{sectionName}}}
-{phone}
-\\href{{mailto:{mail[0]}@{mail[1]}}}{{\\textbf{{{mail[0]}@}}\\\\{mail[1]}}}"""
+        mail = self.resumeData["basics"]["email"]
+        contact = f"""{phone}
+\\href{{mailto:{mail}}}{{\\small {mail}}}"""
         return contact
 
     def buildAsideOnlineProfiles(self) -> str:
         sectionName = self.resumeData["document"]["aside"]["sections"]["onlineProfiles"]["name"]
         
-        profiles = f"\\section{{{sectionName}}}"
+        profiles = f""
         profilesData = self.resumeData["basics"]["profiles"]
-        for profile in profilesData:
+        for idx_profile, profile in enumerate(profilesData):
             network = profile["network"]
             url = profile["url"]
-            line = f"\n\\href{{{url}}}{{{network}}}"
+            line = f"" if idx_profile == 0 else f"\n"
+            line += f"\\href{{{url}}}{{{network}\\hspace{{1.5mm}}\\includegraphics[scale=0.075]{{res/img/hlink.png}}}}"
             profiles += line
         return profiles
 
     def buildAsideLanguages(self) -> str:
         sectionName = self.resumeData["document"]["aside"]["sections"]["languages"]["name"]
 
-        languages = f"\\section{{{sectionName}}}"
+        languages = f""
         languagesData = self.resumeData["languages"]
-        for language in languagesData:
+        for idx_language, language in enumerate(languagesData):
             lang = language["language"]
             level = language["fluency"]
             test = language["test"]
-            line = f"\n\\makebox[4.3cm][l]{{\\textbf{{{lang}}}\\includegraphics[scale=0.40]{{res/img/{level}stars.png}} {test}}}"
+            line = f"" if idx_language == 0 else f"\n"
+            line += f"\\makebox[4.3cm][l]{{\\textbf{{{lang}}} {test}}}"
             languages += line
         return languages
 
-    def buildAsideSoftSkills(self) -> str:
+    def buildAsideSoftSkills(self, targetCountryCode: str) -> str:
         sectionName = self.resumeData["document"]["aside"]["sections"]["softSkills"]["name"]
-        softSkillsLines = ""
-        softSkillsData = self.resumeData["document"]["aside"]["sections"]["softSkills"]["content"]
-        for idx_skill, skill in enumerate(softSkillsData):
-            line = "\n"
-            skillParts = skill.split(" ")
-            for idx, skillPart in enumerate(skillParts):
-                partStr = f""
-                if idx > 0: partStr += "\\\\"
-                partStr += f"\\textbf{{{skillPart}}}"
-                line += partStr
-            if idx_skill != len(softSkillsData)-1: line += ","
-            softSkillsLines += line
-            
-        softSkills = f"""\\section{{{sectionName}}}
-\\smartdiagram[bubble diagram]{{
-{softSkillsLines}
-    }}"""
+        softSkills = f""
+        if targetCountryCode in ["FR","CAN-QC"]:
+            softSkills += f"\\includegraphics[scale=0.40]{{res/img/profileMap_FR.png}}"
+        else:
+            softSkills += f"\\includegraphics[scale=0.40]{{res/img/profileMap_EN.png}}"
+        
         return softSkills
 
     def buildAsideOtherSections(self) -> str:
@@ -161,7 +158,7 @@ France"""
                     for item in section['items']:
                         itemName = item['name']
                         level = item['level']
-                        itemStr = f"\n\\textbf{{{itemName}}}\\includegraphics[scale=0.40]{{res/img/{level}stars.png}}"
+                        itemStr = f"\n\\includegraphics[scale=0.40]{{res/img/{level}stars.png}}\\hspace{{1.5mm}}\\textbf{{{itemName}}}"
                         sectionStr += itemStr
                 case _:
                     pass
@@ -174,23 +171,25 @@ France"""
         contact = self.buildAsideContact()
         onlineProfile = self.buildAsideOnlineProfiles()
         languages = self.buildAsideLanguages()
-        softSkills = self.buildAsideSoftSkills()
+        softSkills = self.buildAsideSoftSkills(targetCountryCode=targetCountryCode)
         otherSections = self.buildAsideOtherSections()
         aside = f"\\begin{{aside}}"
 
-        if targetCountryCode not in ["USA","CAN","CAN-QC"]:
-             aside += f"\n\\includegraphics[scale=0.28]{{res/img/Photo_CV.jpg}}"
+        if targetCountryCode not in ["USA","CAN","CAN-QC", "UK"]:
+             aside += f"\n\\hspace{{10mm}}\\includegraphics[scale=0.148]{{res/img/Photo_CV.png}}"
+        else:
+            aside += f"\n\\vspace{{21mm}}"
 
-        aside += f"""\n%\\begin{{flushleft}}
+        aside += f"""\\section{{Infos}}
+{infos}\\vspace{{2.5mm}}
+{address}\\vspace{{2.5mm}}
+{contact}\\vspace{{2.5mm}}
+{onlineProfile}\\vspace{{2.5mm}}
+{languages}\\vspace{{2.5mm}}
+{softSkills}\\vspace{{2.5mm}}
+{otherSections}\n\\vspace{{2.5mm}}%\\begin{{flushleft}}
 	\\emph{{Le {self.day}/{self.month}/{self.year}}} \\hspace*{{8mm}}
 	%\\end{{flushleft}}
-{infos}
-{address}
-{contact}
-{onlineProfile}
-{languages}
-{softSkills}
-{otherSections}
 \\end{{aside}}"""
         return aside
     
@@ -209,24 +208,25 @@ France"""
                 itemName = item['name']
                 itemLevel = item['level']
                 itemDetails = item['details']
-                sectionItems += f"\n\\textbf{{{itemName}}}\\includegraphics[scale=0.40]{{res/img/{itemLevel}stars.png}}"
+                sectionItems += f"\n\\includegraphics[scale=0.40]{{res/img/{itemLevel}stars.png}}\\hspace{{1.5mm}}\\textbf{{{itemName}}}"
                 if itemDetails: sectionItems += itemDetails
             sectionStr = f"""
-\\item {sectionName} \\
-\\begin{{flushright}}
+\\item \\large {sectionName} \\
+\\normalsize
+\\begin{{flushleft}}
 {sectionItems}
-\\end{{flushright}}            
+\\end{{flushleft}}            
 """
             skillSections += sectionStr
 
         skills = f"""\\section{{{self.resumeData['document']['sections']['itSkills']['name']}}}
         \\vspace*{{-0.45cm}}
         \\setlength{{\\columnsep}}{{-0.3cm}}
-        \\begin{{flushright}}
+        \\begin{{flushleft}}
         \\begin{{multicols}}{{3}}
 		\\begin{{itemize}}
 		
-		\\setlength{{\\itemsep}}{{1pt}}
+		\\setlength{{\\itemsep}}{{5pt}}
   		\\setlength{{\\parskip}}{{0pt}}
   		\\setlength{{\\parsep}}{{0pt}}
           
@@ -235,7 +235,7 @@ France"""
         \\end{{itemize}}
         \\end{{multicols}}
         %\\end{{itemize}}
-        \\end{{flushright}}
+        \\end{{flushleft}} \\normalsize
         \\vspace*{{-0.65cm}}"""
         return skills
     

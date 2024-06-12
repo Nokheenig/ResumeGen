@@ -4,16 +4,16 @@
     "label": "",
     "picture": "",
     "email": "yoann.chamillard@gmail.com",
-    "phone": "+33 6 70 52 55 52",
+    "phone": "+33 670525552",
     "degree": "",
     "website": "",
-    "summary": "~~~~~~~~~~~~~~~~Ingénieur Développeur Web \\& Mobile Full Stack",
-    "catchPhrase":"Ingénieur avec une double compétence informatique/mécanique , curieux et passionné de technologies j'adore apprendre et relever de nouveaux défis!",
+    "summary": "~~~~~~Full Stack Web \\& Mobile Developer Engineer",
+    "catchPhrase":"Engineer with IT and Mechanical Systems skills, curious and passionate about technologies I love to learn and meet new challenges!",
     "location": {
       "Paris,France":{
-        "address": "82 rue Lady Ashburton",
-        "postalCode": "95150",
-        "city": "Taverny",
+        "address": "2 rue Paulin Méry",
+        "postalCode": "75013",
+        "city": "Paris",
         "countryCode": "FR",
         "region": "Ile de France"
       },
@@ -41,7 +41,7 @@
   "work": [
     {
       "company": "Synapsun",
-      "position": "Développeur web \\& mobile",
+      "position": "Web \\& mobile developer",
       "website": "https://synapsun.com",
       "startDate": "2022-09-15",
       "endDate": "2023-11-01",
@@ -51,43 +51,43 @@
         "countryCode": "FR",
         "zipcode":"69"
       },
-      "summary": "Développements fullstack web \\& mobile Android:\\hspace*{8mm}Flutter, Python, Kotlin",
+      "summary": "Full stack web \\& Android mobile developments: \\hspace*{8mm}Flutter, Python, Kotlin",
       "highlights": [
         "Bullet-point list items that you would like to include along with (or instead of) a summary paragraph."
       ],
       "details": {
-        "context-mission": "Automatiser et améliorer la réactivité du service de repowering (identifier et proposer des panneaux solaires de remplacement aux exploitants de centrales solaire endommagées ou vieillissantes)",
+        "context-mission": "Automate and improve company's repowering* service reactivity (*: Identify and offer replacement solar panels to solar plant owners whose panels are either ageing or damaged",
         "goals": [ 
-          "Soulager le service commercial dans le traitement des dossiers de repowering et améliorer le temps de réponse au client",
-          "Identifier et accéder instantanément aux caractéristiques des panneaux de l'installation du client",
-          "Automatiser la recherche de panneaux compatibles au catalogue de la société ou disponibles chez nos fournisseurs",
-          "Fournir aux clients une appli mobile pour le guider jusqu'à l'émission d'une demande de devis sur les références compatibles identifiées."
+          "Relieve commercial service in the process dealing with repowering quotation requests and reduce reply time to potential clients.",
+          "Identify and immediately access client's plant's panels' specifications",
+          "Automate the search for compatible panels available either in our shop or at suppliers.",
+          "Give our clients a mobile app whose objective is to guide them to send a quotation request on identified compatible products."
          ],
         "achievements": [ 
-          "Recueil du besoin, construction d'un cahier des charges et de spécifications fonctionnelles et techniques.",
-          "Développement d'un web scraper en Python",
-          "Conception de modèles de données",
-          "Rédaction de spécifications d'API au standard OpenAPI / Swagger",
-          "Mise en place d'une base de données produits MongoDB et d'une API Python FastAPI",
-          "Développement d'un client mobile multi-plateforme Flutter.",
-          "Gestion des accès par token JWT (Json Web Token)",
-          "Mise en place d'une base de données PostgreSQL et d'un back-end Python Django pour la gestion des utilisateurs et des devis.",
-          "Contact fournisseur/prestataire pour les travaux outsourcés"
+          "Collection of needs, built specification dossier with technical and functional specifications, software application components definition \\& design to best answer the company's needs.",
+          "Web Scraper Development in Python",
+          "Data Models Design",
+          "Wrote APIs specifications in the OpenAPI / Swagger standard",
+          "MongoDB product database and Python FastAPI API setup",
+          "Mobile Multi-platform client app development in Flutter.",
+          "Secure Access management with JWT tokens (Json Web Token)",
+          "PostgreSQL database and Python Django back-end setup for Users and Quotations management.",
+          "Supplier / Subcontractor contact for outsourced tasks"
          ],
         "results": [  ],
         "tech-env": [ 
           "Mobile: Android, Flutter, Kotlin",
           "Web: Python, Django, Javascript, PHP, HTML, CSS",
           "Devops, CI/CD: Git, GitLab",
-          "Bases de données: PostgreSQL, MongoDB",
-          "Langues: Français, Anglais (équipe internationale)",
-          "Autres: OpenAPI, API, Jira, VBA"
+          "Databases: PostgreSQL, MongoDB",
+          "Languages: French, English (international team)",
+          "Others: OpenAPI, API, Jira, VBA"
          ]
       }
     },
     {
       "company": "Böllhoff (via Davricourt)",
-      "position": "Ingénieur développement produit",
+      "position": "R\\&D Engineer",
       "website": "https://www.boellhoff.com",
       "startDate": "2019-11-01",
       "endDate": "2022-04-30",
@@ -97,40 +97,40 @@
         "countryCode": "FR",
         "zipcode":"73"
       },
-      "summary": "Conception produit mécatronique automobile",
+      "summary": "Automotive Mechatronic Product design \\& development",
       "highlights": [
         "Bullet-point list items that you would like to include along with (or instead of) a summary paragraph."
       ],
       "details": {
-        "context-mission": "Service R\\&D Innovation, développement d'une nouvelle gamme de produits à haute valeur ajoutée - fixations et Systèmes d'assemblage instrumentés.",
+        "context-mission": "R\\&D Innovation Service, development of a new range of products with high value - instrumented assembly systems and fasteners.",
         "goals": [  ],
         "achievements": [ 
-          "Définition produit et produits liés au(x) process/essais (Géométrie, Simu/Calcul, Dimensionnement, Optimisation, Interfaces): Capteurs, Assemblages vissés sous précontrainte, Élément fixé sur caisse (réservoir, coffre de toit, ...), Élément de suspension/train (McPherson, Torsible, à lames), Machine spéciale (collage, préhension/commande pneumatique)",
-          "Mise en plan, Cotation fonctionnelle, Chaines de cotes (Arithmétiques, Quadratiques)",
-          "Assurer les jeux avec l'environnement (Archi, Thermiques,...)",
-          "Assurer la montabilité, la mise et maintien en position des produits par les moyens de montage",
-          "Rédaction de méthodes d’essai et réalisation d’essais de validation : Essais Labo, Sous-Système et Système, Essais de flexion, Essais de traction-compression",
-          "Plans d’Expérience/Taguchi/Design-Of-Experiments : Définition, Analyse",
-          "Extensométrie, Acquisition: Vérifier la tenue mécanique et la concordance des prototypes avec leur modèle simu à l’aide de jauges de déformation pelliculaires (HBM)",
-          "Plasturgie : Conception de pièces de boitier module avec fonctions d’étanchéité",
-          "Prototypage 3D FDM, Consultation fournisseur",
-          "Participation aux design review : présentation synthétique des problèmes, établissement de plans d’action, suivi de leur application"
+          "Products and Process/Trials related products design (geometry, CAD/CAE, dimensioning, optimization, interfaces): Sensors, Preconstraint screwed assemblies, Body-fixed elements (tank, roofbox,...), Automotive suspension/Ground liaison elements (McPherson, Flexible, Blade,..), Custom Machines (glueing, pneumatic prehension/command)",
+          "Technical drawing, Functional dimensioning, Chains of dimensions (Arithmetic, Quadratic)",
+          "Ensure plays with environment (architectural, thermal, ...)",
+          "Ensure mountability, positioning and fixation of parts with assembly means",
+          "Writing trial and validation procedures: Lab, Sub-system, System, Flexion and Tensile trials.",
+          "Taguchi/Design-Of-Experiments : Definition, Analysis",
+          "Extensometry, Acquisition: check mechanical resistance and concordance with CAE simulations with strain gauges (HBM)",
+          "Plasturgy : Water/Dust proof casing design",
+          "3D Prototyping: FDM 3D printing, Supplier Contact for other prototype parts",
+          "Take part in design review meetings : progress and problems sharing, action plan definition and realization."
          ],
         "results": [  ],
         "tech-env": [ 
           "CAD: DS Catia V5, PTC Creo 7",
           "PDM: Windchill",
           "CAE: Ansys Workbench, Creo Simulate, Altair Simsolid",
-          "DOE, Statistiques: Minitab",
-          "Extensométrie, Acquisition: Jauges de déformation pelliculaires HBM, Catman Easy, Multimètre Oscilloscope Kickstart",
-          "Langues: Français, Anglais (équipe internationale)",
-          "Autres: Excel, Powerpoint, VBA"
+          "DOE, Statistics: Minitab",
+          "Extensometry, Acquisition: HBM Strain Gauges, Catman Easy, Kickstart Multimeter Oscilloscope",
+          "Languages: French, English (international team)",
+          "Others: Excel, Powerpoint, VBA"
          ]
       }
     },
     {
       "company": "Renault (via Bertrandt)",
-      "position": "Ingénieur d'étude automobile",
+      "position": "Automotive Design Engineer",
       "website": "https://www.renault.fr",
       "startDate": "2016-11-01",
       "endDate": "2019-09-01",
@@ -140,28 +140,28 @@
         "countryCode": "FR",
         "zipcode":"78"
       },
-      "summary": "Conception \\& architecture sous-caisse et compartiment moteur",
+      "summary": "Underbody \\& Engine Compartment Design \\& Architecture",
       "highlights": [
         "Bullet-point list items that you would like to include along with (or instead of) a summary paragraph."
       ],
       "details": {
-        "context-mission": "Service Architecture/Powertrain - Conception d'équipements véhicule:\\\\11/16>03/17: Renault Zoé Ph.2 (Véhicule électrique) Conception/archi compartiment moteur/Sous-caisse;\\\\08/17>07/19: PHEV (Hybride Rechargeable), Plateformes CMF1/CMF-B, Conception et pilotage conception-archi Sous-caisse;\\\\04/19>09/19: Euro7 \\& HEV (Hybride), Plateforme Utilitaire CD1, Conception et pilotage Sous-caisse.",
+        "context-mission": "Architecture/Powertrain Service- Vehicle parts design: \\\\11/16>03/17: Renault Zoé Ph.2 (EV) Engine compartment/Underbody Design/archi;\\\\08/17>07/19: PHEV, CMF1/CMF-B Platforms, Underbody Design-archi and Technical Management;\\\\04/19>09/19: Euro7 \\& HEV, CD1 Utility Vehicle Platform, Underbody Design-archi and Technical management.",
         "goals": [  ],
         "achievements": [ 
-          "Définition produit (Géométrie, Interfaces): Tout type de pièce dans les zones d'architecture concernées.",
-          "Assurer les jeux avec l'environnement (Archi, Thermiques,...) avec les pièces fixes et mobiles",
-          "Assurer la montabilité, la mise et maintien en position des produits par les moyens de montage autos et manuels",
-          "Mise en plan, Cotation fonctionnelle, Chaines de cotes (Arithmétiques, Quadratiques)",
-          "Suivi de convergence du périmètre archi",
-          "Animation de groupe de travail (Pilotage de concepteurs français et à l'étranger)",
-          "Organisation et animation de design review : présentation synthétique des problèmes, établissement de plans d’action, suivi de leur application"
+          "Product definition (Geometry, Interfaces): All kind of part in designated architecture area.",
+          "Ensure plays with environment (Archi, Thermal,...) with fixed or moving parts",
+          "Ensure mountability, positioning and fixation of parts with manual or automatic means",
+          "Technical Drawing, Functional dimensioning, Chains of dimensions (Arithmetic, Quadratic)",
+          "Design convergence management",
+          "Team management (Management of French and off-site designers)",
+          "Organize and lead design review meetings, problem presentations, action plan definition and application."
          ],
         "results": [  ],
         "tech-env": [ 
           "CAD: DS Catia V6",
           "PDM: NewPDM",
-          "Langues: Français, Anglais (équipe internationale)",
-          "Autres: Excel, Powerpoint, VBA\n\\vspace{25mm}"
+          "Languages: French, English (international team)",
+          "Others: Excel, Powerpoint, VBA\n\\vspace{15mm}"
          ]
       }
     }
@@ -170,30 +170,30 @@
   "education": [
     {
       "institution": "EPSI",
-      "area": "Bachelor Concepteur Développeur d'Applications",
+      "area": "Bachelor Degree in Software Design \\& Development",
       "location":{
         "city":"Lyon",
         "country": "France",
         "countryCode": "FR",
         "zipcode":"69"
       },
-      "studyType": "RNCP Niv.6 - Spécialité Data/IA; \\hspace{7mm} 09/23: Certification d'état CDA",
+      "studyType": "RNCP Lvl.6 - Data/IA minor; \\hspace{7mm} 09/23: Government Skill Certification",
       "startDate": "2022-09-15",
       "endDate": "2023-08-01",
       "gpa": "",
       "courses": [ ],
-      "coursesRaw": "\\vspace*{-0.65cm}\n\\begin{itemize}\n\\setlength{\\itemsep}{1pt}\n\\setlength{\\parskip}{0pt}\n\\setlength{\\parsep}{0pt}\n\\begin{multicols}{2}\n\\item Développement: \\newline Java, Python, Dart/Flutter, etc.\n\\columnbreak\n\\item Data, Bases de données, etc.\n\\item Tests et intégration continue (CI/CD)\n\\end{multicols}\n\\end{itemize}"
+      "coursesRaw": "\\vspace*{-0.65cm}\n\\begin{itemize}\n\\setlength{\\itemsep}{1pt}\n\\setlength{\\parskip}{0pt}\n\\setlength{\\parsep}{0pt}\n\\begin{multicols}{2}\n\\item Development: \\newline Java, Python, Dart/Flutter, etc.\n\\columnbreak\n\\item Data, Databases, etc.\n\\item Tests \\& CI/CD\n\\end{multicols}\n\\end{itemize}"
     },
     {
       "institution": "Epitech",
-      "area": "Formation d'Intégrateur-développeur web",
+      "area": "Web Developer Formation",
       "location":{
         "city":"Paris",
         "country": "France",
         "countryCode": "FR",
         "zipcode":"75"
       },
-      "studyType": "RNCP Niv.5",
+      "studyType": "RNCP Lvl.5",
       "startDate": "2022-06-01",
       "endDate": "2022-08-31",
       "gpa": "",
@@ -204,14 +204,14 @@
     },
     {
       "institution": "UTT",
-      "area": "Diplôme d'Ingénieur en Systèmes Mécaniques",
+      "area": "Master degree in Mechanical Systems Engineering",
       "location":{
         "city":"Troyes",
         "country": "France",
         "countryCode": "FR",
         "zipcode":"10"
       },
-      "studyType": "RNCP Niv.7; Conception et Industrialisation, en lien avec l’Environnement",
+      "studyType": "RNCP Lvl.7; Environmental Design \\& Industrialization minor",
       "startDate": "2013-09-01",
       "endDate": "2016-08-31",
       "gpa": "",
@@ -220,26 +220,26 @@
     },
     {
       "institution": "IUT",
-      "area": "DUT Génie Mécanique et Productique",
+      "area": "2-Year Degree in Mechanical Engineering",
       "location":{
         "city":"Troyes",
         "country": "France",
         "countryCode": "FR",
         "zipcode":"10"
       },
-      "studyType": "RNCP Niv.5",
+      "studyType": "RNCP Lvl.5",
       "startDate": "2011-09-01",
       "endDate": "2013-06-30",
       "gpa": "",
       "courses": [  ],
-      "coursesRaw": "\\vspace*{-0.4cm}\n\\begin{itemize}\n\\setlength{\\itemsep}{1pt}\n\\setlength{\\parskip}{0pt}\n\\setlength{\\parsep}{0pt}\n\\item Conception, dimensionnement, asservissement et programmation d’un robot pour participer à la coupe de France de robotique (E=M6)\n\\end{itemize}"
+      "coursesRaw": "\\vspace*{-0.4cm}\n\\begin{itemize}\n\\setlength{\\itemsep}{1pt}\n\\setlength{\\parskip}{0pt}\n\\setlength{\\parsep}{0pt}\n\\item Design, Functional dimensioning, enslavement and programming of a robot to take part in the Franch robotic cup.\n\\end{itemize}"
     }
   ],
   "awards": [  ],
   "publications": [  ],
   "skills": [
     {
-      "name": "Mobile",
+      "name": "Mobile Development",
       "type": "rankedItems",
       "items":[
         {
@@ -260,7 +260,7 @@
       ]
     },
     {
-      "name": "Developpement web",
+      "name": "Web Development",
       "type": "rankedItems",
       "items":[
         {
@@ -276,7 +276,7 @@
       ]
     },
     {
-      "name": "Frameworks web",
+      "name": "Web Frameworks",
       "type": "rankedItems",
       "items":[
         {
@@ -300,7 +300,7 @@
       "name": "columnBreak"
     },
     {
-      "name": "Application / Serveur",
+      "name": "Back-end / Server",
       "type": "rankedItems",
       "items":[
         {
@@ -343,6 +343,11 @@
           "name":"OAuth",
           "level": "3",
           "details": ""
+        },
+        {
+          "name":"Firebase",
+          "level": "4",
+          "details": ""
         }
       ]
     },
@@ -362,6 +367,16 @@
         },
         {
           "name":"Jenkins",
+          "level": "3",
+          "details": ""
+        },
+        {
+          "name":"Selenium",
+          "level": "3",
+          "details": ""
+        },
+        {
+          "name":"Cron",
           "level": "3",
           "details": ""
         }
@@ -423,7 +438,7 @@
       ]
     },
     {
-      "name": "IA \\& Outils",
+      "name": "AI \\& Tools",
       "type": "rankedItems",
       "items":[
         {
@@ -463,51 +478,51 @@
   "document": {
     "sections":{
       "itSkills":{
-        "name":"Compétences Informatiques"
+        "name":"IT-Skills"
       },
       "workExperience":{
-        "name":"Expérience",
+        "name":"Work Experience",
         "details": {
-          "context-mission": "Contexte - Mission: ",
-          "goals": "Finalité: ",
-          "achievements": "Tâches - Réalisations: ",
-          "results": "Résultats: ",
-          "tech-env": "Envir. Technique: "
+          "context-mission": "Context - Mission: ",
+          "goals": "Goal: ",
+          "achievements": "Tasks - Achievements: ",
+          "results": "Results: ",
+          "tech-env": "Tech. Envir.: "
         }
       },
       "education":{
-        "name":"Formation - Certifications"
+        "name":"Education - Certifications"
       },
       "hobbies":{
-        "name":"Centres d'intérêt"
+        "name":"Hobbies"
       }
     },
     "aside": {
       "sections": {
         "infos":{
           "name":"Infos",
-          "content":"%30 ans\nPermis A,B"
+          "content":"%30 yo\nFull driving licence A,B"
         },
         "address":{
-          "name":"Addresse",
-          "mobility":"Mobile à l'international"
+          "name":"Address",
+          "mobility":"International mobility"
         },
         "contact":{
           "name":"Contact"
         },
         "onlineProfiles":{
-          "name":"Profil en ligne"
+          "name":"Online Profiles"
         },
         "languages":{
-          "name":"Langues"
+          "name":"Languages"
         },
         "softSkills":{
           "name":"Soft Skills",
           "content": [ 
-            "Travail d'équipe",
-            "Organisation",
-            "Curiosité",
-            "Résolution de.problèmes",
+            "Teamwork",
+            "Organization",
+            "Creativity",
+            "Adaptability",
             "\\vspace{2mm}Management\\vspace{2mm}",
             "Initiative"
            ]
@@ -515,7 +530,7 @@
       },  
       "otherSections": [ 
           {
-            "name":"CAO / FAO",
+            "name":"CAD / CAM",
             "type": "rankedItems",
             "items":[
               {
@@ -527,7 +542,7 @@
                 "level": "4"
               },
               {
-                "name":"Impression 3D",
+                "name":"3D Printing",
                 "level": "3"
               }
             ]
@@ -547,7 +562,7 @@
             ]
           },
           {
-            "name":"Calcul / FEM",
+            "name":"FEM / CAE",
             "type": "rankedItems",
             "items":[
               {
@@ -573,17 +588,17 @@
    },
   "languages": [
     {
-      "language": "FRE",
+      "language": "French",
       "fluency": "5",
       "test": ""
     },
     {
-      "language": "ENG",
+      "language": "English",
       "fluency": "4",
       "test": "(C1,Bulats)"
     },
     {
-      "language": "GER",
+      "language": "German",
       "fluency": "2-5",
       "test": "(B1)"
     }
@@ -594,7 +609,7 @@
       "keywords": [
         "Keywords under this category (e.g. 'Cricket', 'Football', 'Golf')"
       ],
-      "raw":"\\vspace*{-0.45cm}\n\\setlength{\\columnsep}{-2cm}\n\\begin{multicols}{2}\n\\begin{itemize}\n\\setlength{\\itemsep}{1pt}\n\\setlength{\\parskip}{0pt}\n\\setlength{\\parsep}{0pt}\n\\item Sorties: \\\\\nRandonnée, Concerts,  Moto, Photo\\\\\n\\item Musique: \\\\\nBatterie, Piano\\\\\n\\columnbreak\n\\item Voyages: \\\\\nSuède, Cambodge, Thaïlande, Allemagne\\\\\n\\item Lecture: \\\\\nB.Werber, M.Chattam, F.Thilliez\n\\end{itemize}\n\\end{multicols}"
+      "raw":"\\vspace*{-0.45cm}\n\\setlength{\\columnsep}{-2cm}\n\\begin{multicols}{2}\n\\begin{itemize}\n\\setlength{\\itemsep}{1pt}\n\\setlength{\\parskip}{0pt}\n\\setlength{\\parsep}{0pt}\n\\item Outings: \\\\\nHiking, Concerts,  Motorcycle, Photo\\\\\n\\item Music: \\\\\nDrums, Piano\\\\\n\\columnbreak\n\\item Travels: \\\\\nSweden, Cambodia, Thaïland, Germany\\\\\n\\item Reading: \\\\\nB.Werber, M.Chattam, F.Thilliez\n\\end{itemize}\n\\end{multicols}"
     }
   ]
 }

@@ -159,12 +159,12 @@ BoldItalicFont=texgyreheros-bolditalic.otf
   {%
     \color{%
       \ifcase\value{colorCounter}%
-        pblue\or%
-        pblue\or%
-        pblue\or%
-        pblue\or%
-        pblue\else%
-        pblue\fi%
+        headercolor\or%
+        headercolor\or%
+        headercolor\or%
+        headercolor\or%
+        headercolor\else%
+        headercolor\fi%
     } #1#2#3%
   }%
   \stepcounter{colorCounter}%
@@ -221,11 +221,11 @@ BoldItalicFont=texgyreheros-bolditalic.otf
     \par\vspace{\baselineskip}{\Large\headingfont\color{pblue} ##1}
   }
   \begin{textblock}{4.6}(1.0, 0.55)
-  \begin{flushright}
+  \begin{flushleft}
   \obeycr
 }{%
   \restorecr
-  \end{flushright}
+  \end{flushleft}
   \end{textblock}
   \let\section\oldsection
 }

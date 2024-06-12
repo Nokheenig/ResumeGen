@@ -4,16 +4,16 @@
     "label": "",
     "picture": "",
     "email": "yoann.chamillard@gmail.com",
-    "phone": "+33 6 70 52 55 52",
+    "phone": "+33 670525552",
     "degree": "",
     "website": "",
     "summary": "~~~~~~~~~~~~~~~~Ingénieur Développeur Web \\& Mobile Full Stack",
     "catchPhrase":"Ingénieur avec une double compétence informatique/mécanique , curieux et passionné de technologies j'adore apprendre et relever de nouveaux défis!",
     "location": {
       "Paris,France":{
-        "address": "82 rue Lady Ashburton",
-        "postalCode": "95150",
-        "city": "Taverny",
+        "address": "2 rue Paulin Méry",
+        "postalCode": "75013",
+        "city": "Paris",
         "countryCode": "FR",
         "region": "Ile de France"
       },
@@ -331,7 +331,7 @@
       ]
     },
     {
-      "name": "Authentication",
+      "name": "Authentification",
       "type": "rankedItems",
       "items":[
         {
@@ -342,6 +342,11 @@
         {
           "name":"OAuth",
           "level": "3",
+          "details": ""
+        },
+        {
+          "name":"Firebase",
+          "level": "4",
           "details": ""
         }
       ]
@@ -364,6 +369,16 @@
           "name":"Jenkins",
           "level": "3",
           "details": ""
+        },
+        {
+          "name":"Selenium",
+          "level": "3",
+          "details": ""
+        },
+        {
+          "name":"Cron",
+          "level": "3",
+          "details": ""
         }
       ]
     },
@@ -371,7 +386,7 @@
       "name": "columnBreak"
     },
     {
-      "name": "Databases",
+      "name": "Bases de données",
       "type": "rankedItems",
       "items":[
         {
@@ -439,7 +454,7 @@
       ]
     },
     {
-      "name": "Others",
+      "name": "Autres",
       "type": "rankedItems",
       "items":[
         {
@@ -463,10 +478,10 @@
   "document": {
     "sections":{
       "itSkills":{
-        "name":"Compétences Informatiques"
+        "name":"Compétences informatiques"
       },
       "workExperience":{
-        "name":"Expérience",
+        "name":"Expériences",
         "details": {
           "context-mission": "Contexte - Mission: ",
           "goals": "Finalité: ",
@@ -476,7 +491,7 @@
         }
       },
       "education":{
-        "name":"Formation - Certifications"
+        "name":"Formations - Certifications"
       },
       "hobbies":{
         "name":"Centres d'intérêt"
@@ -489,8 +504,8 @@
           "content":"%30 ans\nPermis A,B"
         },
         "address":{
-          "name":"Addresse",
-          "mobility":"Mobile à l'international"
+          "name":"Adresse",
+          "mobility":"Prêt à déménager\nMobile à l'international"
         },
         "contact":{
           "name":"Contact"
@@ -573,17 +588,17 @@
    },
   "languages": [
     {
-      "language": "FRE",
+      "language": "Français",
       "fluency": "5",
       "test": ""
     },
     {
-      "language": "ENG",
+      "language": "Anglais",
       "fluency": "4",
       "test": "(C1,Bulats)"
     },
     {
-      "language": "GER",
+      "language": "Allemand",
       "fluency": "2-5",
       "test": "(B1)"
     }
