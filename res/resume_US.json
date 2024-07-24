@@ -309,17 +309,17 @@
           "details": "\\\\Flask, SQLAlchemy, PyMongo, PyTest, FastAPI, Numpy\\\\\\vspace{2mm}"
         },
         {
+          "name":"Node.js",
+          "level": "3",
+          "details": ""
+        },
+        {
           "name":"Java",
           "level": "3",
           "details": ""
         },
         {
-          "name":"Nginx",
-          "level": "3",
-          "details": ""
-        },
-        {
-          "name":"Apache",
+          "name":"\\small Nginx,Apache",
           "level": "3",
           "details": ""
         },
@@ -337,11 +337,6 @@
         {
           "name":"JWT Auth",
           "level": "4",
-          "details": ""
-        },
-        {
-          "name":"OAuth",
-          "level": "3",
           "details": ""
         },
         {
