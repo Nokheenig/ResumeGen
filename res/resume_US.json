@@ -8,7 +8,7 @@
     "degree": "",
     "website": "",
     "summary": "~~~~~~Full Stack Web \\& Mobile Developer Engineer",
-    "catchPhrase":"Engineer with IT and Mechanical Systems skills, curious and passionate about technologies I love to learn and meet new challenges!",
+    "catchPhrase":"Software Engineer with a successful first experience. Always eager to learn and improve, I love to communicate and I am looking for new challenges!",
     "location": {
       "Paris,France":{
         "address": "2 rue Paulin Méry",
@@ -29,7 +29,7 @@
       {
         "network": "LinkedIn",
         "username": "Yoann Chamillard",
-        "url": "http://fr.linkedin.com/in/yoannchamillard"
+        "url": "https://www.linkedin.com/in/yoannchamillard/?locale=en_US"
       },
       {
         "network": "GitHub",
@@ -40,18 +40,55 @@
   },
   "work": [
     {
+      "company": "Training and job hunting",
+      "position": "Web \\& mobile developer",
+      "website": "",
+      "startDate": "2024-04-01",
+      "endDate": "Today",
+      "location":{
+        "city":"Paris",
+        "country": "France",
+        "countryCode": "FR",
+        "zipcode":"75"
+      },
+      "summary": "Training and personal projects in :\\hspace*{8mm}Kotlin, Python, Javascript",
+      "highlights": [
+        "Bullet-point list items that you would like to include along with (or instead of) a summary paragraph."
+      ],
+      "details": {
+        "context-mission": "Acquire new skills and practice on real and personal projects",
+        "goals": [  ],
+        "achievements": [ 
+          "Android 14 and Kotlin development masterclass.",
+          "Kotlin apps: quiz app, drawing app, note-taking app, weather app, chat app (whatsapp-like with notifications), Uber clone app",
+          "Python apps: flexible multilingual LateX resume generator based on the JSON Resume standard",
+          "Javascript apps: CRM web app to assist me in my job hunting and applications management + job boards scraping to have all job postings and manage them and my applications in one place.",
+          "Build a home server to backup my data with redundancy (raid) + deploy and expose apps and services"
+         ],
+        "results": [  ],
+        "tech-env": [ 
+          "Mobile: Android, Kotlin",
+          "Web: Python, Javascript, Vue.js, Node.js, HTML, CSS",
+          "Devops, CI/CD: Git, Github",
+          "Databases: PostgreSQL, MongoDB",
+          "Languages: French, English",
+          "Others: Linux, Rest API, Trello"
+         ]
+      }
+    },
+    {
       "company": "Synapsun",
       "position": "Web \\& mobile developer",
       "website": "https://synapsun.com",
-      "startDate": "2022-09-15",
-      "endDate": "2023-11-01",
+      "startDate": "2022-10-03",
+      "endDate": "2024-03-29",
       "location":{
         "city":"Lyon",
         "country": "France",
         "countryCode": "FR",
         "zipcode":"69"
       },
-      "summary": "Full stack web \\& Android mobile developments: \\hspace*{8mm}Flutter, Python, Kotlin",
+      "summary": "Full stack web \\& Android mobile developments: \\hspace*{8mm}Flutter, Python",
       "highlights": [
         "Bullet-point list items that you would like to include along with (or instead of) a summary paragraph."
       ],
@@ -76,7 +113,7 @@
          ],
         "results": [  ],
         "tech-env": [ 
-          "Mobile: Android, Flutter, Kotlin",
+          "Mobile: Android, Flutter",
           "Web: Python, Django, Javascript, PHP, HTML, CSS",
           "Devops, CI/CD: Git, GitLab",
           "Databases: PostgreSQL, MongoDB",
@@ -86,7 +123,7 @@
       }
     },
     {
-      "company": "Böllhoff (via Davricourt)",
+      "company": "Böllhoff",
       "position": "R\\&D Engineer",
       "website": "https://www.boellhoff.com",
       "startDate": "2019-11-01",
@@ -129,7 +166,7 @@
       }
     },
     {
-      "company": "Renault (via Bertrandt)",
+      "company": "Renault",
       "position": "Automotive Design Engineer",
       "website": "https://www.renault.fr",
       "startDate": "2016-11-01",
@@ -177,7 +214,7 @@
         "countryCode": "FR",
         "zipcode":"69"
       },
-      "studyType": "RNCP Lvl.6 - Data/IA minor; \\hspace{7mm} 09/23: Government Skill Certification",
+      "studyType": "RNCP Lvl.6 - Data/IA minor; \\hspace{7mm} 09/23: Software Design \\& Development Skill Certification",
       "startDate": "2022-09-15",
       "endDate": "2023-08-01",
       "gpa": "",
@@ -266,33 +303,12 @@
         {
           "name":"HTML,CSS",
           "level": "4",
-          "details": ""
+          "details": "SCSS/SASS"
         },
         {
           "name":"JavaScript",
           "level": "4",
-          "details": ""
-        }
-      ]
-    },
-    {
-      "name": "Web Frameworks",
-      "type": "rankedItems",
-      "items":[
-        {
-          "name":"Django",
-          "level": "4",
-          "details": ""
-        },
-        {
-          "name":"Vue.Js",
-          "level": "4",
-          "details": ""
-        },
-        {
-          "name":"PHP-Laravel",
-          "level": "3",
-          "details": ""
+          "details": "Vue.js, Node.js"
         }
       ]
     },
@@ -306,7 +322,7 @@
         {
           "name":"Python",
           "level": "5",
-          "details": "\\\\Flask, SQLAlchemy, PyMongo, PyTest, FastAPI, Numpy\\\\\\vspace{2mm}"
+          "details": "\\\\Flask, Django, FastAPI, SQLAlchemy, PyMongo, PyTest, Numpy, Uvicorn, Pydantic, Requests\\\\\\vspace{2mm}"
         },
         {
           "name":"Node.js",
@@ -403,6 +419,11 @@
           "name":"SQLite",
           "level": "3",
           "details": ""
+        },
+        {
+          "name":"Firebase",
+          "level": "3",
+          "details": "Storage, Firestore/Realtime DB"
         }
       ]
     },
@@ -464,6 +485,11 @@
         },
         {
           "name":"Jira",
+          "level": "4",
+          "details": ""
+        },
+        {
+          "name":"Regex",
           "level": "4",
           "details": ""
         }

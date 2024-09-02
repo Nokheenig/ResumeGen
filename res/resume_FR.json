@@ -8,7 +8,7 @@
     "degree": "",
     "website": "",
     "summary": "~~~~~~~~~~~~~~~~Ingénieur Développeur Web \\& Mobile Full Stack",
-    "catchPhrase":"Ingénieur avec une double compétence informatique/mécanique , curieux et passionné de technologies j'adore apprendre et relever de nouveaux défis!",
+    "catchPhrase":"Ingénieur développeur web&mobile avec une première expérience réussie, j'ai soif d’apprendre, aime communiquer et cherche de nouveaux défis! ",
     "location": {
       "Paris,France":{
         "address": "2 rue Paulin Méry",
@@ -40,18 +40,55 @@
   },
   "work": [
     {
+      "company": "Formation et recherche d'emploi",
+      "position": "Développeur web \\& mobile",
+      "website": "",
+      "startDate": "2024-04-01",
+      "endDate": "Auj.",
+      "location":{
+        "city":"Paris",
+        "country": "France",
+        "countryCode": "FR",
+        "zipcode":"75"
+      },
+      "summary": "Formation et réalisation de projets persos:\\hspace*{8mm}Kotlin, Python, Javascript",
+      "highlights": [
+        "Bullet-point list items that you would like to include along with (or instead of) a summary paragraph."
+      ],
+      "details": {
+        "context-mission": "Acquérir de nouvelles compétences et les mettre en pratique sur des projets concrets persos",
+        "goals": [  ],
+        "achievements": [ 
+          "Formation masterclass Android 14 et développement Kotlin.",
+          "Développements Kotlin: appli de quiz, de dessin, appli de prise de note, appli météo, appli de chat avec notifications, clone de l'appli Uber",
+          "Développements Python: générateur de CV flexible en LateX multilingues se basant sur le standard JSON Resume",
+          "Développements Javascript: Appli web CRM pour m'assister dans la gestion de mes candidatures + scraping des offres d'emploi de multiples plateformes pour les centraliser et en réaliser la gestion dans une interface unique.",
+          "Montage d'un serveur personnel pour sauvegarder mes données avec redondance (raid) + déploiement et exposition d'applis et services"
+         ],
+        "results": [  ],
+        "tech-env": [ 
+          "Mobile: Android, Kotlin",
+          "Web: Python, Javascript, Vue.js, Node.js, HTML, CSS",
+          "Devops, CI/CD: Git, Github",
+          "Bases de données: PostgreSQL, MongoDB",
+          "Langues: Français, Anglais",
+          "Autres: Linux, Rest API, Trello"
+         ]
+      }
+    },
+    {
       "company": "Synapsun",
       "position": "Développeur web \\& mobile",
       "website": "https://synapsun.com",
-      "startDate": "2022-09-15",
-      "endDate": "2023-11-01",
+      "startDate": "2022-10-03",
+      "endDate": "2024-03-29",
       "location":{
         "city":"Lyon",
         "country": "France",
         "countryCode": "FR",
         "zipcode":"69"
       },
-      "summary": "Développements fullstack web \\& mobile Android:\\hspace*{8mm}Flutter, Python, Kotlin",
+      "summary": "Développements fullstack web \\& mobile Android:\\hspace*{8mm}Flutter, Python",
       "highlights": [
         "Bullet-point list items that you would like to include along with (or instead of) a summary paragraph."
       ],
@@ -76,7 +113,7 @@
          ],
         "results": [  ],
         "tech-env": [ 
-          "Mobile: Android, Flutter, Kotlin",
+          "Mobile: Android, Flutter",
           "Web: Python, Django, Javascript, PHP, HTML, CSS",
           "Devops, CI/CD: Git, GitLab",
           "Bases de données: PostgreSQL, MongoDB",
@@ -86,7 +123,7 @@
       }
     },
     {
-      "company": "Böllhoff (via Davricourt)",
+      "company": "Böllhoff",
       "position": "Ingénieur développement produit",
       "website": "https://www.boellhoff.com",
       "startDate": "2019-11-01",
@@ -129,7 +166,7 @@
       }
     },
     {
-      "company": "Renault (via Bertrandt)",
+      "company": "Renault",
       "position": "Ingénieur d'étude automobile",
       "website": "https://www.renault.fr",
       "startDate": "2016-11-01",
@@ -266,33 +303,12 @@
         {
           "name":"HTML,CSS",
           "level": "4",
-          "details": ""
+          "details": "SCSS/SASS"
         },
         {
           "name":"JavaScript",
           "level": "4",
-          "details": ""
-        }
-      ]
-    },
-    {
-      "name": "Frameworks web",
-      "type": "rankedItems",
-      "items":[
-        {
-          "name":"Django",
-          "level": "4",
-          "details": ""
-        },
-        {
-          "name":"Vue.Js",
-          "level": "4",
-          "details": ""
-        },
-        {
-          "name":"PHP-Laravel",
-          "level": "3",
-          "details": ""
+          "details": "Vue.js, Node.js"
         }
       ]
     },
@@ -306,7 +322,7 @@
         {
           "name":"Python",
           "level": "5",
-          "details": "\\\\Flask, SQLAlchemy, PyMongo, PyTest, FastAPI, Numpy\\\\\\vspace{2mm}"
+          "details": "\\\\Flask, SQLAlchemy, PyMongo, PyTest, FastAPI, Numpy, Django\\\\\\vspace{2mm}"
         },
         {
           "name":"Node.js",
@@ -403,6 +419,11 @@
           "name":"SQLite",
           "level": "3",
           "details": ""
+        },
+        {
+          "name":"Firebase",
+          "level": "3",
+          "details": "Storage, Firestore/Realtime DB"
         }
       ]
     },
@@ -458,15 +479,15 @@
           "details": ""
         },
         {
-          "name":"OpenAPI",
+          "name":"Rest API",
           "level": "4",
-          "details": ""
+          "details": "OpenAPI standard"
         },
         {
           "name":"Jira",
           "level": "4",
           "details": ""
-        }
+        }SCSS/SASS
       ]
     }
   ],

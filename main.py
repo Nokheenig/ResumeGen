@@ -4,6 +4,7 @@ from definitions import ROOT_DIR
 from datetime import datetime, timedelta
 import time
 from enum import Enum
+import re
 
 import logging as logDal
 logDal.basicConfig(filename=os.path.join(ROOT_DIR,"logs","resumeGenerator.log"), encoding='utf-8', filemode='w', format='%(asctime)s-%(levelname)s:%(message)s', level=logDal.DEBUG)
@@ -248,9 +249,15 @@ France"""
             position = exp['position']
             startDate = exp['startDate'].split("-")
             startDate = startDate[1] + "/" + startDate[0][2:]
-            endDate = exp['endDate'].split("-")
-            endDate = endDate[1] + "/" + endDate[0][2:]
-            #TODO: Prevoir le cas ou il n' y a pas de date de fin  
+            
+            endDateFieldIsDate = len( re.findall(r"([0-9]{4}-(0[1-9]{1}|10|11|12)-([0-2]{1}[0-9]{1}|30|31))", exp['endDate']) ) > 0
+            if endDateFieldIsDate:
+                endDate = exp['endDate'].split("-")
+                endDate = endDate[1] + "/" + endDate[0][2:]
+            else:
+                #Cas ou il n' y a pas de date de fin     
+                endDate = exp['endDate']
+            
             city = exp['location']['city']
             countryCode = exp['location']['countryCode']
             summary = exp['summary']
