@@ -50,6 +50,7 @@ class ResumeGenerator:
     def buildResume(self, targetCountryCode: str = "FR", detailed: bool = False) -> str:
         header = self.buildHeader()
         aside = self.buildAside(targetCountryCode=targetCountryCode)
+        catchPhrase = self.buildCatchPhrase()
         skills = self.buildSkills()
         experience = self.buildExperience(detailed=detailed)
         education = self.buildEducation()
@@ -60,6 +61,7 @@ class ResumeGenerator:
 \\begin{{document}}
 {header}
 {aside}
+{catchPhrase}
 {skills}
 {experience}
 {education}
@@ -94,9 +96,7 @@ class ResumeGenerator:
         countryCode = location["countryCode"]
         region = location["region"]
         mobility = self.resumeData["document"]["aside"]["sections"]["address"]["mobility"]
-        address = f"""{address}
-{postalCode} {city},
-France"""
+        address = f"""{city}, France"""
         if mobility: address += f"\\vspace{{1.5mm}}\n{mobility}"
 
         return address
@@ -177,7 +177,7 @@ France"""
         aside = f"\\begin{{aside}}"
 
         if targetCountryCode not in ["USA","CAN","CAN-QC", "UK"]:
-             aside += f"\n\\hspace{{10mm}}\\includegraphics[scale=0.148]{{res/img/Photo_CV.png}}"
+             aside += f"\n\\hspace{{10mm}}\\includegraphics[scale=0.148]{{res/img/Photo_CV.jpg}}"
         else:
             aside += f"\n\\vspace{{21mm}}"
 
@@ -194,6 +194,18 @@ France"""
 \\end{{aside}}"""
         return aside
     
+    def buildCatchPhrase(self) -> str:
+        catchPhrase = self.resumeData["basics"]["catchPhrase"]
+        
+        catchPhraseOut = f"""
+\\vspace{{-3mm}}
+\\begin{{minipage}}[t]{{1.00\\linewidth}}
+{catchPhrase}
+\\end{{minipage}} % no space if you would like to put them side by side
+\\vspace{{1mm}}
+"""
+        return catchPhraseOut
+
     def buildSkills(self) -> str:
         skillsData = self.resumeData['skills']
 
@@ -281,49 +293,14 @@ France"""
             results = details['results']
             techEnv = details['tech-env']
 
-            detailsStr = f"""\\vspace{{-10pt}}
-\\begin{{minipage}}[t]{{0.65\\linewidth}}
-\\underline{{{self.resumeData['document']['sections']['workExperience']['details']['context-mission']}}}\\\\
-{contextMission}\\\\
-\\end{{minipage}} % no space if you would like to put them side by side"""
-            techEnvStr = ""
-            for idx_tEnv, tEnv in enumerate(techEnv):
-                line = tEnv.split(": ")
-                techEnvStr += f"\n\\underline{{\\textit{{{line[0]}}}}}: {line[1]}"
-                if idx_tEnv != len(techEnv)-1:
-                    techEnvStr += "\\\\"
-            if techEnvStr:
-                techEnvStr = f"""\n\\begin{{minipage}}[t]{{0.38\\textwidth}}
-    \\underline{{{self.resumeData['document']['sections']['workExperience']['details']['tech-env']}}}\\
-    \\vspace{{1mm}}
-    {techEnvStr}
-    \\end{{minipage}}"""
-                detailsStr += techEnvStr
-
-            goalStr = ""
-            for idx_goal, goal in enumerate(goals):
-                goalStr += f"\n\\item {goal}"
-            if goalStr:
-                goalStr = f"""\n\\vspace{{1.5mm}}
-\\underline{{{self.resumeData['document']['sections']['workExperience']['details']['goals']}}}\\\\
-
-\\begin{{itemize}}
-\\setlength{{\\itemsep}}{{1pt}}
-\\setlength{{\\parskip}}{{0pt}}
-\\setlength{{\\parsep}}{{0pt}}
-{goalStr}
-\\end{{itemize}}
+            detailsStr = f"""\\vspace{{-15pt}}
 """
-                detailsStr += goalStr
 
-            
             achievementsStr = ""
             for idx_achievement, achievement in enumerate(achievements):
                 achievementsStr += f"\n\\item {achievement}"
             if achievementsStr:
-                achievementsStr = f"""\n\\vspace{{1.5mm}}
-\\underline{{{self.resumeData['document']['sections']['workExperience']['details']['achievements']}}}\\\\
-
+                achievementsStr = f"""\n\\vspace{{0.5mm}}
 \\begin{{itemize}}
 \\setlength{{\\itemsep}}{{1pt}}
 \\setlength{{\\parskip}}{{0pt}}
@@ -333,21 +310,6 @@ France"""
 """
                 detailsStr += achievementsStr
 
-            resultsStr = ""
-            for idx_result, result in enumerate(results):
-                resultsStr += f"\n\\item {result}"
-            if resultsStr:
-                resultsStr = f"""\n\\vspace{{1.5mm}}
-\\underline{{{self.resumeData['document']['sections']['workExperience']['details']['results']}}}\\\\
-
-\\begin{{itemize}}
-\\setlength{{\\itemsep}}{{1pt}}
-\\setlength{{\\parskip}}{{0pt}}
-\\setlength{{\\parsep}}{{0pt}}
-{resultsStr}
-\\end{{itemize}}
-"""
-                detailsStr += resultsStr
 
             expStr += detailsStr
             experiences += expStr
@@ -414,7 +376,7 @@ France"""
         raw = hobbiesData['raw']
         hobbies = f"""\\section{{{self.resumeData['document']['sections']['hobbies']['name']}}}
 {raw}"""
-        return hobbies
+        return ""#hobbies
 
 class ResumeLocation(Enum):
     PARIS = "Paris,France"

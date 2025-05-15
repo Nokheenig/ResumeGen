@@ -8,7 +8,7 @@
     "degree": "",
     "website": "",
     "summary": "~~~~~~~~~~~~~~~~Ingénieur Développeur Web \\& Mobile Full Stack",
-    "catchPhrase":"Ingénieur développeur web&mobile avec une première expérience réussie, j'ai soif d’apprendre, aime communiquer et cherche de nouveaux défis! ",
+    "catchPhrase":"Ingénieur développeur web \\& mobile avec une première expérience réussie, j'ai soif d’apprendre, aime communiquer et cherche de nouveaux défis! ",
     "location": {
       "Paris,France":{
         "address": "2 rue Paulin Méry",
@@ -219,7 +219,7 @@
       "endDate": "2023-08-01",
       "gpa": "",
       "courses": [ ],
-      "coursesRaw": "\\vspace*{-0.65cm}\n\\begin{itemize}\n\\setlength{\\itemsep}{1pt}\n\\setlength{\\parskip}{0pt}\n\\setlength{\\parsep}{0pt}\n\\begin{multicols}{2}\n\\item Développement: \\newline Java, Python, Dart/Flutter, etc.\n\\columnbreak\n\\item Data, Bases de données, etc.\n\\item Tests et intégration continue (CI/CD)\n\\end{multicols}\n\\end{itemize}"
+      "coursesRaw": "\\vspace*{-0.65cm}\n\\begin{itemize}\n\\setlength{\\itemsep}{1pt}\n\\setlength{\\parskip}{0pt}\n\\setlength{\\parsep}{0pt}\n\\begin{multicols}{2}\n\\item Dev: Java, Python, Dart/Flutter,...\n\\item IA: Keras, Tensorflow\n\\columnbreak\n\\item Data, Bases de données, etc.\n\\item Tests et intégration continue (CI/CD): Jenkins, GitLab\n\\end{multicols}\n\\end{itemize}"
     },
     {
       "institution": "Epitech",
@@ -303,46 +303,12 @@
         {
           "name":"HTML,CSS",
           "level": "4",
-          "details": "SCSS/SASS"
+          "details": "\\\\SCSS/SASS\\\\"
         },
         {
           "name":"JavaScript",
           "level": "4",
-          "details": "Vue.js, Node.js"
-        }
-      ]
-    },
-    {
-      "name": "columnBreak"
-    },
-    {
-      "name": "Application / Serveur",
-      "type": "rankedItems",
-      "items":[
-        {
-          "name":"Python",
-          "level": "5",
-          "details": "\\\\Flask, SQLAlchemy, PyMongo, PyTest, FastAPI, Numpy, Django\\\\\\vspace{2mm}"
-        },
-        {
-          "name":"Node.js",
-          "level": "3",
-          "details": ""
-        },
-        {
-          "name":"Java",
-          "level": "3",
-          "details": ""
-        },
-        {
-          "name":"\\small Nginx,Apache",
-          "level": "3",
-          "details": ""
-        },
-        {
-          "name":"API",
-          "level": "4",
-          "details": ""
+          "details": "\\\\Vue.js, Node.js\\\\"
         }
       ]
     },
@@ -359,6 +325,40 @@
           "name":"Firebase",
           "level": "4",
           "details": ""
+        }
+      ]
+    },
+    {
+      "name": "columnBreak"
+    },
+    {
+      "name": "Application / Serveur",
+      "type": "rankedItems",
+      "items":[
+        {
+          "name":"Python",
+          "level": "5",
+          "details": "\\\\Flask, Django, FastAPI, SQLAlchemy, PyMongo, PyTest, Numpy, Uvicorn, Pydantic, Requests\\\\\\vspace{2mm}"
+        },
+        {
+          "name":"Node.js",
+          "level": "3",
+          "details": "\\\\Express.js, Bcrypt\\\\"
+        },
+        {
+          "name":"Java",
+          "level": "3",
+          "details": ""
+        },
+        {
+          "name":"\\small Nginx,Apache",
+          "level": "3",
+          "details": ""
+        },
+        {
+          "name":"Rest API",
+          "level": "4",
+          "details": "\\\\OpenAPI standard\\\\"
         }
       ]
     },
@@ -423,7 +423,7 @@
         {
           "name":"Firebase",
           "level": "3",
-          "details": "Storage, Firestore/Realtime DB"
+          "details": "\\\\Storage, Firestore, Realtime\\\\"
         }
       ]
     },
@@ -454,22 +454,6 @@
       ]
     },
     {
-      "name": "IA \\& Outils",
-      "type": "rankedItems",
-      "items":[
-        {
-          "name":"Tensorflow",
-          "level": "3",
-          "details": ""
-        },
-        {
-          "name":"Keras",
-          "level": "3",
-          "details": ""
-        }
-      ]
-    },
-    {
       "name": "Autres",
       "type": "rankedItems",
       "items":[
@@ -479,15 +463,15 @@
           "details": ""
         },
         {
-          "name":"Rest API",
-          "level": "4",
-          "details": "OpenAPI standard"
-        },
-        {
           "name":"Jira",
           "level": "4",
           "details": ""
-        }SCSS/SASS
+        },
+        {
+          "name":"Regex",
+          "level": "4",
+          "details": ""
+        }
       ]
     }
   ],

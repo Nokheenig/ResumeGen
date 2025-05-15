@@ -214,12 +214,12 @@
         "countryCode": "FR",
         "zipcode":"69"
       },
-      "studyType": "RNCP Lvl.6 - Data/IA minor; \\hspace{7mm} 09/23: Software Design \\& Development Skill Certification",
+      "studyType": "RNCP Lvl.6 - Data/IA minor; \\hspace{7mm} 09/23: Government Skill Certification",
       "startDate": "2022-09-15",
       "endDate": "2023-08-01",
       "gpa": "",
       "courses": [ ],
-      "coursesRaw": "\\vspace*{-0.65cm}\n\\begin{itemize}\n\\setlength{\\itemsep}{1pt}\n\\setlength{\\parskip}{0pt}\n\\setlength{\\parsep}{0pt}\n\\begin{multicols}{2}\n\\item Development: \\newline Java, Python, Dart/Flutter, etc.\n\\columnbreak\n\\item Data, Databases, etc.\n\\item Tests \\& CI/CD\n\\end{multicols}\n\\end{itemize}"
+      "coursesRaw": "\\vspace*{-0.65cm}\n\\begin{itemize}\n\\setlength{\\itemsep}{1pt}\n\\setlength{\\parskip}{0pt}\n\\setlength{\\parsep}{0pt}\n\\begin{multicols}{2}\n\\item Dev: Java, Python, Dart/Flutter,...\n\\item AI: Keras, Tensorflow\n\\columnbreak\n\\item Data, Databases, etc.\n\\item Tests \\& CI/CD: Jenkins, GitLab\n\\end{multicols}\n\\end{itemize}"
     },
     {
       "institution": "Epitech",
@@ -303,12 +303,28 @@
         {
           "name":"HTML,CSS",
           "level": "4",
-          "details": "SCSS/SASS"
+          "details": "\\\\SCSS/SASS\\\\"
         },
         {
           "name":"JavaScript",
           "level": "4",
-          "details": "Vue.js, Node.js"
+          "details": "\\\\Vue.js, Node.js\\\\"
+        }
+      ]
+    },
+    {
+      "name": "Authentication",
+      "type": "rankedItems",
+      "items":[
+        {
+          "name":"JWT Auth",
+          "level": "4",
+          "details": ""
+        },
+        {
+          "name":"Firebase",
+          "level": "4",
+          "details": ""
         }
       ]
     },
@@ -327,7 +343,7 @@
         {
           "name":"Node.js",
           "level": "3",
-          "details": ""
+          "details": "\\\\Express.js, Bcrypt\\\\"
         },
         {
           "name":"Java",
@@ -340,25 +356,9 @@
           "details": ""
         },
         {
-          "name":"API",
+          "name":"Rest API",
           "level": "4",
-          "details": ""
-        }
-      ]
-    },
-    {
-      "name": "Authentication",
-      "type": "rankedItems",
-      "items":[
-        {
-          "name":"JWT Auth",
-          "level": "4",
-          "details": ""
-        },
-        {
-          "name":"Firebase",
-          "level": "4",
-          "details": ""
+          "details": "\\\\OpenAPI standard\\\\"
         }
       ]
     },
@@ -423,7 +423,7 @@
         {
           "name":"Firebase",
           "level": "3",
-          "details": "Storage, Firestore/Realtime DB"
+          "details": "\\\\Storage, Firestore, Realtime\\\\"
         }
       ]
     },
@@ -454,33 +454,12 @@
       ]
     },
     {
-      "name": "AI \\& Tools",
-      "type": "rankedItems",
-      "items":[
-        {
-          "name":"Tensorflow",
-          "level": "3",
-          "details": ""
-        },
-        {
-          "name":"Keras",
-          "level": "3",
-          "details": ""
-        }
-      ]
-    },
-    {
       "name": "Others",
       "type": "rankedItems",
       "items":[
         {
           "name":"Bash",
           "level": "3",
-          "details": ""
-        },
-        {
-          "name":"OpenAPI",
-          "level": "4",
           "details": ""
         },
         {
