@@ -120,12 +120,16 @@ BoldItalicFont=texgyreheros-bolditalic.otf
       \fontsize{15pt}{25pt}\color{pblue}%
       \bodyfont #3%
     };
-    \node [anchor=west] (subtitle) at (title.south) {%
+    \node [anchor=north] (subtitle) at (title.south) {%
     	
-    	\hspace{-26ex}%
-    	
+    	%\hspace{-26ex}%
+    	\vspace{-14mm}
       \fontsize{10pt}{14pt}\color{header}%
-      \thinfont #4%
+      \parbox{13cm}{
+        #4%
+      }
+      %#4%
+      \vspace{45mm}
     };
   \end{tikzpicture}
   %\vspace{2em}
@@ -343,5 +347,5 @@ BoldItalicFont=texgyreheros-bolditalic.otf
 % Other tweaks %
 %%%%%%%%%%%%%%%%
 
-\RequirePackage[left=6.1cm,top=2cm,right=1.5cm,bottom=2.5cm,nohead,nofoot]{geometry}
+\RequirePackage[left=6.1cm,top=2cm,right=1.5cm,bottom=1.1cm,nohead,nofoot]{geometry}
 \RequirePackage{hyperref}

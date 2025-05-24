@@ -9,6 +9,23 @@
     "website": "",
     "summary": "~~~~~~~~~~~~~~~~Ingénieur Développeur Web \\& Mobile Full Stack",
     "catchPhrase":"Ingénieur développeur web \\& mobile avec une première expérience réussie, j'ai soif d’apprendre, aime communiquer et cherche de nouveaux défis! ",
+    "profile": {
+      "any":{
+        "name": "any",
+        "summary": "~~~~~~~~~~~~~~~~Ingénieur Développeur Web \\& Mobile Full Stack",
+        "catchPhrase":"Ingénieur développeur web \\& mobile avec une première expérience réussie, j'ai soif d’apprendre, aime communiquer et cherche de nouveaux défis! "
+      },
+      "webDev":{
+        "name": "webDev",
+        "summary": "~~~~~~~~~~~~~~~~Ingénieur Développeur Web Full Stack",
+        "catchPhrase":"Ingénieur développeur web full stack avec une première expérience réussie, j'ai soif d’apprendre, aime communiquer et cherche de nouveaux défis! "
+      },
+      "mobileDev":{
+        "name": "mobileDev",
+        "summary": "~~~~~~~~~~~~~~~~Ingénieur Développeur Mobile Full Stack",
+        "catchPhrase":"Ingénieur développeur mobile avec une première expérience réussie, j'ai soif d’apprendre, aime communiquer et cherche de nouveaux défis! "
+      }
+    },
     "location": {
       "Paris,France":{
         "address": "2 rue Paulin Méry",
@@ -40,16 +57,61 @@
   },
   "work": [
     {
-      "company": "Formation et recherche d'emploi",
-      "position": "Développeur web \\& mobile",
+      "company": "TopSolid",
+      "position": "Ingénieur Développement",
       "website": "",
-      "startDate": "2024-04-01",
+      "startDate": "2024-09-30",
       "endDate": "Auj.",
       "location":{
         "city":"Paris",
         "country": "France",
         "countryCode": "FR",
         "zipcode":"75"
+      },
+      "profile": {
+        "in": null,
+        "except": null
+      },
+      "summary": "Développement de post-processeurs en:  C\\# (.Net)",
+      "highlights": [
+        "Bullet-point list items that you would like to include along with (or instead of) a summary paragraph."
+      ],
+      "details": {
+        "context-mission": "Développer l'offre de post-processeurs pour machines outils à commande numérique (CNC), robots d'usinage 6 axes et machines de découpe laser 2D/3D.",
+        "goals": [  ],
+        "achievements": [ 
+          "Développement from-scratch de post-processeurs pour machines outils à commande numérique (CNC), robots d'usinage 6 axes et machines de découpe laser 2D/3D en C\\# (.Net), G-code (Fanuc), ... + couche de customisation dans un langage propriétaire pour nos intégrateurs.",
+          "Rédaction de documentations et spécifications.",
+          "Essais et mise au point machine en condition réelle chez le client.",
+          "Rédaction de scripts et automatisation",
+          "Installation et configuration de machines virtuelles de test / simulation d'usinage",
+          "Support technique client et amélioration de post-processeurs existants."
+         ],
+        "results": [  ],
+        "tech-env": [ 
+          "Machines: Centres d'usinage, robots d'usinage 6 axes, découpe laser 2D/3D",
+          "Langages: C#, .Net, G-code (Fanuc), TopSolid",
+          "Devops, CI/CD: Git, VS TeamCenter",
+          "Langues: Français, Anglais",
+          "Autres: Linux, Obsidian (pkm, documentation), Visual Studio"
+         ]
+      }
+    },
+    {
+      "company": "Formation et recherche d'emploi",
+      "position": "Développeur web \\& mobile",
+      "website": "",
+      "startDate": "2024-04-01",
+      "endDate": "2024-09-22",
+      "location":{
+        "city":"Paris",
+        "country": "France",
+        "countryCode": "FR",
+        "zipcode":"75"
+      },
+      "profile": {
+        "in": null,
+        "except": null
       },
       "summary": "Formation et réalisation de projets persos:\\hspace*{8mm}Kotlin, Python, Javascript",
       "highlights": [
@@ -87,6 +149,10 @@
         "country": "France",
         "countryCode": "FR",
         "zipcode":"69"
+      },
+      "profile": {
+        "in": null,
+        "except": null
       },
       "summary": "Développements fullstack web \\& mobile Android:\\hspace*{8mm}Flutter, Python",
       "highlights": [
@@ -134,6 +200,10 @@
         "countryCode": "FR",
         "zipcode":"73"
       },
+      "profile": {
+        "in": null,
+        "except": null
+      },
       "summary": "Conception produit mécatronique automobile",
       "highlights": [
         "Bullet-point list items that you would like to include along with (or instead of) a summary paragraph."
@@ -177,6 +247,10 @@
         "countryCode": "FR",
         "zipcode":"78"
       },
+      "profile": {
+        "in": null,
+        "except": null
+      },
       "summary": "Conception \\& architecture sous-caisse et compartiment moteur",
       "highlights": [
         "Bullet-point list items that you would like to include along with (or instead of) a summary paragraph."
@@ -208,49 +282,59 @@
     {
       "institution": "EPSI",
       "area": "Bachelor Concepteur Développeur d'Applications",
+      "studyType": "Spécialité Data/IA; \\hspace{7mm} 09/23: Certification d'état CDA",
+      "startDate": "2022-09-15",
+      "endDate": "2023-08-01",
       "location":{
         "city":"Lyon",
         "country": "France",
         "countryCode": "FR",
         "zipcode":"69"
       },
-      "studyType": "RNCP Niv.6 - Spécialité Data/IA; \\hspace{7mm} 09/23: Certification d'état CDA",
-      "startDate": "2022-09-15",
-      "endDate": "2023-08-01",
+      "profile": {
+        "in": null,
+        "except": null
+      },
       "gpa": "",
       "courses": [ ],
-      "coursesRaw": "\\vspace*{-0.65cm}\n\\begin{itemize}\n\\setlength{\\itemsep}{1pt}\n\\setlength{\\parskip}{0pt}\n\\setlength{\\parsep}{0pt}\n\\begin{multicols}{2}\n\\item Dev: Java, Python, Dart/Flutter,...\n\\item IA: Keras, Tensorflow\n\\columnbreak\n\\item Data, Bases de données, etc.\n\\item Tests et intégration continue (CI/CD): Jenkins, GitLab\n\\end{multicols}\n\\end{itemize}"
+      "coursesRaw": ""
     },
     {
       "institution": "Epitech",
       "area": "Formation d'Intégrateur-développeur web",
+      "studyType": "",
+      "startDate": "2022-06-01",
+      "endDate": "2022-08-31",
       "location":{
         "city":"Paris",
         "country": "France",
         "countryCode": "FR",
         "zipcode":"75"
       },
-      "studyType": "RNCP Niv.5",
-      "startDate": "2022-06-01",
-      "endDate": "2022-08-31",
+      "profile": {
+        "in": null,
+        "except": null
+      },
       "gpa": "",
-      "courses": [ 
-        "PHP, HTML, CSS, JavaScript, Vue.Js, Laravel, Bash, Git"
-       ],
+      "courses": [  ],
       "coursesRaw": null
     },
     {
       "institution": "UTT",
       "area": "Diplôme d'Ingénieur en Systèmes Mécaniques",
+      "studyType": "Mineure: Conception et Industrialisation, en lien avec l’Environnement",
+      "startDate": "2013-09-01",
+      "endDate": "2016-08-31",
       "location":{
         "city":"Troyes",
         "country": "France",
         "countryCode": "FR",
         "zipcode":"10"
       },
-      "studyType": "RNCP Niv.7; Conception et Industrialisation, en lien avec l’Environnement",
-      "startDate": "2013-09-01",
-      "endDate": "2016-08-31",
+      "profile": {
+        "in": null,
+        "except": null
+      },
       "gpa": "",
       "courses": [  ],
       "coursesRaw": null
@@ -258,18 +342,22 @@
     {
       "institution": "IUT",
       "area": "DUT Génie Mécanique et Productique",
+      "studyType": "",
+      "startDate": "2011-09-01",
+      "endDate": "2013-06-30",
       "location":{
         "city":"Troyes",
         "country": "France",
         "countryCode": "FR",
         "zipcode":"10"
       },
-      "studyType": "RNCP Niv.5",
-      "startDate": "2011-09-01",
-      "endDate": "2013-06-30",
+      "profile": {
+        "in": null,
+        "except": null
+      },
       "gpa": "",
       "courses": [  ],
-      "coursesRaw": "\\vspace*{-0.4cm}\n\\begin{itemize}\n\\setlength{\\itemsep}{1pt}\n\\setlength{\\parskip}{0pt}\n\\setlength{\\parsep}{0pt}\n\\item Conception, dimensionnement, asservissement et programmation d’un robot pour participer à la coupe de France de robotique (E=M6)\n\\end{itemize}"
+      "coursesRaw": "\\vspace*{-0.7cm}\n\\begin{itemize}\n\\setlength{\\itemsep}{1pt}\n\\setlength{\\parskip}{0pt}\n\\setlength{\\parsep}{0pt}\n\\item Coupe de France de robotique: Conception, fabrication et programmation d’un robot\n\\end{itemize}"
     }
   ],
   "awards": [  ],
@@ -278,6 +366,10 @@
     {
       "name": "Mobile",
       "type": "rankedItems",
+      "profile": {
+        "in": [ "mobileDev" ],
+        "except": null
+      },
       "items":[
         {
           "name":"Kotlin",
@@ -299,6 +391,10 @@
     {
       "name": "Developpement web",
       "type": "rankedItems",
+      "profile": {
+        "in": null,
+        "except": null
+      },
       "items":[
         {
           "name":"HTML,CSS",
@@ -315,6 +411,10 @@
     {
       "name": "Authentification",
       "type": "rankedItems",
+      "profile": {
+        "in": null,
+        "except": null
+      },
       "items":[
         {
           "name":"JWT Auth",
@@ -334,7 +434,16 @@
     {
       "name": "Application / Serveur",
       "type": "rankedItems",
+      "profile": {
+        "in": null,
+        "except": null
+      },
       "items":[
+        {
+          "name":"C\\#",
+          "level": "4",
+          "details": ""
+        },
         {
           "name":"Python",
           "level": "5",
@@ -365,6 +474,10 @@
     {
       "name": "Devops, CI/CD",
       "type": "rankedItems",
+      "profile": {
+        "in": null,
+        "except": null
+      },
       "items":[
         {
           "name":"Git / GitLab",
@@ -399,6 +512,10 @@
     {
       "name": "Bases de données",
       "type": "rankedItems",
+      "profile": {
+        "in": null,
+        "except": null
+      },
       "items":[
         {
           "name":"MySQL",
@@ -417,7 +534,7 @@
         },
         {
           "name":"SQLite",
-          "level": "3",
+          "level": "4",
           "details": ""
         },
         {
@@ -430,6 +547,10 @@
     {
       "name": "Data",
       "type": "rankedItems",
+      "profile": {
+        "in": [ "dataScientist", "dataEngineer" ],
+        "except": null
+      },
       "items":[
         {
           "name":"Shiny",
@@ -456,6 +577,10 @@
     {
       "name": "Autres",
       "type": "rankedItems",
+      "profile": {
+        "in": null,
+        "except": null
+      },
       "items":[
         {
           "name":"Bash",
@@ -501,11 +626,11 @@
       "sections": {
         "infos":{
           "name":"Infos",
-          "content":"%30 ans\nPermis A,B"
+          "content":"%33 ans\nPermis A,B"
         },
         "address":{
           "name":"Adresse",
-          "mobility":"Prêt à déménager\nMobile à l'international"
+          "mobility":"Prêt à déménager\nMobile à l'international\nAutorisé à travailler au Canada (visa PVT)"
         },
         "contact":{
           "name":"Contact"
@@ -532,7 +657,15 @@
           {
             "name":"CAO / FAO",
             "type": "rankedItems",
+            "profile": {
+              "in": null,
+              "except": null
+            },
             "items":[
+              {
+                "name":"TopSolid",
+                "level": "5"
+              },
               {
                 "name":"Catia V5\\&V6",
                 "level": "5"
@@ -550,7 +683,15 @@
           {
             "name":"PLM / PDM",
             "type": "rankedItems",
+            "profile": {
+              "in": null,
+              "except": null
+            },
             "items":[
+              {
+                "name":"TopSolid",
+                "level": "4"
+              },
               {
                 "name":"NewPDM",
                 "level": "4"
@@ -564,6 +705,10 @@
           {
             "name":"Calcul / FEM",
             "type": "rankedItems",
+            "profile": {
+              "in": null,
+              "except": null
+            },
             "items":[
               {
                 "name":"Ansys Wbench",
@@ -601,6 +746,11 @@
       "language": "Allemand",
       "fluency": "2-5",
       "test": "(B1)"
+    },
+    {
+      "language": "Coréen",
+      "fluency": "1",
+      "test": ""
     }
   ],
   "interests": [
@@ -609,7 +759,11 @@
       "keywords": [
         "Keywords under this category (e.g. 'Cricket', 'Football', 'Golf')"
       ],
-      "raw":"\\vspace*{-0.45cm}\n\\setlength{\\columnsep}{-2cm}\n\\begin{multicols}{2}\n\\begin{itemize}\n\\setlength{\\itemsep}{1pt}\n\\setlength{\\parskip}{0pt}\n\\setlength{\\parsep}{0pt}\n\\item Sorties: \\\\\nRandonnée, Concerts,  Moto, Photo\\\\\n\\item Musique: \\\\\nBatterie, Piano\\\\\n\\columnbreak\n\\item Voyages: \\\\\nSuède, Cambodge, Thaïlande, Allemagne\\\\\n\\item Lecture: \\\\\nB.Werber, M.Chattam, F.Thilliez\n\\end{itemize}\n\\end{multicols}"
+      "profile": {
+        "in": null,
+        "except": null
+      }
     }
-  ]
+  ],
+  "interestsRaw": "\\vspace*{-0.45cm}\n\\setlength{\\columnsep}{-2cm}\n\\begin{multicols}{2}\n\\begin{itemize}\n\\setlength{\\itemsep}{1pt}\n\\setlength{\\parskip}{0pt}\n\\setlength{\\parsep}{0pt}\n\\item Sorties: \\\\\nRandonnée, Concerts,  Moto, Photo\\\\\n\\item Musique: \\\\\nBatterie, Piano\\\\\n\\columnbreak\n\\item Voyages: \\\\\nSuède, Cambodge, Thaïlande, Allemagne\\\\\n\\item Lecture: \\\\\nB.Werber, M.Chattam, F.Thilliez\n\\end{itemize}\n\\end{multicols}"
 }

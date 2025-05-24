@@ -7,8 +7,25 @@
     "phone": "+33 670525552",
     "degree": "",
     "website": "",
-    "summary": "~~~~~~Full Stack Web \\& Mobile Developer Engineer",
-    "catchPhrase":"Software Engineer with a successful first experience. Always eager to learn and improve, I love to communicate and I am looking for new challenges!",
+    "summary": "~~~~~~Software Engineer",
+    "catchPhrase":"Always eager to learn and improve, I love to share and communicate. After a successful first experience as a software engineer I am looking for new challenges!",
+    "profile": {
+      "any":{
+        "name": "any",
+        "summary": "~~~~~~Software Engineer",
+        "catchPhrase":"Always eager to learn and improve, I love to share and communicate. After a successful first experience as a software engineer I am looking for new challenges!"
+      },
+      "webDev":{
+        "name": "webDev",
+        "summary": "~~~~~~Software Engineer",
+        "catchPhrase":"Always eager to learn and improve, I love to share and communicate. After a successful first experience as a software engineer I am looking for new challenges!"
+      },
+      "mobileDev":{
+        "name": "mobileDev",
+        "summary": "~~~~~~Software Engineer",
+        "catchPhrase":"Always eager to learn and improve, I love to share and communicate. After a successful first experience as a software engineer I am looking for new challenges!"
+      }
+    },
     "location": {
       "Paris,France":{
         "address": "2 rue Paulin Méry",
@@ -40,16 +57,61 @@
   },
   "work": [
     {
-      "company": "Training and job hunting",
-      "position": "Web \\& mobile developer",
+      "company": "TopSolid",
+      "position": "Software Engineer",
       "website": "",
-      "startDate": "2024-04-01",
-      "endDate": "Today",
+      "startDate": "2024-09-30",
+      "endDate": "Today.",
       "location":{
         "city":"Paris",
         "country": "France",
         "countryCode": "FR",
         "zipcode":"75"
+      },
+      "profile": {
+        "in": null,
+        "except": null
+      },
+      "summary": "Post-processors developement in: C\\# (.Net)",
+      "highlights": [
+        "Bullet-point list items that you would like to include along with (or instead of) a summary paragraph."
+      ],
+      "details": {
+        "context-mission": "Develop the product range for CNC machines, 6 axes robots and 2D/3D laser cutting machines post-processors.",
+        "goals": [  ],
+        "achievements": [ 
+          "Develop from scratch CNC machines, 6 axes robots and 2D/3D laser cutting machines post-processors in C\\# (.Net), G-code (Fanuc), ... + customization layer in proprietary language for our integrators.",
+          "Write documentations and specifications.",
+          "Test and fine-tune in production on customer site.",
+          "Write scripts and automations.",
+          "Install and configure test/machining simulation virtual machines.",
+          "Ensure technical support for customers and improve existing post-processors."
+         ],
+        "results": [  ],
+        "tech-env": [ 
+          "Machines: CNC machines, 6 axes robots and 2D/3D laser cutting machines",
+          "Languages: C#, .Net, G-code (Fanuc), TopSolid",
+          "Devops, CI/CD: Git, VS TeamCenter",
+          "Languages: French, English",
+          "Autres: Linux, Obsidian (pkm, documentation), Visual Studio"
+         ]
+      }
+    },
+    {
+      "company": "Training and job hunting",
+      "position": "Web \\& mobile developer",
+      "website": "",
+      "startDate": "2024-04-01",
+      "endDate": "2024-09-22",
+      "location":{
+        "city":"Paris",
+        "country": "France",
+        "countryCode": "FR",
+        "zipcode":"75"
+      },
+      "profile": {
+        "in": null,
+        "except": null
       },
       "summary": "Training and personal projects in :\\hspace*{8mm}Kotlin, Python, Javascript",
       "highlights": [
@@ -87,6 +149,10 @@
         "country": "France",
         "countryCode": "FR",
         "zipcode":"69"
+      },
+      "profile": {
+        "in": null,
+        "except": null
       },
       "summary": "Full stack web \\& Android mobile developments: \\hspace*{8mm}Flutter, Python",
       "highlights": [
@@ -134,6 +200,10 @@
         "countryCode": "FR",
         "zipcode":"73"
       },
+      "profile": {
+        "in": null,
+        "except": null
+      },
       "summary": "Automotive Mechatronic Product design \\& development",
       "highlights": [
         "Bullet-point list items that you would like to include along with (or instead of) a summary paragraph."
@@ -177,6 +247,10 @@
         "countryCode": "FR",
         "zipcode":"78"
       },
+      "profile": {
+        "in": null,
+        "except": null
+      },
       "summary": "Underbody \\& Engine Compartment Design \\& Architecture",
       "highlights": [
         "Bullet-point list items that you would like to include along with (or instead of) a summary paragraph."
@@ -208,49 +282,59 @@
     {
       "institution": "EPSI",
       "area": "Bachelor Degree in Software Design \\& Development",
+      "studyType": "Minor: Data/AI; \\hspace{7mm} 09/23: Government Skill Certification",
+      "startDate": "2022-09-15",
+      "endDate": "2023-08-01",
       "location":{
         "city":"Lyon",
         "country": "France",
         "countryCode": "FR",
         "zipcode":"69"
       },
-      "studyType": "RNCP Lvl.6 - Data/IA minor; \\hspace{7mm} 09/23: Government Skill Certification",
-      "startDate": "2022-09-15",
-      "endDate": "2023-08-01",
+      "profile": {
+        "in": null,
+        "except": null
+      },
       "gpa": "",
       "courses": [ ],
-      "coursesRaw": "\\vspace*{-0.65cm}\n\\begin{itemize}\n\\setlength{\\itemsep}{1pt}\n\\setlength{\\parskip}{0pt}\n\\setlength{\\parsep}{0pt}\n\\begin{multicols}{2}\n\\item Dev: Java, Python, Dart/Flutter,...\n\\item AI: Keras, Tensorflow\n\\columnbreak\n\\item Data, Databases, etc.\n\\item Tests \\& CI/CD: Jenkins, GitLab\n\\end{multicols}\n\\end{itemize}"
+      "coursesRaw": ""
     },
     {
       "institution": "Epitech",
       "area": "Web Developer Formation",
+      "studyType": "",
+      "startDate": "2022-06-01",
+      "endDate": "2022-08-31",
       "location":{
         "city":"Paris",
         "country": "France",
         "countryCode": "FR",
         "zipcode":"75"
       },
-      "studyType": "RNCP Lvl.5",
-      "startDate": "2022-06-01",
-      "endDate": "2022-08-31",
+      "profile": {
+        "in": null,
+        "except": null
+      },
       "gpa": "",
-      "courses": [ 
-        "PHP, HTML, CSS, JavaScript, Vue.Js, Laravel, Bash, Git"
-       ],
+      "courses": [  ],
       "coursesRaw": null
     },
     {
       "institution": "UTT",
       "area": "Master degree in Mechanical Systems Engineering",
+      "studyType": "Minor: Environmental Design \\& Industrialization",
+      "startDate": "2013-09-01",
+      "endDate": "2016-08-31",
       "location":{
         "city":"Troyes",
         "country": "France",
         "countryCode": "FR",
         "zipcode":"10"
       },
-      "studyType": "RNCP Lvl.7; Environmental Design \\& Industrialization minor",
-      "startDate": "2013-09-01",
-      "endDate": "2016-08-31",
+      "profile": {
+        "in": null,
+        "except": null
+      },
       "gpa": "",
       "courses": [  ],
       "coursesRaw": null
@@ -258,18 +342,22 @@
     {
       "institution": "IUT",
       "area": "2-Year Degree in Mechanical Engineering",
+      "studyType": "",
+      "startDate": "2011-09-01",
+      "endDate": "2013-06-30",
       "location":{
         "city":"Troyes",
         "country": "France",
         "countryCode": "FR",
         "zipcode":"10"
       },
-      "studyType": "RNCP Lvl.5",
-      "startDate": "2011-09-01",
-      "endDate": "2013-06-30",
+      "profile": {
+        "in": null,
+        "except": null
+      },
       "gpa": "",
       "courses": [  ],
-      "coursesRaw": "\\vspace*{-0.4cm}\n\\begin{itemize}\n\\setlength{\\itemsep}{1pt}\n\\setlength{\\parskip}{0pt}\n\\setlength{\\parsep}{0pt}\n\\item Design, Functional dimensioning, enslavement and programming of a robot to take part in the Franch robotic cup.\n\\end{itemize}"
+      "coursesRaw": "\\vspace*{-0.7cm}\n\\begin{itemize}\n\\setlength{\\itemsep}{1pt}\n\\setlength{\\parskip}{0pt}\n\\setlength{\\parsep}{0pt}\n\\item French robotic cup: Design, Build and program a robot.\n\\end{itemize}"
     }
   ],
   "awards": [  ],
@@ -278,6 +366,10 @@
     {
       "name": "Mobile Development",
       "type": "rankedItems",
+      "profile": {
+        "in": [ "mobileDev" ],
+        "except": null
+      },
       "items":[
         {
           "name":"Kotlin",
@@ -299,6 +391,10 @@
     {
       "name": "Web Development",
       "type": "rankedItems",
+      "profile": {
+        "in": null,
+        "except": null
+      },
       "items":[
         {
           "name":"HTML,CSS",
@@ -315,6 +411,10 @@
     {
       "name": "Authentication",
       "type": "rankedItems",
+      "profile": {
+        "in": null,
+        "except": null
+      },
       "items":[
         {
           "name":"JWT Auth",
@@ -334,7 +434,16 @@
     {
       "name": "Back-end / Server",
       "type": "rankedItems",
+      "profile": {
+        "in": null,
+        "except": null
+      },
       "items":[
+        {
+          "name":"C\\#",
+          "level": "4",
+          "details": ""
+        },
         {
           "name":"Python",
           "level": "5",
@@ -365,6 +474,10 @@
     {
       "name": "Devops, CI/CD",
       "type": "rankedItems",
+      "profile": {
+        "in": null,
+        "except": null
+      },
       "items":[
         {
           "name":"Git / GitLab",
@@ -399,6 +512,10 @@
     {
       "name": "Databases",
       "type": "rankedItems",
+      "profile": {
+        "in": null,
+        "except": null
+      },
       "items":[
         {
           "name":"MySQL",
@@ -417,19 +534,23 @@
         },
         {
           "name":"SQLite",
-          "level": "3",
+          "level": "4",
           "details": ""
         },
         {
           "name":"Firebase",
           "level": "3",
-          "details": "\\\\Storage, Firestore, Realtime\\\\"
+          "details": "\\\\Store/Firestore/Realtime\\\\"
         }
       ]
     },
     {
       "name": "Data",
       "type": "rankedItems",
+      "profile": {
+        "in": [ "dataScientist", "dataEngineer" ],
+        "except": null
+      },
       "items":[
         {
           "name":"Shiny",
@@ -456,6 +577,10 @@
     {
       "name": "Others",
       "type": "rankedItems",
+      "profile": {
+        "in": null,
+        "except": null
+      },
       "items":[
         {
           "name":"Bash",
@@ -501,11 +626,11 @@
       "sections": {
         "infos":{
           "name":"Infos",
-          "content":"%30 yo\nFull driving licence A,B"
+          "content":"%33 yo\nFull driving licence A,B"
         },
         "address":{
           "name":"Address",
-          "mobility":"International mobility"
+          "mobility":"International mobility.\n\\vspace*{0.6mm}Legally autorized to work in Canada (working holiday visa)."
         },
         "contact":{
           "name":"Contact"
@@ -532,7 +657,15 @@
           {
             "name":"CAD / CAM",
             "type": "rankedItems",
+            "profile": {
+              "in": null,
+              "except": null
+            },
             "items":[
+              {
+                "name":"TopSolid",
+                "level": "5"
+              },
               {
                 "name":"Catia V5\\&V6",
                 "level": "5"
@@ -550,7 +683,15 @@
           {
             "name":"PLM / PDM",
             "type": "rankedItems",
+            "profile": {
+              "in": null,
+              "except": null
+            },
             "items":[
+              {
+                "name":"TopSolid",
+                "level": "4"
+              },
               {
                 "name":"NewPDM",
                 "level": "4"
@@ -564,6 +705,10 @@
           {
             "name":"FEM / CAE",
             "type": "rankedItems",
+            "profile": {
+              "in": null,
+              "except": null
+            },
             "items":[
               {
                 "name":"Ansys Wbench",
@@ -601,6 +746,11 @@
       "language": "German",
       "fluency": "2-5",
       "test": "(B1)"
+    },
+    {
+      "language": "Korean",
+      "fluency": "1",
+      "test": ""
     }
   ],
   "interests": [
@@ -609,7 +759,11 @@
       "keywords": [
         "Keywords under this category (e.g. 'Cricket', 'Football', 'Golf')"
       ],
-      "raw":"\\vspace*{-0.45cm}\n\\setlength{\\columnsep}{-2cm}\n\\begin{multicols}{2}\n\\begin{itemize}\n\\setlength{\\itemsep}{1pt}\n\\setlength{\\parskip}{0pt}\n\\setlength{\\parsep}{0pt}\n\\item Outings: \\\\\nHiking, Concerts,  Motorcycle, Photo\\\\\n\\item Music: \\\\\nDrums, Piano\\\\\n\\columnbreak\n\\item Travels: \\\\\nSweden, Cambodia, Thaïland, Germany\\\\\n\\item Reading: \\\\\nB.Werber, M.Chattam, F.Thilliez\n\\end{itemize}\n\\end{multicols}"
+      "profile": {
+        "in": null,
+        "except": null
+      }
     }
-  ]
+  ],
+  "interestsRaw": "\\vspace*{-0.45cm}\n\\setlength{\\columnsep}{-2cm}\n\\begin{multicols}{2}\n\\begin{itemize}\n\\setlength{\\itemsep}{1pt}\n\\setlength{\\parskip}{0pt}\n\\setlength{\\parsep}{0pt}\n\\item Sorties: \\\\\nRandonnée, Concerts,  Moto, Photo\\\\\n\\item Musique: \\\\\nBatterie, Piano\\\\\n\\columnbreak\n\\item Voyages: \\\\\nSuède, Cambodge, Thaïlande, Allemagne\\\\\n\\item Lecture: \\\\\nB.Werber, M.Chattam, F.Thilliez\n\\end{itemize}\n\\end{multicols}"
 }
