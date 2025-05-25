@@ -66,18 +66,18 @@ class ResumeGenerator:
                 else:
                     filename = filename.replace("_detailed", f"_{self.currentProfile}_detailed")
             outputFilePath = os.path.join(outputFilesDirPath,f"{filename}.tex")
-            countryCode = filename.split("_")[1]
-            dataRedirectCountryCode = None
+            self.countryCode = filename.split("_")[1]
+            self.dataRedirectCountryCode = None
             dataRedirectCountryCodes = {
                 "US": ["CAN", "AS", "UK"],
                 "FR": ["CAN-QC"],
             }
             for k, v in dataRedirectCountryCodes.items():
-                if countryCode in v:
-                    dataRedirectCountryCode = k
+                if self.countryCode in v:
+                    self.dataRedirectCountryCode = k
                     break
-            self.loadResumeData(targetCountryCode=dataRedirectCountryCode if dataRedirectCountryCode else countryCode)
-            outFileContent = self.buildResume(targetCountryCode=countryCode, detailed=detailed)
+            self.loadResumeData(targetCountryCode=self.dataRedirectCountryCode if self.dataRedirectCountryCode else self.countryCode)
+            outFileContent = self.buildResume(targetCountryCode=self.countryCode, detailed=detailed)
             # print(outFileContent)
             with open(outputFilePath, "w", encoding='utf-8') as f:
                 f.write(outFileContent)
@@ -88,6 +88,7 @@ class ResumeGenerator:
             self.resumeData = json.loads(f.read())
 
     def buildResume(self, targetCountryCode: str = "FR", detailed: bool = False) -> str:
+        metadata = self.buildMetadata()
         header = self.buildHeader()
         aside = self.buildAside(targetCountryCode=targetCountryCode)
         catchPhrase = self.buildCatchPhrase()
@@ -100,6 +101,7 @@ class ResumeGenerator:
 
         resume = f"""
 {self.docHeader}
+{metadata}
 \\begin{{document}}
 {header}
 {aside}
@@ -112,6 +114,34 @@ class ResumeGenerator:
         resume += f"""\\end{{document}}""" 
         return resume
     
+    def buildMetadata(self) -> str:
+        name = self.resumeData["basics"]["name"]
+        print("self.dataRedirectCountryCode: ", self.dataRedirectCountryCode)
+        docType = "Curriculum Vitae" if self.dataRedirectCountryCode == "FR" else "Resume"
+        summary = self.resumeData["basics"]["summary"].replace("~", "").replace("/", "").replace("(", "").replace(")", "")
+        keywords = [
+            f"profile {self.currentProfile}" if self.currentProfile else "profile default",
+            "resume", "developer", "software", "engineer", "C\# (.Net)", "Python", 
+            "Javascript", "Node.js", "Java", "Kotlin", "Android", "Rest API", 
+            "Git / GitLab", "Docker", "Jenkins", "Selenium", "Cron", "Html-Css", "MySQL", "PostgreSQL", "MongoDB", "SQLite", "Firebase", "Bash", "Jira", "Regex"
+        ]
+        formattedKeywords = "; ".join(keywords).replace("/", "").replace("(", "").replace(")", "")
+        metadata = f"""
+\\title{{{name} -- Resume}}
+\\author{{{name}}}
+\\date{{{self.day}/{self.month}/{self.year}}}
+
+\\hypersetup{{
+  pdftitle={{{name} -- Resume}},
+  pdfauthor={{{name}}},
+  pdfsubject={{{summary} - {docType}}},
+  pdfkeywords={{{formattedKeywords}}},
+  pdfcreator={{LuaLaTeX}},
+  pdfproducer={{LuaLaTeX}}
+}}
+"""
+        return metadata
+
     def buildHeader(self) -> str:
         name = self.resumeData["basics"]["name"].split(" ")
         assert len(name) > 1
@@ -242,7 +272,7 @@ class ResumeGenerator:
 {softSkills}\\vspace{{2.5mm}}
 {otherSections}\n\\vspace{{2.5mm}}%\\begin{{flushleft}}
 	\\emph{{Date: {self.day}/{self.month}/{self.year}}} \\hspace*{{8mm}}
-    {{\\tiny {profileId}}} % profileId
+    %{{\\tiny {profileId}}} % profileId
 	%\\end{{flushleft}}
 \\end{{aside}}"""
         return aside
