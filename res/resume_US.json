@@ -24,6 +24,11 @@
         "name": "mobileDev",
         "summary": "~~~~~~Software Engineer",
         "catchPhrase":"Always eager to learn and improve, I love to share and communicate. After a successful first experience as a software engineer I am looking for new challenges!"
+      },
+      "softDev":{
+        "name": "softDev",
+        "summary": "~~~~~~Software Engineer",
+        "catchPhrase":"Always eager to learn and improve, I love to share and communicate. After a successful first experience as a software engineer I am looking for new challenges!"
       }
     },
     "location": {

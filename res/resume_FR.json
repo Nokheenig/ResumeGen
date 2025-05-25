@@ -8,22 +8,27 @@
     "degree": "",
     "website": "",
     "summary": "~~~~~~~~~~~~~~~~Ingénieur Développeur Web \\& Mobile Full Stack",
-    "catchPhrase":"Ingénieur développeur web \\& mobile avec une première expérience réussie, j'ai soif d’apprendre, aime communiquer et cherche de nouveaux défis! ",
+    "catchPhrase":"Ingénieur développeur logiciel avec une première expérience réussie, toujours curieux et à la recherche de nouveaux apprentissages et de nouveaux défis !",
     "profile": {
       "any":{
         "name": "any",
         "summary": "~~~~~~~~~~~~~~~~Ingénieur Développeur Web \\& Mobile Full Stack",
-        "catchPhrase":"Ingénieur développeur web \\& mobile avec une première expérience réussie, j'ai soif d’apprendre, aime communiquer et cherche de nouveaux défis! "
+        "catchPhrase":"Ingénieur développeur logiciel avec une première expérience réussie, toujours curieux et à la recherche de nouveaux apprentissages et de nouveaux défis !"
       },
       "webDev":{
         "name": "webDev",
         "summary": "~~~~~~~~~~~~~~~~Ingénieur Développeur Web Full Stack",
-        "catchPhrase":"Ingénieur développeur web full stack avec une première expérience réussie, j'ai soif d’apprendre, aime communiquer et cherche de nouveaux défis! "
+        "catchPhrase":"Ingénieur développeur logiciel avec une première expérience réussie, toujours curieux et à la recherche de nouveaux apprentissages et de nouveaux défis !"
       },
       "mobileDev":{
         "name": "mobileDev",
         "summary": "~~~~~~~~~~~~~~~~Ingénieur Développeur Mobile Full Stack",
-        "catchPhrase":"Ingénieur développeur mobile avec une première expérience réussie, j'ai soif d’apprendre, aime communiquer et cherche de nouveaux défis! "
+        "catchPhrase":"Ingénieur développeur logiciel avec une première expérience réussie, toujours curieux et à la recherche de nouveaux apprentissages et de nouveaux défis !"
+      },
+      "softDev":{
+        "name": "softDev",
+        "summary": "~~~~~~~~~~~~~~~~Ingénieur Développeur Logiciel Full Stack",
+        "catchPhrase":"Ingénieur développeur logiciel avec une première expérience réussie, toujours curieux et à la recherche de nouveaux apprentissages et de nouveaux défis !"
       }
     },
     "location": {
@@ -630,7 +635,7 @@
         },
         "address":{
           "name":"Adresse",
-          "mobility":"Prêt à déménager\nMobile à l'international\nAutorisé à travailler au Canada (visa PVT)"
+          "mobility":"Mobile à l'international\nAutorisé à travailler au Canada (visa PVT)"
         },
         "contact":{
           "name":"Contact"
