@@ -545,7 +545,7 @@
         {
           "name":"Firebase",
           "level": "3",
-          "details": "\\\\Storage/Firestore/Realtime\\\\"
+          "details": "\\\\Store/Firestore/Realtime\\\\"
         }
       ]
     },
@@ -740,7 +740,7 @@
     {
       "language": "Français",
       "fluency": "5",
-      "test": ""
+      "test": "(natif)"
     },
     {
       "language": "Anglais",
@@ -755,7 +755,7 @@
     {
       "language": "Coréen",
       "fluency": "1",
-      "test": ""
+      "test": "(A1-2)"
     }
   ],
   "interests": [
