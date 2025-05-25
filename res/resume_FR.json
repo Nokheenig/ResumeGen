@@ -37,6 +37,7 @@
         "postalCode": "75013",
         "city": "Paris",
         "countryCode": "FR",
+        "country": "France",
         "region": "Ile de France"
       },
       "Lyon,France":{
@@ -44,6 +45,7 @@
         "postalCode": "69003",
         "city": "Lyon",
         "countryCode": "FR",
+        "country": "France",
         "region": "Rhone-Alpes"
       }
     },
@@ -601,6 +603,11 @@
           "name":"Regex",
           "level": "5",
           "details": ""
+        },
+        {
+          "name":"Office",
+          "level": "5",
+          "details": ""
         }
       ]
     }
@@ -631,11 +638,11 @@
       "sections": {
         "infos":{
           "name":"Infos",
-          "content":"%33 ans\nPermis A,B"
+          "content":"%33 ans\\\\\nPermis A,B\\\\"
         },
         "address":{
           "name":"Adresse",
-          "mobility":"Mobile à l'international\nAutorisé à travailler au Canada (visa PVT)"
+          "mobility":"Mobile à l'international\\\\\nAutorisé à travailler au Canada (visa PVT)\\\\"
         },
         "contact":{
           "name":"Contact"
@@ -660,76 +667,92 @@
       },  
       "otherSections": [ 
           {
-            "name":"CAO / FAO",
-            "type": "rankedItems",
+            "name":"Points forts",
+            "type": "listItems",
             "profile": {
               "in": null,
               "except": null
             },
             "items":[
               {
-                "name":"TopSolid",
-                "level": "5"
+                "name":"Travail d'équipe",
+                "details": ""
               },
               {
-                "name":"Catia V5\\&V6",
-                "level": "5"
+                "name":"Curiosité/Créativité",
+                "details": ""
               },
               {
-                "name":"Creo 4.0",
-                "level": "4"
+                "name":"Initiative",
+                "details": ""
+              },
+              {
+                "name":"Organisation",
+                "details": ""
+              },
+              {
+                "name":"Adaptabilité",
+                "details": ""
+              }
+            ]
+          },
+          {
+            "name":"Mécanique",
+            "type": "listItems",
+            "profile": {
+              "in": null,
+              "except": null
+            },
+            "items":[
+              {
+                "name":"CAO",
+                "details": "Catia, Creo, TopSolid"
+              },
+              {
+                "name":"FAO",
+                "details": "TopSolid"
+              },
+              {
+                "name":"PDM",
+                "details": "NewPDM, Windchill, TopSolid"
+              },
+              {
+                "name":"Calcul/FEM",
+                "details": "Ansys, Abaqus, Hyperworks"
               },
               {
                 "name":"Impression 3D",
-                "level": "3"
+                "details": ""
               }
             ]
           },
           {
-            "name":"PLM / PDM",
-            "type": "rankedItems",
+            "name":"Centres d'intérêt",
+            "type": "listItems",
             "profile": {
               "in": null,
               "except": null
             },
             "items":[
               {
-                "name":"TopSolid",
-                "level": "4"
+                "name":"Randonnée",
+                "details": ""
               },
               {
-                "name":"NewPDM",
-                "level": "4"
+                "name":"Musique / Concerts",
+                "details": ""
               },
               {
-                "name":"Windchill",
-                "level": "3"
-              }
-            ]
-          },
-          {
-            "name":"Calcul / FEM",
-            "type": "rankedItems",
-            "profile": {
-              "in": null,
-              "except": null
-            },
-            "items":[
-              {
-                "name":"Ansys Wbench",
-                "level": "3"
+                "name":"Moto / Vélo",
+                "details": ""
               },
               {
-                "name":"Abaqus",
-                "level": "3"
+                "name":"Photographie",
+                "details": ""
               },
               {
-                "name":"Hyperworks",
-                "level": "2-5"
-              },
-              {
-                "name":"Hypermesh",
-                "level": "2-5"
+                "name":"Voyages",
+                "details": ""
               }
             ]
           }

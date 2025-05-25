@@ -204,7 +204,7 @@ BoldItalicFont=texgyreheros-bolditalic.otf
 }
 \renewcommand{\bfseries}{\headingfont\color{headercolor}}
 \newcommand{\entry}[4]{%
-  #1&\parbox[t]{11.8cm}{%
+  {\addfontfeature{Color=pblue} #1}&\parbox[t]{11.8cm}{%
     \textbf{#2}%
     \hfill%
     {\footnotesize\addfontfeature{Color=pblue} #3}\\%
@@ -222,14 +222,12 @@ BoldItalicFont=texgyreheros-bolditalic.otf
 \newenvironment{aside}{%
   \let\oldsection\section
   \renewcommand{\section}[1]{
-    \par\vspace{\baselineskip}{\Large\headingfont\color{pblue} ##1}
+    \par\vspace{\baselineskip}{\Large\headingfont\color{headercolor} ##1}
   }
   \begin{textblock}{4.6}(1.0, 0.55)
-  \begin{flushleft}
-  \obeycr
+  \begin{minipage}[t]{\textwidth}
 }{%
-  \restorecr
-  \end{flushleft}
+  \end{minipage}
   \end{textblock}
   \let\section\oldsection
 }

@@ -37,6 +37,7 @@
         "postalCode": "75013",
         "city": "Paris",
         "countryCode": "FR",
+        "country": "France",
         "region": "Ile de France"
       },
       "Lyon,France":{
@@ -44,6 +45,7 @@
         "postalCode": "69003",
         "city": "Lyon",
         "countryCode": "FR",
+        "country": "France",
         "region": "Rhone-Alpes"
       }
     },
@@ -601,6 +603,11 @@
           "name":"Regex",
           "level": "5",
           "details": ""
+        },
+        {
+          "name":"Office",
+          "level": "5",
+          "details": ""
         }
       ]
     }
@@ -631,11 +638,11 @@
       "sections": {
         "infos":{
           "name":"Infos",
-          "content":"%33 yo\nFull driving licence A,B"
+          "content":"%33 yo\\\\\nFull driving licence A,B\\\\"
         },
         "address":{
           "name":"Address",
-          "mobility":"International mobility.\n\\vspace*{0.6mm}Legally autorized to work in Canada (working holiday visa)."
+          "mobility":"International mobility.\\\\\n\\vspace*{0.6mm}Legally autorized to work in Canada (working holiday visa).\\\\"
         },
         "contact":{
           "name":"Contact"
@@ -657,79 +664,95 @@
             "Initiative"
            ]
         }
-      },  
+      },
       "otherSections": [ 
           {
-            "name":"CAD / CAM",
-            "type": "rankedItems",
+            "name":"Strengths",
+            "type": "listItems",
             "profile": {
               "in": null,
               "except": null
             },
             "items":[
               {
-                "name":"TopSolid",
-                "level": "5"
+                "name":"Teamwork",
+                "details": ""
               },
               {
-                "name":"Catia V5\\&V6",
-                "level": "5"
+                "name":"Curiosity/Creativity",
+                "details": ""
               },
               {
-                "name":"Creo 4.0",
-                "level": "4"
+                "name":"Initiative",
+                "details": ""
+              },
+              {
+                "name":"Organization",
+                "details": ""
+              },
+              {
+                "name":"Adaptability",
+                "details": ""
+              }
+            ]
+          },
+          {
+            "name":"Mechanical Skills",
+            "type": "listItems",
+            "profile": {
+              "in": null,
+              "except": null
+            },
+            "items":[
+              {
+                "name":"CAD",
+                "details": "Catia, Creo, TopSolid"
+              },
+              {
+                "name":"CAM",
+                "details": "TopSolid"
+              },
+              {
+                "name":"PDM",
+                "details": "NewPDM, Windchill, TopSolid"
+              },
+              {
+                "name":"FEM / CAE",
+                "details": "Ansys, Abaqus, Hyperworks"
               },
               {
                 "name":"3D Printing",
-                "level": "3"
+                "details": ""
               }
             ]
           },
           {
-            "name":"PLM / PDM",
-            "type": "rankedItems",
+            "name":"Hobbies",
+            "type": "listItems",
             "profile": {
               "in": null,
               "except": null
             },
             "items":[
               {
-                "name":"TopSolid",
-                "level": "4"
+                "name":"Hiking",
+                "details": ""
               },
               {
-                "name":"NewPDM",
-                "level": "4"
+                "name":"Music / Concerts",
+                "details": ""
               },
               {
-                "name":"Windchill",
-                "level": "3"
-              }
-            ]
-          },
-          {
-            "name":"FEM / CAE",
-            "type": "rankedItems",
-            "profile": {
-              "in": null,
-              "except": null
-            },
-            "items":[
-              {
-                "name":"Ansys Wbench",
-                "level": "3"
+                "name":"Cycling, Motorcycling",
+                "details": ""
               },
               {
-                "name":"Abaqus",
-                "level": "3"
+                "name":"Photography",
+                "details": ""
               },
               {
-                "name":"Hyperworks",
-                "level": "2-5"
-              },
-              {
-                "name":"Hypermesh",
-                "level": "2-5"
+                "name":"Traveling",
+                "details": ""
               }
             ]
           }

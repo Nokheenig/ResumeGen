@@ -191,10 +191,11 @@ class ResumeGenerator:
         postalCode = location["postalCode"]
         city = location["city"]
         countryCode = location["countryCode"]
+        country = location["country"]
         region = location["region"]
         mobility = self.resumeData["document"]["aside"]["sections"]["address"]["mobility"]
-        address = f"""{city}, France"""
-        if mobility: address += f"\\vspace{{1.5mm}}\n{mobility}"
+        address = f"""{city}, {country}\\\\"""
+        if mobility: address += f"\n\\vspace{{1.5mm}}\n{mobility}"
 
         return address
         
@@ -203,8 +204,8 @@ class ResumeGenerator:
         sectionName = self.resumeData["document"]["aside"]["sections"]["contact"]["name"]
         phone = self.resumeData["basics"]["phone"]
         mail = self.resumeData["basics"]["email"]
-        contact = f"""{phone}
-\\href{{mailto:{mail}}}{{\\small {mail}}}"""
+        contact = f"""{phone}\\\\
+\\href{{mailto:{mail}}}{{\\small {mail}}}\\\\"""
         return contact
 
     def buildAsideOnlineProfiles(self) -> str:
@@ -216,7 +217,7 @@ class ResumeGenerator:
             network = profile["network"]
             url = profile["url"]
             line = f"" if idx_profile == 0 else f"\n"
-            line += f"\\href{{{url}}}{{{network}\\hspace{{1.5mm}}\\includegraphics[scale=0.075]{{res/img/hlink.png}}}}"
+            line += f"\\href{{{url}}}{{{network}\\hspace{{1.5mm}}\\includegraphics[scale=0.075]{{res/img/hlink.png}}}}\\\\"
             profiles += line
         return profiles
 
@@ -230,7 +231,7 @@ class ResumeGenerator:
             level = language["fluency"]
             test = language["test"]
             line = f"" if idx_language == 0 else f"\n"
-            line += f"\\makebox[4.3cm][l]{{\\textbf{{{lang}}} {test}}}"
+            line += f"\\makebox[4.3cm][l]{{\\textbf{{{lang}}} {test}}}\\\\"
             languages += line
         return languages
 
@@ -257,14 +258,24 @@ class ResumeGenerator:
                 if profileParams['in'] is not None and self.currentProfile not in profileParams['in']:
                     continue
             
-            sectionStr = f"\\section{{{sectionName}}}"
+            sectionStr = f"\n\\section{{{sectionName}}}"
             match section["type"]:
                 case "rankedItems":
                     for item in section['items']:
                         itemName = item['name']
                         level = item['level']
-                        itemStr = f"\n\\includegraphics[scale=0.40]{{res/img/{level}stars.png}}\\hspace{{1.5mm}}\\textbf{{{itemName}}}"
+                        itemStr = f"\n\\includegraphics[scale=0.40]{{res/img/{level}stars.png}}\\hspace{{1.5mm}}\\textbf{{{itemName}}}\\\\"
                         sectionStr += itemStr
+                case "listItems":
+                    sectionStr += f"\n\\begin{{itemize}}"
+                    for item in section['items']:
+                        itemName = item['name']
+                        itemDetails = item['details']
+                        sectionStr += f"\n\\item {itemName}"
+                        if itemDetails:
+                            # sectionStr += f" {itemDetails}"
+                            sectionStr += f"\n \\\\ \\hspace*{{0.2em}}\\small\\textit{{{itemDetails}}}"
+                    sectionStr += f"\n\\end{{itemize}}"
                 case _:
                     pass
             sections += sectionStr
@@ -276,7 +287,7 @@ class ResumeGenerator:
         contact = self.buildAsideContact()
         onlineProfile = self.buildAsideOnlineProfiles()
         languages = self.buildAsideLanguages()
-        softSkills = self.buildAsideSoftSkills(targetCountryCode=targetCountryCode)
+        # softSkills = self.buildAsideSoftSkills(targetCountryCode=targetCountryCode)
         otherSections = self.buildAsideOtherSections()
         closureComment = self.buildClosureComment(targetCountryCode)
 
@@ -287,13 +298,13 @@ class ResumeGenerator:
         else:
             aside += f"\n\\vspace{{21mm}}"
 
-        aside += f"""\\section{{Infos}}
-{infos}\\vspace{{2.5mm}}
-{address}\\vspace{{2.5mm}}
-{contact}\\vspace{{2.5mm}}
-{onlineProfile}\\vspace{{2.5mm}}
-{languages}\\vspace{{2.5mm}}
-{softSkills}\\vspace{{2.5mm}}
+        aside += f"""\n\\section{{Infos}}
+
+{infos}\n\\vspace{{2.5mm}}
+{address}\n\\vspace{{2.5mm}}
+{contact}\n\\vspace{{2.5mm}}
+{onlineProfile}\n\\vspace{{2.5mm}}
+{languages}\n\\vspace{{2.5mm}}%
 {otherSections}\n\\vspace{{2.5mm}}%\\begin{{flushleft}}
 {closureComment}
 	%\\end{{flushleft}}
@@ -312,10 +323,10 @@ class ResumeGenerator:
         # resumeId += f"_{createdAt}"
         # resumeId = hashlib.shake_256(resumeId.encode()).hexdigest(3)
 
-        closureComment = f"""\\emph{{{autoGenComment}}}
-\\emph{{Date: {self.createdOn}}} \\hspace*{{8mm}}
-\\emph{{Id: {self.resumeId}}} % resumeId
-%{{\\tiny {self.resumeId}}} % resumeId
+        closureComment = f"""\\small \\emph{{{autoGenComment}}}\\\\
+\\small \\emph{{Date: {self.createdOn}}} \\hspace*{{8mm}}\\\\
+\\small \\emph{{Id: {self.resumeId}}} % resumeId\\\\
+%{{\\tiny {self.resumeId}}}\\\\ % resumeId
 """
         return closureComment
 
