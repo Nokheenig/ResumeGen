@@ -373,7 +373,7 @@
       "items":[
         {
           "name":"Kotlin",
-          "level": "4",
+          "level": "5",
           "details": "\\\\Room, Firebase, Gson, Jetpack Compose, Retrofit, MVVM, Coroutine\\\\\\vspace{2mm}"
         },
         {
@@ -441,7 +441,7 @@
       "items":[
         {
           "name":"C\\#",
-          "level": "4",
+          "level": "5",
           "details": ""
         },
         {
@@ -451,7 +451,7 @@
         },
         {
           "name":"Node.js",
-          "level": "3",
+          "level": "4",
           "details": "\\\\Express.js, Bcrypt\\\\"
         },
         {
@@ -481,12 +481,12 @@
       "items":[
         {
           "name":"Git / GitLab",
-          "level": "4",
+          "level": "5",
           "details": ""
         },
         {
           "name":"Docker",
-          "level": "3",
+          "level": "4",
           "details": ""
         },
         {
@@ -496,12 +496,12 @@
         },
         {
           "name":"Selenium",
-          "level": "3",
+          "level": "4",
           "details": ""
         },
         {
           "name":"Cron",
-          "level": "3",
+          "level": "4",
           "details": ""
         }
       ]
@@ -524,12 +524,12 @@
         },
         {
           "name":"PostgreSQL",
-          "level": "3",
+          "level": "4",
           "details": ""
         },
         {
           "name":"MongoDB",
-          "level": "4",
+          "level": "5",
           "details": ""
         },
         {
@@ -584,7 +584,7 @@
       "items":[
         {
           "name":"Bash",
-          "level": "3",
+          "level": "4",
           "details": ""
         },
         {
@@ -594,7 +594,7 @@
         },
         {
           "name":"Regex",
-          "level": "4",
+          "level": "5",
           "details": ""
         }
       ]
