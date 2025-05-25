@@ -11,6 +11,7 @@ import logging as logDal
 logDal.basicConfig(filename=os.path.join(ROOT_DIR,"logs","resumeGenerator.log"), encoding='utf-8', filemode='w', format='%(asctime)s-%(levelname)s:%(message)s', level=logDal.DEBUG)
 
 import argparse
+import hashlib
 
 parser = argparse.ArgumentParser(description="A resume generator script that takes some options to control the script output.")
 
@@ -58,6 +59,8 @@ class ResumeGenerator:
             print(errMsg)
             return
         
+        # self.createdAt = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
+        # self.createdAt = datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f %z", time.localtime()) 
         for filename in ["resume_FR", "resume_FR_detailed", "resume_CAN", "resume_CAN_detailed", "resume_CAN-QC", "resume_CAN-QC_detailed", "resume_AS_detailed"]:
             detailed = "detailed" in filename
             if self.currentProfile is not None:
@@ -88,6 +91,11 @@ class ResumeGenerator:
             self.resumeData = json.loads(f.read())
 
     def buildResume(self, targetCountryCode: str = "FR", detailed: bool = False) -> str:
+        
+        self.createdAt = datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f %z")
+        self.createdOn = self.getCreatedOn()
+        self.resumeId = self.getResumeId()
+
         metadata = self.buildMetadata()
         header = self.buildHeader()
         aside = self.buildAside(targetCountryCode=targetCountryCode)
@@ -114,16 +122,31 @@ class ResumeGenerator:
         resume += f"""\\end{{document}}""" 
         return resume
     
+    def getCreatedOn(self) -> str:
+        if self.countryCode in ["FR", "CAN-QC"]:
+            return datetime.now().strftime("%d/%m/%Y")
+        else:
+            return datetime.now().strftime("%m/%d/%Y")
+
+    def getResumeId(self) -> str:
+        resumeId = "default"
+        if self.currentProfile is not None:
+            resumeId = self.currentProfile
+        resumeId += f"_{self.createdAt}"
+        resumeId = hashlib.shake_256(resumeId.encode()).hexdigest(3)
+        return resumeId
+
     def buildMetadata(self) -> str:
         name = self.resumeData["basics"]["name"]
         print("self.dataRedirectCountryCode: ", self.dataRedirectCountryCode)
         docType = "Curriculum Vitae" if self.dataRedirectCountryCode == "FR" else "Resume"
         summary = self.resumeData["basics"]["summary"].replace("~", "").replace("/", "").replace("(", "").replace(")", "")
         keywords = [
-            f"profile {self.currentProfile}" if self.currentProfile else "profile default",
+            f"profile:{self.currentProfile}" if self.currentProfile else "profile:default",
             "resume", "developer", "software", "engineer", "C\# (.Net)", "Python", 
             "Javascript", "Node.js", "Java", "Kotlin", "Android", "Rest API", 
-            "Git / GitLab", "Docker", "Jenkins", "Selenium", "Cron", "Html-Css", "MySQL", "PostgreSQL", "MongoDB", "SQLite", "Firebase", "Bash", "Jira", "Regex"
+            "Git / GitLab", "Docker", "Jenkins", "Selenium", "Cron", "Html-Css", "MySQL", "PostgreSQL", "MongoDB", "SQLite", "Firebase", "Bash", "Jira", "Regex",
+            f"createdAt:{self.createdAt}", f"id:{self.resumeId}"
         ]
         formattedKeywords = "; ".join(keywords).replace("/", "").replace("(", "").replace(")", "")
         metadata = f"""
@@ -255,7 +278,8 @@ class ResumeGenerator:
         languages = self.buildAsideLanguages()
         softSkills = self.buildAsideSoftSkills(targetCountryCode=targetCountryCode)
         otherSections = self.buildAsideOtherSections()
-        profileId = self.currentProfile if self.currentProfile is not None else "default"
+        closureComment = self.buildClosureComment(targetCountryCode)
+
         aside = f"\\begin{{aside}}"
 
         if targetCountryCode not in ["USA","CAN","CAN-QC", "UK"]:
@@ -271,12 +295,30 @@ class ResumeGenerator:
 {languages}\\vspace{{2.5mm}}
 {softSkills}\\vspace{{2.5mm}}
 {otherSections}\n\\vspace{{2.5mm}}%\\begin{{flushleft}}
-	\\emph{{Date: {self.day}/{self.month}/{self.year}}} \\hspace*{{8mm}}
-    %{{\\tiny {profileId}}} % profileId
+{closureComment}
 	%\\end{{flushleft}}
 \\end{{aside}}"""
         return aside
     
+    def buildClosureComment(self, targetCountryCode: str) -> str:
+        autoGenComment = "Auto-generated in \\LaTeX"
+        if targetCountryCode in ["FR","CAN-QC"]:
+             autoGenComment = "Auto-généré en \\LaTeX"
+
+        # createdAt = datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")
+        # resumeId = "default"
+        # if self.currentProfile is not None:
+        #     resumeId = self.currentProfile
+        # resumeId += f"_{createdAt}"
+        # resumeId = hashlib.shake_256(resumeId.encode()).hexdigest(3)
+
+        closureComment = f"""\\emph{{{autoGenComment}}}
+\\emph{{Date: {self.createdOn}}} \\hspace*{{8mm}}
+\\emph{{Id: {self.resumeId}}} % resumeId
+%{{\\tiny {self.resumeId}}} % resumeId
+"""
+        return closureComment
+
     def buildCatchPhrase(self) -> str:
         if(self.currentProfile in self.resumeData["basics"]["profile"]):
             catchPhrase = self.resumeData["basics"]["profile"][self.currentProfile]["catchPhrase"]
