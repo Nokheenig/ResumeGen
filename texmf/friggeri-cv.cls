@@ -12,6 +12,8 @@
 \ProcessOptions\relax
 \LoadClass{article}
 
+\RequirePackage{graphicx}
+\graphicspath{{../res/img/}}
 
 %%%%%%%%%%
 % Colors %

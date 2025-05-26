@@ -52,7 +52,7 @@ class ResumeGenerator:
             return None
 
     def createResumes(self):
-        outputFilesDirPath = os.path.join(ROOT_DIR,"out")
+        outputFilesDirPath = os.path.join(ROOT_DIR,"tex")
         if(self.currentProfile == "unknown"):
             errMsg = f"Profile {self.args.profile} not found"
             logDal.error(errMsg)
@@ -217,7 +217,7 @@ class ResumeGenerator:
             network = profile["network"]
             url = profile["url"]
             line = f"" if idx_profile == 0 else f"\n"
-            line += f"\\href{{{url}}}{{{network}\\hspace{{1.5mm}}\\includegraphics[scale=0.075]{{res/img/hlink.png}}}}\\\\"
+            line += f"\\href{{{url}}}{{{network}\\hspace{{1.5mm}}\\includegraphics[scale=0.075]{{hlink.png}}}}\\\\"
             profiles += line
         return profiles
 
@@ -239,9 +239,9 @@ class ResumeGenerator:
         sectionName = self.resumeData["document"]["aside"]["sections"]["softSkills"]["name"]
         softSkills = f""
         if targetCountryCode in ["FR","CAN-QC"]:
-            softSkills += f"\\includegraphics[scale=0.40]{{res/img/profileMap_FR.png}}"
+            softSkills += f"\\includegraphics[scale=0.40]{{profileMap_FR.png}}"
         else:
-            softSkills += f"\\includegraphics[scale=0.40]{{res/img/profileMap_EN.png}}"
+            softSkills += f"\\includegraphics[scale=0.40]{{profileMap_EN.png}}"
         
         return softSkills
 
@@ -264,7 +264,7 @@ class ResumeGenerator:
                     for item in section['items']:
                         itemName = item['name']
                         level = item['level']
-                        itemStr = f"\n\\includegraphics[scale=0.40]{{res/img/{level}stars.png}}\\hspace{{1.5mm}}\\textbf{{{itemName}}}\\\\"
+                        itemStr = f"\n\\includegraphics[scale=0.40]{{{level}stars.png}}\\hspace{{1.5mm}}\\textbf{{{itemName}}}\\\\"
                         sectionStr += itemStr
                 case "listItems":
                     sectionStr += f"\n\\begin{{itemize}}"
@@ -294,7 +294,7 @@ class ResumeGenerator:
         aside = f"\\begin{{aside}}"
 
         if targetCountryCode not in ["USA","CAN","CAN-QC", "UK"]:
-             aside += f"\n\\hspace{{10mm}}\\includegraphics[scale=0.148]{{res/img/Photo_CV.jpg}}"
+             aside += f"\n\\hspace{{10mm}}\\includegraphics[scale=0.148]{{Photo_CV.jpg}}"
         else:
             aside += f"\n\\vspace{{21mm}}"
 
@@ -376,7 +376,7 @@ class ResumeGenerator:
                 itemName = item['name']
                 itemLevel = item['level']
                 itemDetails = item['details']
-                sectionItems += f"\n\\includegraphics[scale=0.40]{{res/img/{itemLevel}stars.png}}\\hspace{{1.5mm}}\\textbf{{{itemName}}}"
+                sectionItems += f"\n\\includegraphics[scale=0.40]{{{itemLevel}stars.png}}\\hspace{{1.5mm}}\\textbf{{{itemName}}}"
                 if itemDetails: sectionItems += itemDetails
             sectionStr = f"""
 \\item \\large {sectionName} \\
