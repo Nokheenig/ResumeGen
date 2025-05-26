@@ -41,6 +41,9 @@
 \definecolor{materialbrown}{HTML}{795548}
 \definecolor{materialred}{HTML}{FF4436}
 \definecolor{materialorange}{HTML}{FF5722}
+\definecolor{softblue}{HTML}{597991}
+\definecolor{softblueaccent}{HTML}{79A4C4}
+\definecolor{softbluedarkeraccent}{HTML}{698EAA}
 
 \ifdefined\@cv@print
   \colorlet{green}{gray}
@@ -56,6 +59,9 @@
 \fi
 \colorlet{textcolor}{gray}
 \colorlet{headercolor}{gray}
+\colorlet{asidecolor}{softblue}
+\colorlet{asidecoloraccent}{softblueaccent}
+\colorlet{asidecolordarkeraccent}{softbluedarkeraccent}
 
 %%%%%%%%%
 % Fonts %
@@ -222,7 +228,7 @@ BoldItalicFont=texgyreheros-bolditalic.otf
 \newenvironment{aside}{%
   \let\oldsection\section
   \renewcommand{\section}[1]{
-    \par\vspace{\baselineskip}{\Large\headingfont\color{headercolor} ##1}
+    \par\vspace{\baselineskip}{\Large\headingfont\color{asidecolor} ##1}
   }
   \begin{textblock}{4.6}(1.0, 0.55)
   \begin{minipage}[t]{\textwidth}
