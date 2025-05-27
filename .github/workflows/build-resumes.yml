@@ -11,6 +11,9 @@ on:
       - '.github/workflows/build-resumes.yml'
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   build-and-deploy-resumes:
     runs-on: ubuntu-latest
