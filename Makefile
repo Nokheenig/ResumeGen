@@ -17,10 +17,13 @@ PDF_FILES := $(patsubst $(TEX_DIR)/%.tex, $(PDF_DIR)/%.pdf, $(TEX_FILES))
 TEXINPUTS := $(TEXMF):
 
 # Default target
-all: $(PDF_FILES)
+all: pdfs
+
+pdfs: $(PDF_FILES)
 
 # Ensure image assets are available in the build dir
 prepare:
+	rm -rf $(BUILD_DIR)/*
 	mkdir -p $(BUILD_DIR)/res/img
 	cp -ru res/img/* $(BUILD_DIR)/res/img/
 
@@ -28,6 +31,7 @@ prepare:
 $(PDF_DIR)/%.pdf: $(TEX_DIR)/%.tex | prepare
 	@echo "Compiling $< to $@"
 	@mkdir -p $(PDF_DIR) $(BUILD_DIR)
+	TEXINPUTS=$(TEXINPUTS) $(LUATEX) -interaction=nonstopmode -halt-on-error -output-directory=$(BUILD_DIR) $<
 	TEXINPUTS=$(TEXINPUTS) $(LUATEX) -interaction=nonstopmode -halt-on-error -output-directory=$(BUILD_DIR) $<
 	@mv $(BUILD_DIR)/$*.pdf $(PDF_DIR)/
 
@@ -48,4 +52,4 @@ watch:
 open:
 	xdg-open $(PDF_DIR)/resume_FR_webDev.pdf
 
-.PHONY: all clean distclean watch open
+.PHONY: all clean distclean watch open pdfs
