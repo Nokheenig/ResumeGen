@@ -43,7 +43,7 @@ class ResumeGenerator:
     
     def getCurrentProfile(self) -> str|None:
         if self.args.profile:
-            if self.args.profile in ["webDev", "mobileDev", "dataScientist", "dataEngineer", "devOps"]:
+            if self.args.profile in ["webDev", "mobileDev", "softDev", "devOps"]:
                 return self.args.profile
             else:
                 logDal.error(f"Profile {self.args.profile} not found")
