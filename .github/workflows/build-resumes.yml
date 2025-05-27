@@ -26,8 +26,7 @@ jobs:
           texlive-latex-recommended \
           texlive-latex-extra \
           texlive-fonts-recommended \
-          texlive-bibtex-extra
-          texlive-lang-french \
+          texlive-bibtex-extra \
           latexmk
 
       - name: Build all PDFs
