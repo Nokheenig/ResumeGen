@@ -1,7 +1,8 @@
-name: Build LaTeX PDFs
+name: Build LaTeX PDFs and Deploy them to GitHub Pages
 
 on:
   push:
+    branches: [ main ]
     paths:
       - 'tex/**'
       - 'res/**'
@@ -11,12 +12,12 @@ on:
   workflow_dispatch:
 
 jobs:
-  build-resumes:
+  build-and-deploy-resumes:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       
       - name: Check image path
         run: ls -R
@@ -32,11 +33,18 @@ jobs:
           texlive-bibtex-extra \
           latexmk
 
-      - name: Build all PDFs
+      - name: Build PDFs
         run: make pdfs
 
-      - name: Upload PDFs
-        uses: actions/upload-artifact@v4
+      - name: Copy PDFs to deploy folder
+        run: |
+          mkdir deploy
+          cp pdf/*.pdf deploy/
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
         with:
-          name: compiled-resumes
-          path: pdf/*.pdf
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./deploy
+          publish_branch: gh-pages
+          commit_message: "Deploy latest resume PDFs"
