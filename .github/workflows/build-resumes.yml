@@ -1,0 +1,40 @@
+name: Build LaTeX PDFs
+
+on:
+  push:
+    paths:
+      - 'tex/**'
+      - 'res/**'
+      - 'texmf/**'
+      - 'Makefile'
+      - '.github/workflows/build-resumes.yml'
+  workflow_dispatch:
+
+jobs:
+  build-resumes:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Install LaTeX
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+          texlive-luatex \
+          texlive-latex-recommended \
+          texlive-latex-extra \
+          texlive-fonts-recommended \
+          texlive-bibtex-extra
+          texlive-lang-french \
+          latexmk
+
+      - name: Build all PDFs
+        run: make pdfs
+
+      - name: Upload PDFs
+        uses: actions/upload-artifact@v4
+        with:
+          name: compiled-resumes
+          path: pdf/*.pdf
