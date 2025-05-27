@@ -61,7 +61,8 @@ class ResumeGenerator:
         
         # self.createdAt = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
         # self.createdAt = datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f %z", time.localtime()) 
-        for filename in ["resume_FR", "resume_FR_detailed", "resume_CAN", "resume_CAN_detailed", "resume_CAN-QC", "resume_CAN-QC_detailed", "resume_AS_detailed"]:
+        # for filename in ["resume_FR", "resume_FR_detailed", "resume_CAN", "resume_CAN_detailed", "resume_CAN-QC", "resume_CAN-QC_detailed", "resume_AS_detailed"]:
+        for filename in ["resume_FR", "resume_CAN", "resume_CAN-QC", "resume_AS"]:
             detailed = "detailed" in filename
             if self.currentProfile is not None:
                 if not detailed:

@@ -13,7 +13,8 @@
 \LoadClass{article}
 
 \RequirePackage{graphicx}
-\graphicspath{{../res/img/}}
+\graphicspath{{../res/img/} {res/img/}}
+
 
 %%%%%%%%%%
 % Colors %
