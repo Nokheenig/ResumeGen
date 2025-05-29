@@ -642,7 +642,7 @@
         },
         "address":{
           "name":"Address",
-          "mobility":"International mobility.\\\\\n\\vspace*{0.6mm}Legally autorized to work in Canada (working holiday visa).\\\\"
+          "mobility":"International mobility.\\\\\n\\vspace*{0.6mm}Legally authorized to work in Canada (working holiday visa).\\\\"
         },
         "contact":{
           "name":"Contact"

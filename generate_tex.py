@@ -16,7 +16,10 @@ import hashlib
 parser = argparse.ArgumentParser(description="A resume generator script that takes some options to control the script output.")
 
 # parser.add_argument("-o", "--output", help="Specify the output file")
-parser.add_argument("-p", "--profile", help="Specify the resume profile: webDev, mobileDev, dataScientist, dataEngineer, devOps, ...")
+parser.add_argument("-p", "--profile", help="Specify the resume profiles to generate: webDev, mobileDev, dataScientist, dataEngineer, devOps, ...",
+    nargs="+",  # allows multiple values
+    required=False
+                    )
 # parser.add_argument("-h", "--help", action="help", help="Show help message and exit")
 
 args = parser.parse_args()
@@ -39,17 +42,19 @@ class ResumeGenerator:
         self.year = str(self.targetDay.year)
         self.month = str(self.targetDay.month)
         self.day = "0" + str(self.targetDay.day) if len(str(self.targetDay.day)) < 2 else str(self.targetDay.day) #on ajoute 0 devant le jour s'il est compris entre 1 et 9
-        self.currentProfile = self.getCurrentProfile()
+        self.currentProfile = None
+        self.sessionProfiles = self.getCurrentProfile()
     
     def getCurrentProfile(self) -> str|None:
         if self.args.profile:
-            if self.args.profile in ["webDev", "mobileDev", "softDev", "devOps"]:
-                return self.args.profile
-            else:
-                logDal.error(f"Profile {self.args.profile} not found")
-                return "unknown"
+            invalidProfiles = [profile for profile in self.args.profile if profile not in ["webDev", "mobileDev", "devOps", "softDev"]]
+            if invalidProfiles:
+                logDal.error(f"Invalid profiles: {', '.join(invalidProfiles)}")
+                print(f"Invalid profiles: {', '.join(invalidProfiles)}")
+                return ["unknown"]
+            return self.args.profile
         else:
-            return None
+            return [None]
 
     def createResumes(self):
         outputFilesDirPath = os.path.join(ROOT_DIR,"tex")
@@ -62,29 +67,49 @@ class ResumeGenerator:
         # self.createdAt = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
         # self.createdAt = datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f %z", time.localtime()) 
         # for filename in ["resume_FR", "resume_FR_detailed", "resume_CAN", "resume_CAN_detailed", "resume_CAN-QC", "resume_CAN-QC_detailed", "resume_AS_detailed"]:
-        for filename in ["resume_FR", "resume_CAN", "resume_CAN-QC", "resume_AS"]:
-            detailed = "detailed" in filename
-            if self.currentProfile is not None:
-                if not detailed:
-                    filename += f"_{self.currentProfile}"
-                else:
-                    filename = filename.replace("_detailed", f"_{self.currentProfile}_detailed")
-            outputFilePath = os.path.join(outputFilesDirPath,f"{filename}.tex")
-            self.countryCode = filename.split("_")[1]
-            self.dataRedirectCountryCode = None
-            dataRedirectCountryCodes = {
-                "US": ["CAN", "AS", "UK"],
-                "FR": ["CAN-QC"],
-            }
-            for k, v in dataRedirectCountryCodes.items():
-                if self.countryCode in v:
-                    self.dataRedirectCountryCode = k
-                    break
-            self.loadResumeData(targetCountryCode=self.dataRedirectCountryCode if self.dataRedirectCountryCode else self.countryCode)
-            outFileContent = self.buildResume(targetCountryCode=self.countryCode, detailed=detailed)
-            # print(outFileContent)
-            with open(outputFilePath, "w", encoding='utf-8') as f:
-                f.write(outFileContent)
+        profileThreshold = 5
+        profileGenerated = 0
+        while len(self.sessionProfiles) > 0:
+            if profileGenerated >= profileThreshold:
+                print(f"Profile generation threshold reached: {profileThreshold} profiles generated.")
+                logDal.info(f"Profile generation threshold reached: {profileThreshold} profiles generated.")
+                break
+            profileGenerated += 1
+            self.currentProfile = self.sessionProfiles.pop(0)
+            print(f"Generating resume for profile: {self.currentProfile}")
+            logDal.info(f"Generating resume for profile: {self.currentProfile}")
+            
+            #if self.currentProfile is None:
+            #    self.currentProfile = "default"
+            
+            # if not os.path.exists(outputFilesDirPath):
+            #     os.makedirs(outputFilesDirPath)
+            if not os.path.isdir(outputFilesDirPath):
+                os.mkdir(outputFilesDirPath)
+
+            for filename in ["resume_FR", "resume_CAN", "resume_CAN-QC", "resume_AS"]:
+                detailed = "detailed" in filename
+                if self.currentProfile is not None:
+                    if not detailed:
+                        filename += f"_{self.currentProfile}"
+                    else:
+                        filename = filename.replace("_detailed", f"_{self.currentProfile}_detailed")
+                outputFilePath = os.path.join(outputFilesDirPath,f"{filename}.tex")
+                self.countryCode = filename.split("_")[1]
+                self.dataRedirectCountryCode = None
+                dataRedirectCountryCodes = {
+                    "US": ["CAN", "AS", "UK"],
+                    "FR": ["CAN-QC"],
+                }
+                for k, v in dataRedirectCountryCodes.items():
+                    if self.countryCode in v:
+                        self.dataRedirectCountryCode = k
+                        break
+                self.loadResumeData(targetCountryCode=self.dataRedirectCountryCode if self.dataRedirectCountryCode else self.countryCode)
+                outFileContent = self.buildResume(targetCountryCode=self.countryCode, detailed=detailed)
+                # print(outFileContent)
+                with open(outputFilePath, "w", encoding='utf-8') as f:
+                    f.write(outFileContent)
 
     def loadResumeData(self, targetCountryCode: str) -> None:
         resumeDataPath = os.path.join(ROOT_DIR,"res",f"resume_{targetCountryCode}.json")
@@ -666,4 +691,3 @@ class ResumeLocation(Enum):
 
 if __name__ == "__main__" :
     gen = ResumeGenerator(args).createResumes()
-    # gen.createResumes()

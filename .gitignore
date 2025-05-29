@@ -1,5 +1,8 @@
 arc/
 logs/
+pdf/
+
+# Ignore general files
 *.bcf
 *.xml
 
