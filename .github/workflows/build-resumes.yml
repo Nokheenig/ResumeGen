@@ -37,7 +37,7 @@ jobs:
           latexmk
 
       - name: Build PDFs
-        run: make pdfs
+        run: make pdfsWithQr
 
       - name: Copy PDFs to deploy folder
         run: |

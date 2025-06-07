@@ -4,6 +4,7 @@ LUATEX = lualatex
 # Directories
 TEX_DIR = tex
 PDF_DIR = pdf
+QR_DIR = qr
 BUILD_DIR = build
 TEXMF = texmf
 
@@ -13,6 +14,9 @@ TEX_FILES := $(wildcard $(TEX_DIR)/*.tex)
 # Replace .tex with .pdf and change output dir to pdf/
 PDF_FILES := $(patsubst $(TEX_DIR)/%.tex, $(PDF_DIR)/%.pdf, $(TEX_FILES))
 
+# Replace .tex with .png and change output dir to res/img/qr
+QR_FILES := $(patsubst $(TEX_DIR)/%.tex, $(QR_DIR)/%.png, $(TEX_FILES))
+
 # TEXINPUTS tells LaTeX where to find custom classes/styles
 TEXINPUTS := $(TEXMF):
 
@@ -21,11 +25,29 @@ all: pdfs
 
 pdfs: $(PDF_FILES)
 
+qrcodes: $(QR_FILES)
+
+pdfsWithQr: qrcodes pdfs
+
 # Ensure image assets are available in the build dir
 prepare:
 	rm -rf $(BUILD_DIR)/*
-	mkdir -p $(BUILD_DIR)/res/img
+	mkdir -p $(BUILD_DIR)/res/img/qr
 	cp -ru res/img/* $(BUILD_DIR)/res/img/
+	cp -ru qr/* $(BUILD_DIR)/res/img/qr
+
+prepareQr:
+	rm -rf $(QR_DIR)/*
+	@python3 pip install -r requirements.txt
+
+# Compile rule: .tex in tex/ → .png in qr/
+$(QR_DIR)/%.png: $(TEX_DIR)/%.tex | prepareQr
+	@echo "Generating QR for $<"
+	@filename=$$(basename $< .tex); \
+	url="https://nokheenig.github.io/ResumeGen/$$filename.pdf"; \
+	echo "Target URL: $$url"; \
+	python3 generate_qr.py -f $@ -u "$$url" -w 2
+# -l ./res/img/logo_resume.jpg
 
 # Compile rule: .tex in tex/ → .pdf in pdf/
 $(PDF_DIR)/%.pdf: $(TEX_DIR)/%.tex | prepare
@@ -52,4 +74,4 @@ watch:
 open:
 	xdg-open $(PDF_DIR)/resume_FR_webDev.pdf
 
-.PHONY: all clean distclean watch open pdfs
+.PHONY: all clean distclean watch open pdfs qrcodes prepare prepareQr

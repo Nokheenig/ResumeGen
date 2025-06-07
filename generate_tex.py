@@ -87,14 +87,16 @@ class ResumeGenerator:
             if not os.path.isdir(outputFilesDirPath):
                 os.mkdir(outputFilesDirPath)
 
-            for filename in ["resume_FR", "resume_CAN", "resume_CAN-QC", "resume_AS"]:
+            for filename in ["resume_FR", "resume_CAN", "resume_CAN_detailed", "resume_CAN-QC", "resume_AS"]:
+            # for filename in ["resume_CAN_detailed"]:
                 detailed = "detailed" in filename
                 if self.currentProfile is not None:
                     if not detailed:
                         filename += f"_{self.currentProfile}"
                     else:
                         filename = filename.replace("_detailed", f"_{self.currentProfile}_detailed")
-                outputFilePath = os.path.join(outputFilesDirPath,f"{filename}.tex")
+                self.filename = filename
+                outputFilePath = os.path.join(outputFilesDirPath,f"{self.filename}.tex")
                 self.countryCode = filename.split("_")[1]
                 self.dataRedirectCountryCode = None
                 dataRedirectCountryCodes = {
@@ -245,6 +247,9 @@ class ResumeGenerator:
             line = f"" if idx_profile == 0 else f"\n"
             line += f"\\href{{{url}}}{{{network}\\hspace{{1.5mm}}\\includegraphics[scale=0.075]{{hlink.png}}}}\\\\"
             profiles += line
+        profiles += "\n\\vspace{2.5mm}"
+        profiles += f"\n\\includegraphics[width=1.5cm,height=3cm,keepaspectratio]{{qr/{self.filename}.png}}\\\\"
+
         return profiles
 
     def buildAsideLanguages(self) -> str:
