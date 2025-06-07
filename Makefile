@@ -27,7 +27,8 @@ pdfs: $(PDF_FILES)
 
 qrcodes: $(QR_FILES)
 
-pdfsWithQr: qrcodes pdfs
+# Génère les QR codes et compile les PDF associés
+pdfsWithQr: prepareQr qrcodes pdfs
 
 # Ensure image assets are available in the build dir
 prepare:
@@ -36,9 +37,12 @@ prepare:
 	cp -ru res/img/* $(BUILD_DIR)/res/img/
 	cp -ru qr/* $(BUILD_DIR)/res/img/qr
 
+# Prépare le dossier QR et installe les dépendances Python
 prepareQr:
-	rm -rf $(QR_DIR)/*
-	@python3 -m pip install -r requirements.txt
+	@echo "Préparation du dossier QR et installation des dépendances Python..."
+	@rm -rf $(QR_DIR)
+	@mkdir -p $(QR_DIR)
+	@python3 -m pip install --user -r requirements.txt
 
 # Compile rule: .tex in tex/ → .png in qr/
 $(QR_DIR)/%.png: $(TEX_DIR)/%.tex | prepareQr
