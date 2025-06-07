@@ -38,7 +38,7 @@ prepare:
 
 prepareQr:
 	rm -rf $(QR_DIR)/*
-	@python3 pip install -r requirements.txt
+	@python3 -m pip install -r requirements.txt
 
 # Compile rule: .tex in tex/ → .png in qr/
 $(QR_DIR)/%.png: $(TEX_DIR)/%.tex | prepareQr
