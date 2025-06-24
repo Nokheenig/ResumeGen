@@ -8,8 +8,8 @@ import re
 import math
 from utils import deep_merge_dict
 
-import logging as logDal
-logDal.basicConfig(filename=os.path.join(ROOT_DIR,"logs","resumeGenerator.log"), encoding='utf-8', filemode='w', format='%(asctime)s-%(levelname)s:%(message)s', level=logDal.DEBUG)
+# import logging as logDal
+# logDal.basicConfig(filename=os.path.join(ROOT_DIR,"logs","resumeGenerator.log"), encoding='utf-8', filemode='w', format='%(asctime)s-%(levelname)s:%(message)s', level=logDal.DEBUG)
 
 import argparse
 import hashlib
@@ -73,7 +73,7 @@ class ResumeGenerator:
         # Check files are resume json
         inputFiles = []
         discardedFiles = []
-        jsonResumeValidator = re.compile("resume_[A-Z0-9_-]+\.json")
+        jsonResumeValidator = re.compile("resume_[A-Z0-9_-]+\\.json")
 
         for file in self.args.files:
             filename = file[file.rfind("/")+1:]
@@ -92,7 +92,7 @@ class ResumeGenerator:
         if self.args.profiles:
             invalidProfiles = [profile for profile in self.args.profiles if profile not in ["webDev", "mobileDev", "devOps", "softDev"]]
             if invalidProfiles:
-                logDal.error(f"Invalid profiles: {', '.join(invalidProfiles)}")
+                # logDal.error(f"Invalid profiles: {', '.join(invalidProfiles)}")
                 print(f"Invalid profiles: {', '.join(invalidProfiles)}")
                 return ["unknown"]
             return self.args.profiles
@@ -106,7 +106,7 @@ class ResumeGenerator:
 
         if(self.currentProfile == "unknown"):
             errMsg = f"Profile {self.args.profiles} not found"
-            logDal.error(errMsg)
+            # logDal.error(errMsg)
             print(errMsg)
             return
         
@@ -125,7 +125,7 @@ class ResumeGenerator:
             self.currentFileName = self.currentFile[self.currentFile.rfind("/")+1:self.currentFile.rfind(".json")] 
             self.currentFileDir = os.path.dirname(self.currentFile)
             print(f"Processing file: {self.currentFileName}.json")
-            logDal.info(f"Processing file: {self.currentFileName}.json")
+            # logDal.info(f"Processing file: {self.currentFileName}.json")
             skipFile = False
             sourceFilesDataStack = []
             with open(self.currentFile, "r", encoding='utf-8') as f:
@@ -134,13 +134,13 @@ class ResumeGenerator:
             while sourceFileHasParent:
                 parentFilePath = sourceFilesDataStack[0]['file']['parent']
                 print(f"Fetching parent file data: {parentFilePath}")
-                logDal.info(f"Fetching parent file data: {parentFilePath}")
+                # logDal.info(f"Fetching parent file data: {parentFilePath}")
                 if not os.path.exists(parentFilePath):
                     # prepend current file dir to parent file path
                     parentFilePath = os.path.join(self.currentFileDir, parentFilePath)
                 if not os.path.exists(parentFilePath):
                     errMsg = f"Parent file {parentFilePath} not found, aborting resume generation for {self.currentFileName}.json"
-                    logDal.error(errMsg)
+                    # logDal.error(errMsg)
                     print(errMsg)
                     skipFile = True
                     break
@@ -149,7 +149,7 @@ class ResumeGenerator:
                 sourceFileHasParent = 'parent' in sourceFilesDataStack[0]['file'] and sourceFilesDataStack[0]['file']['parent'] is not None
             if skipFile:
                 print(f"Skipping file {self.currentFileName}.json due to missing parent file.")
-                logDal.info(f"Skipping file {self.currentFileName}.json due to missing parent file.")
+                # logDal.info(f"Skipping file {self.currentFileName}.json due to missing parent file.")
                 continue
 
             self.currentResumeData = {}
@@ -182,16 +182,16 @@ class ResumeGenerator:
                     #         self.currentResumeProfiles.remove(profile)
             
             print(f"Generating resume for profiles: {self.currentResumeProfiles}")
-            logDal.info(f"Generating resume for profiles: {self.currentResumeProfiles}")
+            # logDal.info(f"Generating resume for profiles: {self.currentResumeProfiles}")
             
             while len(self.currentResumeProfiles) > 0:
                 self.currentProfile = self.currentResumeProfiles.pop(0)
                 if self.currentProfile is None or self.currentProfile == "default":
                     print(f"INFO: Generating resume for default profile.")
-                    logDal.info(f"INFO: Generating resume for default profile.")
+                    # logDal.info(f"INFO: Generating resume for default profile.")
                 else:
                     print(f"INFO: Generating resume for profile: {self.currentProfile}")
-                    logDal.info(f"INFO: Generating resume for profile: {self.currentProfile}")
+                    # logDal.info(f"INFO: Generating resume for profile: {self.currentProfile}")
                 
                 #self.generateResume(outputFilesDirPath=outputFilesDirPath)
                 filename = self.currentFileName
@@ -291,7 +291,7 @@ class ResumeGenerator:
         summary = self.currentResumeData["basics"]["summary"].replace("~", "").replace("/", "").replace("(", "").replace(")", "")
         keywords = [
             f"profile:{self.currentProfile}" if self.currentProfile else "profile:default",
-            "resume", "developer", "software", "engineer", "C\# (.Net)", "Python", 
+            "resume", "developer", "software", "engineer", "C\\# (.Net)", "Python", 
             "Javascript", "Node.js", "Java", "Kotlin", "Android", "Rest API", 
             "Git / GitLab", "Docker", "Jenkins", "Selenium", "Cron", "Html-Css", "MySQL", "PostgreSQL", "MongoDB", "SQLite", "Firebase", "Bash", "Jira", "Regex",
             f"createdAt:{self.createdAt}", f"id:{self.resumeId}"
