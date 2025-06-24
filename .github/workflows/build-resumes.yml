@@ -9,6 +9,8 @@ on:
       - 'texmf/**'
       - 'Makefile'
       - '.github/workflows/build-resumes.yml'
+      - 'generate_tex.py'
+      - 'generate_qr.py'
   workflow_dispatch:
 
 permissions:
