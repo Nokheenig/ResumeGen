@@ -35,6 +35,9 @@ jobs:
           texlive-fonts-recommended \
           texlive-bibtex-extra \
           latexmk
+      
+      - name: Build Resumes Tex Files
+        run: python3 ./generate_tex.py -p softDev webDev mobileDev -f res/resumesData/*
 
       - name: Build PDFs
         run: make pdfsWithQr

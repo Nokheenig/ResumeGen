@@ -1,4 +1,15 @@
 {
+  "file": {
+    "parent": null,
+    "profiles":[ 
+      "default",
+      "webDev",
+      "mobileDev",
+      "softDev",
+      "dataScientist",
+      "dataEngineer"
+    ]
+  },
   "basics": {
     "name": "Yoann Chamillard",
     "label": "",
@@ -10,8 +21,8 @@
     "summary": "~~~~~~~~~~~~~~~~Ingénieur Développeur Web \\& Mobile Full Stack",
     "catchPhrase":"Ingénieur développeur logiciel avec une première expérience réussie, toujours curieux et à la recherche de nouveaux apprentissages et de nouveaux défis !",
     "profile": {
-      "any":{
-        "name": "any",
+      "default":{
+        "name": "default",
         "summary": "~~~~~~~~~~~~~~~~Ingénieur Développeur Web \\& Mobile Full Stack",
         "catchPhrase":"Ingénieur développeur logiciel avec une première expérience réussie, toujours curieux et à la recherche de nouveaux apprentissages et de nouveaux défis !"
       },

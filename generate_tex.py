@@ -6,6 +6,7 @@ import time
 from enum import Enum
 import re
 import math
+from utils import deep_merge_dict
 
 import logging as logDal
 logDal.basicConfig(filename=os.path.join(ROOT_DIR,"logs","resumeGenerator.log"), encoding='utf-8', filemode='w', format='%(asctime)s-%(levelname)s:%(message)s', level=logDal.DEBUG)
@@ -16,17 +17,24 @@ import hashlib
 parser = argparse.ArgumentParser(description="A resume generator script that takes some options to control the script output.")
 
 # parser.add_argument("-o", "--output", help="Specify the output file")
-parser.add_argument("-p", "--profile", help="Specify the resume profiles to generate: webDev, mobileDev, dataScientist, dataEngineer, devOps, ...",
+parser.add_argument("-p", "--profiles", help="Specify the resume profiles to generate: webDev, mobileDev, dataScientist, dataEngineer, devOps, ...",
     nargs="+",  # allows multiple values
     required=False
                     )
+parser.add_argument("-n", "--no-filtering", help="Override the filtering of resume data and generate with the maximum of data available.",
+    required=False
+                    )
 # parser.add_argument("-h", "--help", action="help", help="Show help message and exit")
+parser.add_argument("-f", "--files", help="Specify the desired resumes (source data files, optionally with profiles) to generate.",
+    nargs="+",  # allows multiple values
+    required=True
+                    )
 
 args = parser.parse_args()
 
 # if args.output:
 #     print("Arguments Passed with -o Option:-", args.output)
-# if args.profile:
+# if args.profiles:
 #     print("Arguments Passed with -o Option:-", args.output)
 # else:
 #     pass
@@ -43,23 +51,61 @@ class ResumeGenerator:
         self.month = str(self.targetDay.month)
         self.day = "0" + str(self.targetDay.day) if len(str(self.targetDay.day)) < 2 else str(self.targetDay.day) #on ajoute 0 devant le jour s'il est compris entre 1 et 9
         self.currentProfile = None
-        self.sessionProfiles = self.getCurrentProfile()
+        self.sessionProfiles = ["all"] if "all" in self.args.profiles else self.args.profiles # self.getCurrentProfiles()
+        self.currentProfiles = None
+
+        self.resumeGenerateList = self.getResumeGenerateList()
+        self.isDetailedResume = self.args.no_filtering is not None and self.args.no_filtering
+        self.currentFile = None
+        self.currentFileName = None
+        self.currentFileDir = None
+        self.currentResumeData = None
+        self.currentResumeProfiles = None
+        self.currentResume = None
+        # print("cancelling job...")
+        # exit()
     
-    def getCurrentProfile(self) -> str|None:
-        if self.args.profile:
-            invalidProfiles = [profile for profile in self.args.profile if profile not in ["webDev", "mobileDev", "devOps", "softDev"]]
+    def getResumeGenerateList(self) -> list[tuple[str, list[str]]]:
+        if self.args.files is None or len(self.args.files) < 1:
+            print(f"No target json resume in input !\nAdd -f and specify the target resumes to generate tex resumes\nCancelling job...")
+            exit()
+        # print(f"files args list: {self.args.files}")
+        # Check files are resume json
+        inputFiles = []
+        discardedFiles = []
+        jsonResumeValidator = re.compile("resume_[A-Z0-9_-]+\.json")
+
+        for file in self.args.files:
+            filename = file[file.rfind("/")+1:]
+            # print("filename: ", filename)
+            if jsonResumeValidator.match(filename):
+                inputFiles.append(file)
+            else:
+                discardedFiles.append(file)
+
+        if len(discardedFiles) > 0:
+            print(f"{len(discardedFiles)} input target resumes aren't valid input json resume files!" ,discardedFiles)
+        
+        return inputFiles
+
+    def getCurrentProfiles(self) -> str|None:
+        if self.args.profiles:
+            invalidProfiles = [profile for profile in self.args.profiles if profile not in ["webDev", "mobileDev", "devOps", "softDev"]]
             if invalidProfiles:
                 logDal.error(f"Invalid profiles: {', '.join(invalidProfiles)}")
                 print(f"Invalid profiles: {', '.join(invalidProfiles)}")
                 return ["unknown"]
-            return self.args.profile
+            return self.args.profiles
         else:
             return [None]
 
     def createResumes(self):
         outputFilesDirPath = os.path.join(ROOT_DIR,"tex")
+        if not os.path.isdir(outputFilesDirPath):
+                os.mkdir(outputFilesDirPath)
+
         if(self.currentProfile == "unknown"):
-            errMsg = f"Profile {self.args.profile} not found"
+            errMsg = f"Profile {self.args.profiles} not found"
             logDal.error(errMsg)
             print(errMsg)
             return
@@ -69,54 +115,126 @@ class ResumeGenerator:
         # for filename in ["resume_FR", "resume_FR_detailed", "resume_CAN", "resume_CAN_detailed", "resume_CAN-QC", "resume_CAN-QC_detailed", "resume_AS_detailed"]:
         profileThreshold = 5
         profileGenerated = 0
-        while len(self.sessionProfiles) > 0:
-            if profileGenerated >= profileThreshold:
-                print(f"Profile generation threshold reached: {profileThreshold} profiles generated.")
-                logDal.info(f"Profile generation threshold reached: {profileThreshold} profiles generated.")
-                break
-            profileGenerated += 1
-            self.currentProfile = self.sessionProfiles.pop(0)
-            print(f"Generating resume for profile: {self.currentProfile}")
-            logDal.info(f"Generating resume for profile: {self.currentProfile}")
-            
-            #if self.currentProfile is None:
-            #    self.currentProfile = "default"
-            
-            # if not os.path.exists(outputFilesDirPath):
-            #     os.makedirs(outputFilesDirPath)
-            if not os.path.isdir(outputFilesDirPath):
-                os.mkdir(outputFilesDirPath)
+        while len(self.resumeGenerateList) > 0:
+            # if profileGenerated >= profileThreshold:
+            #     print(f"Profile generation threshold reached: {profileThreshold} profiles generated.")
+            #     logDal.info(f"Profile generation threshold reached: {profileThreshold} profiles generated.")
+            #     break
+            # profileGenerated += 1
+            self.currentFile = self.resumeGenerateList.pop(0)
+            self.currentFileName = self.currentFile[self.currentFile.rfind("/")+1:self.currentFile.rfind(".json")] 
+            self.currentFileDir = os.path.dirname(self.currentFile)
+            print(f"Processing file: {self.currentFileName}.json")
+            logDal.info(f"Processing file: {self.currentFileName}.json")
+            skipFile = False
+            sourceFilesDataStack = []
+            with open(self.currentFile, "r", encoding='utf-8') as f:
+                sourceFilesDataStack.append(json.loads(f.read()))
+            sourceFileHasParent = 'parent' in sourceFilesDataStack[0]['file'] and sourceFilesDataStack[0]['file']['parent'] is not None
+            while sourceFileHasParent:
+                parentFilePath = sourceFilesDataStack[0]['file']['parent']
+                print(f"Fetching parent file data: {parentFilePath}")
+                logDal.info(f"Fetching parent file data: {parentFilePath}")
+                if not os.path.exists(parentFilePath):
+                    # prepend current file dir to parent file path
+                    parentFilePath = os.path.join(self.currentFileDir, parentFilePath)
+                if not os.path.exists(parentFilePath):
+                    errMsg = f"Parent file {parentFilePath} not found, aborting resume generation for {self.currentFileName}.json"
+                    logDal.error(errMsg)
+                    print(errMsg)
+                    skipFile = True
+                    break
+                with open(parentFilePath, "r", encoding='utf-8') as f:
+                    sourceFilesDataStack.insert(0, json.loads(f.read()))
+                sourceFileHasParent = 'parent' in sourceFilesDataStack[0]['file'] and sourceFilesDataStack[0]['file']['parent'] is not None
+            if skipFile:
+                print(f"Skipping file {self.currentFileName}.json due to missing parent file.")
+                logDal.info(f"Skipping file {self.currentFileName}.json due to missing parent file.")
+                continue
 
-            for filename in ["resume_FR", "resume_CAN", "resume_CAN_detailed", "resume_CAN-QC", "resume_AS"]:
-            # for filename in ["resume_CAN_detailed"]:
-                detailed = "detailed" in filename
-                if self.currentProfile is not None:
-                    if not detailed:
-                        filename += f"_{self.currentProfile}"
+            self.currentResumeData = {}
+            self.currentResumeProfiles = None
+            for sourceFileData in sourceFilesDataStack:
+                if 'file' in sourceFileData and 'profiles' in sourceFileData['file']:
+                    if self.currentResumeProfiles is None:
+                        self.currentResumeProfiles = list(set(sourceFileData['file']['profiles']))
                     else:
-                        filename = filename.replace("_detailed", f"_{self.currentProfile}_detailed")
-                self.filename = filename
-                outputFilePath = os.path.join(outputFilesDirPath,f"{self.filename}.tex")
-                self.countryCode = filename.split("_")[1]
-                self.dataRedirectCountryCode = None
-                dataRedirectCountryCodes = {
-                    "US": ["CAN", "AS", "UK"],
-                    "FR": ["CAN-QC"],
-                }
-                for k, v in dataRedirectCountryCodes.items():
-                    if self.countryCode in v:
-                        self.dataRedirectCountryCode = k
-                        break
-                self.loadResumeData(targetCountryCode=self.dataRedirectCountryCode if self.dataRedirectCountryCode else self.countryCode)
-                outFileContent = self.buildResume(targetCountryCode=self.countryCode, detailed=detailed)
-                # print(outFileContent)
-                with open(outputFilePath, "w", encoding='utf-8') as f:
-                    f.write(outFileContent)
+                        self.currentResumeProfiles = list(set(self.currentResumeProfiles) | set(sourceFileData['file']['profiles']))
+                # if self.currentProfile is not None and self.currentProfile not in self.sessionProfiles:
+                #     print(f"Skipping profile {self.currentProfile} for file {self.currentFileName} as it is not in the session profiles.")
+                #     logDal.info(f"Skipping profile {self.currentProfile} for file {self.currentFileName} as it is not in the session profiles.")
+                #     continue
+                # print(f"Current profile: {self.currentProfile}")
+                # logDal.info(f"Current profile: {self.currentProfile}")
+                self.currentResumeData = deep_merge_dict(base=self.currentResumeData, override=sourceFileData)
+
+            if self.currentResumeProfiles is None:
+                self.currentResumeProfiles = ["default"]
+            else:
+                self.currentResumeProfiles = list(set(self.currentResumeProfiles))
+                if self.sessionProfiles[0] != "all":
+                    # Filter current resume profiles to only include those in session profiles
+                    self.currentResumeProfiles = [profile for profile in self.currentResumeProfiles if profile in self.sessionProfiles]
+                    # for profile in self.currentResumeProfiles:
+                    #     if profile not in self.sessionProfiles:
+                    #         print(f"Profile {profile} not in session profiles, removing it from current resume profiles.")
+                    #         logDal.info(f"Profile {profile} not in session profiles, removing it from current resume profiles.")
+                    #         self.currentResumeProfiles.remove(profile)
+            
+            print(f"Generating resume for profiles: {self.currentResumeProfiles}")
+            logDal.info(f"Generating resume for profiles: {self.currentResumeProfiles}")
+            
+            while len(self.currentResumeProfiles) > 0:
+                self.currentProfile = self.currentResumeProfiles.pop(0)
+                if self.currentProfile is None or self.currentProfile == "default":
+                    print(f"INFO: Generating resume for default profile.")
+                    logDal.info(f"INFO: Generating resume for default profile.")
+                else:
+                    print(f"INFO: Generating resume for profile: {self.currentProfile}")
+                    logDal.info(f"INFO: Generating resume for profile: {self.currentProfile}")
+                
+                #self.generateResume(outputFilesDirPath=outputFilesDirPath)
+                filename = self.currentFileName
+
+                if self.currentProfile is not None and self.currentProfile != "default":
+                    filename += f"_{self.currentProfile}"
+
+                if self.isDetailedResume:
+                    filename += "_detailed"
+                
+                self.currentOutputFileName = filename
+                
+                self.countryCode = self.currentFileName.split("_")[1].split("-")[0]
+                # self.dataRedirectCountryCode = None
+                # dataRedirectCountryCodes = {
+                #     "US": ["CAN", "AS", "UK"],
+                #     "FR": ["CAN-QC"],
+                # }
+                # for k, v in dataRedirectCountryCodes.items():
+                #     if self.countryCode in v:
+                #         self.dataRedirectCountryCode = k
+                #         break
+                # self.loadResumeData(targetCountryCode=self.dataRedirectCountryCode if self.dataRedirectCountryCode else self.countryCode)
+                outFileContent = self.buildResume(targetCountryCode=self.countryCode, detailed=self.isDetailedResume)
+                
+                outputFilePath = os.path.join(outputFilesDirPath,f"{self.currentOutputFileName}.tex")
+                self.writeResumeToFile(outputFilePath=outputFilePath, resumeContent=outFileContent)
+
+                print(f"INFO: Resume generated for {self.currentProfile} in {outputFilePath}")
+
+    def writeResumeToFile(self, outputFilePath: str, resumeContent: str) -> None:
+        """
+        Writes the generated resume content to a file.
+        :param outputFilePath: The path to the output file.
+        :param resumeContent: The content of the resume to write.
+        """
+        with open(outputFilePath, "w", encoding='utf-8') as f:
+            f.write(resumeContent)
 
     def loadResumeData(self, targetCountryCode: str) -> None:
         resumeDataPath = os.path.join(ROOT_DIR,"res",f"resume_{targetCountryCode}.json")
         with open(resumeDataPath, "r", encoding='utf-8') as f:
-            self.resumeData = json.loads(f.read())
+            self.currentResumeData = json.loads(f.read())
 
     def buildResume(self, targetCountryCode: str = "FR", detailed: bool = False) -> str:
         
@@ -165,10 +283,12 @@ class ResumeGenerator:
         return resumeId
 
     def buildMetadata(self) -> str:
-        name = self.resumeData["basics"]["name"]
-        print("self.dataRedirectCountryCode: ", self.dataRedirectCountryCode)
-        docType = "Curriculum Vitae" if self.dataRedirectCountryCode == "FR" else "Resume"
-        summary = self.resumeData["basics"]["summary"].replace("~", "").replace("/", "").replace("(", "").replace(")", "")
+        name = self.currentResumeData["basics"]["name"]
+        # print("self.dataRedirectCountryCode: ", self.dataRedirectCountryCode)
+        # docType = "Curriculum Vitae" if self.dataRedirectCountryCode == "FR" else "Resume"
+        # print("self.countryCode: ", self.countryCode)
+        docType = "Curriculum Vitae" if self.countryCode == "FR" else "Resume"
+        summary = self.currentResumeData["basics"]["summary"].replace("~", "").replace("/", "").replace("(", "").replace(")", "")
         keywords = [
             f"profile:{self.currentProfile}" if self.currentProfile else "profile:default",
             "resume", "developer", "software", "engineer", "C\# (.Net)", "Python", 
@@ -194,11 +314,11 @@ class ResumeGenerator:
         return metadata
 
     def buildHeader(self) -> str:
-        name = self.resumeData["basics"]["name"].split(" ")
+        name = self.currentResumeData["basics"]["name"].split(" ")
         assert len(name) > 1
-        summary = self.resumeData["basics"]["summary"]
-        if(self.currentProfile in self.resumeData["basics"]["profile"]):
-            summary = self.resumeData["basics"]["profile"][self.currentProfile]["summary"]
+        summary = self.currentResumeData["basics"]["summary"]
+        if(self.currentProfile in self.currentResumeData["basics"]["profile"]):
+            summary = self.currentResumeData["basics"]["profile"][self.currentProfile]["summary"]
         header = f"""
 \\header{{{name[0]}}}{{{name[-1]}}}
       {{{summary}}}
@@ -207,21 +327,21 @@ class ResumeGenerator:
         return header
     
     def buildAsideInfos(self) -> str:
-        sectionName = self.resumeData["document"]["aside"]["sections"]["infos"]["name"]
-        sectionContent = self.resumeData["document"]["aside"]["sections"]["infos"]["content"]
+        sectionName = self.currentResumeData["document"]["aside"]["sections"]["infos"]["name"]
+        sectionContent = self.currentResumeData["document"]["aside"]["sections"]["infos"]["content"]
         infos = f"""{sectionContent}"""
         return infos
 
     def buildAsideAddress(self) -> str:
-        sectionName = self.resumeData["document"]["aside"]["sections"]["address"]["name"]
-        location = self.resumeData["basics"]["location"]["Paris,France"]
+        sectionName = self.currentResumeData["document"]["aside"]["sections"]["address"]["name"]
+        location = self.currentResumeData["basics"]["location"]["Paris,France"]
         address = location["address"]
         postalCode = location["postalCode"]
         city = location["city"]
         countryCode = location["countryCode"]
         country = location["country"]
         region = location["region"]
-        mobility = self.resumeData["document"]["aside"]["sections"]["address"]["mobility"]
+        mobility = self.currentResumeData["document"]["aside"]["sections"]["address"]["mobility"]
         address = f"""{city}, {country}\\\\"""
         if mobility: address += f"\n\\vspace{{1.5mm}}\n{mobility}"
 
@@ -229,18 +349,18 @@ class ResumeGenerator:
         
 
     def buildAsideContact(self) -> str:
-        sectionName = self.resumeData["document"]["aside"]["sections"]["contact"]["name"]
-        phone = self.resumeData["basics"]["phone"]
-        mail = self.resumeData["basics"]["email"]
+        sectionName = self.currentResumeData["document"]["aside"]["sections"]["contact"]["name"]
+        phone = self.currentResumeData["basics"]["phone"]
+        mail = self.currentResumeData["basics"]["email"]
         contact = f"""{phone}\\\\
 \\href{{mailto:{mail}}}{{\\small {mail}}}\\\\"""
         return contact
 
     def buildAsideOnlineProfiles(self) -> str:
-        sectionName = self.resumeData["document"]["aside"]["sections"]["onlineProfiles"]["name"]
+        sectionName = self.currentResumeData["document"]["aside"]["sections"]["onlineProfiles"]["name"]
         
         profiles = f""
-        profilesData = self.resumeData["basics"]["profiles"]
+        profilesData = self.currentResumeData["basics"]["profiles"]
         for idx_profile, profile in enumerate(profilesData):
             network = profile["network"]
             url = profile["url"]
@@ -248,15 +368,15 @@ class ResumeGenerator:
             line += f"\\href{{{url}}}{{{network}\\hspace{{1.5mm}}\\includegraphics[scale=0.075]{{hlink.png}}}}\\\\"
             profiles += line
         profiles += "\n\\vspace{2.5mm}"
-        profiles += f"\n\\includegraphics[width=1.5cm,height=3cm,keepaspectratio]{{qr/{self.filename}.png}}\\\\"
+        profiles += f"\n\\includegraphics[width=1.5cm,height=3cm,keepaspectratio]{{qr/{self.currentOutputFileName}.png}}\\\\"
 
         return profiles
 
     def buildAsideLanguages(self) -> str:
-        sectionName = self.resumeData["document"]["aside"]["sections"]["languages"]["name"]
+        sectionName = self.currentResumeData["document"]["aside"]["sections"]["languages"]["name"]
 
         languages = f""
-        languagesData = self.resumeData["languages"]
+        languagesData = self.currentResumeData["languages"]
         for idx_language, language in enumerate(languagesData):
             lang = language["language"]
             level = language["fluency"]
@@ -267,7 +387,7 @@ class ResumeGenerator:
         return languages
 
     def buildAsideSoftSkills(self, targetCountryCode: str) -> str:
-        sectionName = self.resumeData["document"]["aside"]["sections"]["softSkills"]["name"]
+        sectionName = self.currentResumeData["document"]["aside"]["sections"]["softSkills"]["name"]
         softSkills = f""
         if targetCountryCode in ["FR","CAN-QC"]:
             softSkills += f"\\includegraphics[scale=0.40]{{profileMap_FR.png}}"
@@ -277,9 +397,9 @@ class ResumeGenerator:
         return softSkills
 
     def buildAsideOtherSections(self) -> str:
-        #sectionName = self.resumeData["aside"]["sections"]["infos"]["name"]
+        #sectionName = self.currentResumeData["aside"]["sections"]["infos"]["name"]
         sections = ""
-        sectionsData = self.resumeData["document"]["aside"]["otherSections"]
+        sectionsData = self.currentResumeData["document"]["aside"]["otherSections"]
         for section in sectionsData:
             sectionName = section["name"]
             profileParams = section['profile']
@@ -362,10 +482,10 @@ class ResumeGenerator:
         return closureComment
 
     def buildCatchPhrase(self) -> str:
-        if(self.currentProfile in self.resumeData["basics"]["profile"]):
-            catchPhrase = self.resumeData["basics"]["profile"][self.currentProfile]["catchPhrase"]
+        if(self.currentProfile in self.currentResumeData["basics"]["profile"]):
+            catchPhrase = self.currentResumeData["basics"]["profile"][self.currentProfile]["catchPhrase"]
         else:
-            catchPhrase = self.resumeData["basics"]["catchPhrase"]
+            catchPhrase = self.currentResumeData["basics"]["catchPhrase"]
         
         #catchPhraseOut = f"""
 #\\vspace{{-3mm}}
@@ -385,10 +505,10 @@ class ResumeGenerator:
         return catchPhraseOut
 
     def buildSkills(self) -> str:
-        skillsData = self.resumeData['skills']
+        skillsData = self.currentResumeData['skills']
         skillsCurrentProfileData = self.getCurrentProfileSkillsData(skillsData)
         skillsSortedData = self.sortSkillSectionsInEqualColumns(skillsCurrentProfileData)
-        print("currentProfile: ", self.currentProfile)
+        # print("currentProfile: ", self.currentProfile)
         skillSections = ""
         for skillSection in skillsSortedData: # for skillSection in skillsData:
             sectionName = skillSection['name']
@@ -418,7 +538,7 @@ class ResumeGenerator:
 """
             skillSections += sectionStr
 
-        skills = f"""\\section{{{self.resumeData['document']['sections']['itSkills']['name']}}}
+        skills = f"""\\section{{{self.currentResumeData['document']['sections']['itSkills']['name']}}}
         \\vspace*{{-0.45cm}}
         \\setlength{{\\columnsep}}{{-0.3cm}}
         \\begin{{flushleft}}
@@ -445,10 +565,10 @@ class ResumeGenerator:
             profileParams = skillSection['profile']
             if self.currentProfile is not None and ((profileParams['in'] is not None) or (profileParams['except'] is not None)):
                 if profileParams['except'] is not None and self.currentProfile in profileParams['except']:
-                    print(f"Removing skillSection {skillSection['name']}, reason: profileParams['except'] {profileParams['except']}")
+                    print(f"Removing skillSection {skillSection['name']}: (except) {profileParams['except']}")
                     skillSectionsIndexesToRemove.append(idx_skillSection)
                 if profileParams['in'] is not None and self.currentProfile not in profileParams['in']:
-                    print(f"Removing skillSection {skillSection['name']}, reason: profileParams['in'] {profileParams['in']}")
+                    print(f"Removing skillSection {skillSection['name']}: (in) {profileParams['in']}")
                     skillSectionsIndexesToRemove.append(idx_skillSection)
         skillSectionsIndexesToRemove.sort(reverse=True)
 
@@ -494,7 +614,7 @@ class ResumeGenerator:
         skillColumnsComposition = [[] for _ in range(columnsCount)]
         currentColumn = 0
         step = 1
-        print(f"skillSections: {skillSections}")
+        # print(f"skillSections: {skillSections}")
         for sectionIdx, skillSection in enumerate(skillSections):
             # skillColumns[currentColumn].append(skillSection)
             # currentColumn += step
@@ -502,19 +622,19 @@ class ResumeGenerator:
             #     step *= -1
             #     currentColumn += step
 
-            print(f"skillSection {sectionIdx}/{len(skillSections)} {skillSection['name']} length: {skillSection['length']}")
-            print(f"Storing section in column {currentColumn}")
+            # print(f"skillSection {sectionIdx}/{len(skillSections)} {skillSection['name']} length: {skillSection['length']}")
+            # print(f"Storing section in column {currentColumn}")
             skillColumns[currentColumn].append(skillSection)
             skillColumnsComposition[currentColumn].append(skillSection['name'])
             
-            print(f"New skillColumnsComposition: {skillColumnsComposition}")
+            # print(f"New skillColumnsComposition: {skillColumnsComposition}")
             skillsColumnsLengths[currentColumn] += skillSection['length']
-            print(f"New skillColumnsLengths: {skillsColumnsLengths}")
+            # print(f"New skillColumnsLengths: {skillsColumnsLengths}")
 
             minColumnLength = min(skillsColumnsLengths)
             minColumnIndex = skillsColumnsLengths.index(minColumnLength)
             currentColumn = minColumnIndex
-            print(f"New currentColumn: {currentColumn}")
+            # print(f"New currentColumn: {currentColumn}")
 
         # print(f"skillColumns: {skillColumns}")
         skillColumns.sort(key=lambda x: self.getSkillColumnLength(x), reverse=True)
@@ -540,7 +660,7 @@ class ResumeGenerator:
         return skillColumnLength
 
     def buildExperience(self, detailed: bool) -> str:
-        experienceData = self.resumeData['work']
+        experienceData = self.currentResumeData['work']
 
         experiences = ""
         for expIdx, exp in enumerate(experienceData):
@@ -607,14 +727,14 @@ class ResumeGenerator:
             expStr += detailsStr
             experiences += expStr
 
-        experience = f"""\\section{{{self.resumeData['document']['sections']['workExperience']['name']}}}
+        experience = f"""\\section{{{self.currentResumeData['document']['sections']['workExperience']['name']}}}
 \\vspace*{{-0.25cm}}
 {experiences}
 \\vspace*{{-0.5cm}}"""
         return experience
     
     def buildEducation(self) -> str:
-        educationData = self.resumeData['education']
+        educationData = self.currentResumeData['education']
         educations = ""
         for edu in educationData:
             profileParams = edu['profile']
@@ -674,20 +794,20 @@ class ResumeGenerator:
         
         
         education = f"""\\vspace*{{0.45cm}}
-\\section{{{self.resumeData['document']['sections']['education']['name']}}}
+\\section{{{self.currentResumeData['document']['sections']['education']['name']}}}
 \\vspace*{{-0.25cm}}
 {educations}"""
         return education
     
 
     def buildHobbies(self) -> str:
-        hobbiesDataRaw = self.resumeData['interestsRaw']
+        hobbiesDataRaw = self.currentResumeData['interestsRaw']
         if(hobbiesDataRaw is not None):
-            hobbies = f"""\\section{{{self.resumeData['document']['sections']['hobbies']['name']}}}
+            hobbies = f"""\\section{{{self.currentResumeData['document']['sections']['hobbies']['name']}}}
 {hobbiesDataRaw}"""
             return "" #hobbies
         else:
-            hobbiesData = self.resumeData['interests']
+            hobbiesData = self.currentResumeData['interests']
             return ""#hobbies
 
 class ResumeLocation(Enum):

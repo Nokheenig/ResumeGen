@@ -1,4 +1,15 @@
 {
+  "file": {
+    "parent": null,
+    "profiles":[ 
+      "default",
+      "webDev",
+      "mobileDev",
+      "softDev",
+      "dataScientist",
+      "dataEngineer"
+    ]
+  },
   "basics": {
     "name": "Yoann Chamillard",
     "label": "",
@@ -10,8 +21,8 @@
     "summary": "~~~~~~Software Engineer",
     "catchPhrase":"Always eager to learn and improve, I love to share and communicate. After a successful first experience as a software engineer I am looking for new challenges!",
     "profile": {
-      "any":{
-        "name": "any",
+      "default":{
+        "name": "default",
         "summary": "~~~~~~Software Engineer",
         "catchPhrase":"Always eager to learn and improve, I love to share and communicate. After a successful first experience as a software engineer I am looking for new challenges!"
       },
