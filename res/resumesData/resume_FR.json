@@ -18,28 +18,28 @@
     "phone": "+33 670525552",
     "degree": "",
     "website": "",
-    "summary": "~~~~~~~~~~~~~~~~Ingénieur Développeur Web \\& Mobile Full Stack",
-    "catchPhrase":"Ingénieur développeur logiciel avec une première expérience réussie, toujours curieux et à la recherche de nouveaux apprentissages et de nouveaux défis !",
+    "summary": "~~~~~~~~~~~~~~~~Développeur Web \\& Mobile Full Stack",
+    "catchPhrase":"Ingénieur et Concepteur Développeur d'Application guidé par un sens du détail et de la performance, à la recherche de nouveaux défis !",
     "profile": {
       "default":{
         "name": "default",
-        "summary": "~~~~~~~~~~~~~~~~Ingénieur Développeur Web \\& Mobile Full Stack",
-        "catchPhrase":"Ingénieur développeur logiciel avec une première expérience réussie, toujours curieux et à la recherche de nouveaux apprentissages et de nouveaux défis !"
+        "summary": "~~~~~~~~~~~~~~~~Développeur Web \\& Mobile Full Stack",
+        "catchPhrase":"Ingénieur et Concepteur Développeur d'Application guidé par un sens du détail et de la performance, à la recherche de nouveaux défis !"
       },
       "webDev":{
         "name": "webDev",
-        "summary": "~~~~~~~~~~~~~~~~Ingénieur Développeur Web Full Stack",
-        "catchPhrase":"Ingénieur développeur logiciel avec une première expérience réussie, toujours curieux et à la recherche de nouveaux apprentissages et de nouveaux défis !"
+        "summary": "~~~~~~~~~~~~~~~~Développeur Web Full Stack",
+        "catchPhrase":"Ingénieur et Concepteur Développeur d'Application guidé par un sens du détail et de la performance, à la recherche de nouveaux défis !"
       },
       "mobileDev":{
         "name": "mobileDev",
-        "summary": "~~~~~~~~~~~~~~~~Ingénieur Développeur Mobile Full Stack",
-        "catchPhrase":"Ingénieur développeur logiciel avec une première expérience réussie, toujours curieux et à la recherche de nouveaux apprentissages et de nouveaux défis !"
+        "summary": "~~~~~~~~~~~~~~~~Développeur Mobile Full Stack",
+        "catchPhrase":"Ingénieur et Concepteur Développeur d'Application guidé par un sens du détail et de la performance, à la recherche de nouveaux défis !"
       },
       "softDev":{
         "name": "softDev",
-        "summary": "~~~~~~~~~~~~~~~~Ingénieur Développeur Logiciel Full Stack",
-        "catchPhrase":"Ingénieur développeur logiciel avec une première expérience réussie, toujours curieux et à la recherche de nouveaux apprentissages et de nouveaux défis !"
+        "summary": "~~~~~~~~~~~~~~~~Développeur Logiciel Full Stack",
+        "catchPhrase":"Ingénieur et Concepteur Développeur d'Application guidé par un sens du détail et de la performance, à la recherche de nouveaux défis !"
       }
     },
     "location": {
