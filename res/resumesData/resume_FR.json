@@ -19,27 +19,27 @@
     "degree": "",
     "website": "",
     "summary": "~~~~~~~~~~~~~~~~Développeur Web \\& Mobile Full Stack",
-    "catchPhrase":"Ingénieur et Concepteur Développeur d'Application guidé par un sens du détail et de la performance, à la recherche de nouveaux défis !",
+    "catchPhrase":"Ingénieur et Concepteur Développeur d'Application guidé par un sens du détail et de la performance, à la recherche de nouveaux défis!",
     "profile": {
       "default":{
         "name": "default",
         "summary": "~~~~~~~~~~~~~~~~Développeur Web \\& Mobile Full Stack",
-        "catchPhrase":"Ingénieur et Concepteur Développeur d'Application guidé par un sens du détail et de la performance, à la recherche de nouveaux défis !"
+        "catchPhrase":"Ingénieur et Concepteur Développeur d'Application guidé par un sens du détail et de la performance, à la recherche de nouveaux défis!"
       },
       "webDev":{
         "name": "webDev",
         "summary": "~~~~~~~~~~~~~~~~Développeur Web Full Stack",
-        "catchPhrase":"Ingénieur et Concepteur Développeur d'Application guidé par un sens du détail et de la performance, à la recherche de nouveaux défis !"
+        "catchPhrase":"Ingénieur et Concepteur Développeur d'Application guidé par un sens du détail et de la performance, à la recherche de nouveaux défis!"
       },
       "mobileDev":{
         "name": "mobileDev",
         "summary": "~~~~~~~~~~~~~~~~Développeur Mobile Full Stack",
-        "catchPhrase":"Ingénieur et Concepteur Développeur d'Application guidé par un sens du détail et de la performance, à la recherche de nouveaux défis !"
+        "catchPhrase":"Ingénieur et Concepteur Développeur d'Application guidé par un sens du détail et de la performance, à la recherche de nouveaux défis!"
       },
       "softDev":{
         "name": "softDev",
         "summary": "~~~~~~~~~~~~~~~~Développeur Logiciel Full Stack",
-        "catchPhrase":"Ingénieur et Concepteur Développeur d'Application guidé par un sens du détail et de la performance, à la recherche de nouveaux défis !"
+        "catchPhrase":"Ingénieur et Concepteur Développeur d'Application guidé par un sens du détail et de la performance, à la recherche de nouveaux défis!"
       }
     },
     "location": {
