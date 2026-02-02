@@ -342,7 +342,7 @@ class ResumeGenerator:
         country = location["country"]
         region = location["region"]
         mobility = self.currentResumeData["document"]["aside"]["sections"]["address"]["mobility"]
-		address = ""
+        address = ""
         if city != "." and country != ".": address = f"""{city}, {country}\\\\"""
         if mobility: address += f"\n\\vspace{{1.5mm}}\n{mobility}"
 
@@ -353,9 +353,9 @@ class ResumeGenerator:
         sectionName = self.currentResumeData["document"]["aside"]["sections"]["contact"]["name"]
         phone = self.currentResumeData["basics"]["phone"]
         mail = self.currentResumeData["basics"]["email"]
-		contact = ""
-		if phone != ".": contact += "{phone}\\\\\n"
-		if mail != ".": contact += "\\href{{mailto:{mail}}}{{\\small {mail}}}\\\\\n"
+        contact = ""
+        if phone != ".": contact += "{phone}\\\\\n"
+        if mail != ".": contact += "\\href{{mailto:{mail}}}{{\\small {mail}}}\\\\\n"
         #contact = f"""{phone}\\\\
 #\\href{{mailto:{mail}}}{{\\small {mail}}}\\\\"""
         return contact
@@ -820,4 +820,5 @@ class ResumeLocation(Enum):
 
 if __name__ == "__main__" :
     gen = ResumeGenerator(args).createResumes()
+
 
