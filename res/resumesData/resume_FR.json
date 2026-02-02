@@ -14,8 +14,8 @@
     "name": "Yoann Chamillard",
     "label": "",
     "picture": "",
-    "email": "yoann.chamillard@gmail.com",
-    "phone": "+33 670525552",
+    "email": "y.chamillard.pro@gmail.com",
+    "phone": "",
     "degree": "",
     "website": "",
     "summary": "~~~~~~~~~~~~~~~~Développeur Web \\& Mobile Full Stack",
@@ -46,9 +46,9 @@
       "Paris,France":{
         "address": "2 rue Paulin Méry",
         "postalCode": "75013",
-        "city": "Paris",
+        "city": "",
         "countryCode": "FR",
-        "country": "France",
+        "country": "",
         "region": "Ile de France"
       },
       "Lyon,France":{
@@ -649,11 +649,11 @@
       "sections": {
         "infos":{
           "name":"Infos",
-          "content":"%33 ans\\\\\nPermis A,B\\\\"
+          "content":"%33 ans\\\\\nPermis Auto\\\\"
         },
         "address":{
           "name":"Adresse",
-          "mobility":"Mobile à l'international\\\\\nAutorisé à travailler au Canada (visa PVT)\\\\"
+          "mobility":""
         },
         "contact":{
           "name":"Contact"
