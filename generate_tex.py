@@ -354,8 +354,8 @@ class ResumeGenerator:
         phone = self.currentResumeData["basics"]["phone"]
         mail = self.currentResumeData["basics"]["email"]
         contact = ""
-        if phone != ".": contact += "{phone}\\\\\n"
-        if mail != ".": contact += "\\href{{mailto:{mail}}}{{\\small {mail}}}\\\\\n"
+        if phone != ".": contact += f"{phone}\\\\\n"
+        if mail != ".": contact += f"\\href{{mailto:{mail}}}{{\\small {mail}}}\\\\\n"
         #contact = f"""{phone}\\\\
 #\\href{{mailto:{mail}}}{{\\small {mail}}}\\\\"""
         return contact

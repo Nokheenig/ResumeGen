@@ -8,6 +8,16 @@ QR_DIR = qr
 BUILD_DIR = build
 TEXMF = texmf
 
+VENV := venv
+# Create venv if missing
+$(VENV)/bin/python:
+	python3 -m venv $(VENV)
+	$(VENV)/bin/python -m pip install --upgrade pip setuptools wheel
+
+PYTHON := $(VENV)/bin/python
+PIP := $(VENV)/bin/pip
+
+
 # Automatically find all .tex files in the tex directory
 TEX_FILES := $(wildcard $(TEX_DIR)/*.tex)
 
@@ -28,7 +38,22 @@ pdfs: $(PDF_FILES)
 qrcodes: $(QR_FILES)
 
 # Génère les QR codes et compile les PDF associés
-pdfsWithQr: prepareQr qrcodes pdfs
+pdfsWithQr: defaultTex prepareQr qrcodes pdfs
+
+setup:
+	@echo "System requirements:"
+	@echo "  - texlive-luatex"
+	@echo "  - texlive-latex-extra"
+	@echo "  - latexmk"
+	@echo ""
+	@echo "Python venv will be created automatically on first build."
+
+# Install Python deps into venv
+deps: $(VENV)/bin/python requirements.txt
+	$(PIP) install -r requirements.txt
+
+defaultTex: deps
+	$(PYTHON) ./generate_tex.py -p softDev webDev mobileDev -f res/resumesData/*
 
 # Ensure image assets are available in the build dir
 prepare:
@@ -38,11 +63,10 @@ prepare:
 	cp -ru qr/* $(BUILD_DIR)/res/img/qr
 
 # Prépare le dossier QR et installe les dépendances Python
-prepareQr:
-	@echo "Préparation du dossier QR et installation des dépendances Python..."
+prepareQr: deps
+	@echo "Preparing QR directory (venv-based Python)..."
 	@rm -rf $(QR_DIR)
 	@mkdir -p $(QR_DIR)
-	@python3 -m pip install --user -r requirements.txt
 
 # Compile rule: .tex in tex/ → .png in qr/
 $(QR_DIR)/%.png: $(TEX_DIR)/%.tex | prepareQr
@@ -50,7 +74,7 @@ $(QR_DIR)/%.png: $(TEX_DIR)/%.tex | prepareQr
 	@filename=$$(basename $< .tex); \
 	url="https://nokheenig.github.io/ResumeGen/$$filename.pdf"; \
 	echo "Target URL: $$url"; \
-	python3 generate_qr.py -f $@ -u "$$url" -w 2
+	$(PYTHON) generate_qr.py -f $@ -u "$$url" -w 2
 # -l ./res/img/logo_resume.jpg
 
 # Compile rule: .tex in tex/ → .pdf in pdf/
