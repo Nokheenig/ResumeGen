@@ -15,7 +15,7 @@
     "label": "",
     "picture": "",
     "email": "y.chamillard.pro@gmail.com",
-    "phone": "",
+    "phone": ".",
     "degree": "",
     "website": "",
     "summary": "~~~~~~~~~~~~~~~~Développeur Web \\& Mobile Full Stack",
@@ -46,9 +46,9 @@
       "Paris,France":{
         "address": "2 rue Paulin Méry",
         "postalCode": "75013",
-        "city": "",
+        "city": ".",
         "countryCode": "FR",
-        "country": "",
+        "country": ".",
         "region": "Ile de France"
       },
       "Lyon,France":{
