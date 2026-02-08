@@ -53,7 +53,8 @@ deps: $(VENV)/bin/python requirements.txt
 	$(PIP) install -r requirements.txt
 
 defaultTex: deps
-	$(PYTHON) ./generate_tex.py -p softDev webDev mobileDev -f res/resumesData/*
+	$(PYTHON) ./generate_tex.py -p softDev -f res/resumesData/resume_CAN*
+# 	$(PYTHON) ./generate_tex.py -p softDev webDev mobileDev -f res/resumesData/*
 
 # Ensure image assets are available in the build dir
 prepare:
