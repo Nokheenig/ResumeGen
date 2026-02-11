@@ -1,6 +1,7 @@
 from __future__ import annotations
 from datetime import datetime #, timedelta
 import argparse
+import re
 
 parse = argparse.ArgumentParser().parse_args()
 
@@ -21,22 +22,97 @@ class LatexDocumentBlock:
     def __repr__(self):
         return self.Build()
 
-    def __init__(self, id: str, title: str = "", index: int = -1):
-        self.id = id
+    def __init__(self, id: str = "", title: str = "", header: str = "", body: str = "", footer: str = "", parent: LatexDocumentBlock | None = None, index: int = -1): #, root: LatexDocumentBlock | None = None):
+        self.root = parent.root if parent else self
+        self.parent = parent
+        self.idRootInstNumPattern = re.compile(r"(?P<idRoot>\w)(_(?P<idInstNum>\d+))*")
+        self.idRoot = id
+        self.idInstNum = -1
+        m = self.idRootInstNumPattern.match(id)
+        if m:
+            self.idRoot = m.group("idRoot")
+            self.idInstNum = int(m.group("idInstNum"))
+
+        self.id = "root" if not id and not parent else id if id and not parent else parent.getNewChildId(idRoot=self.idRoot) if parent else ""
+        # self.id = id if not parent else parent.getNewChildId() 
+        
         self.title = title
         self.index = index
-        self.header : str = ""
-        self.body: str = ""
-        self.footer: str = ""
-        self.children: list[LatexDocumentBlock] = []
+        self.header = header if header else ""
+        self.body = body if body else ""
+        self.footer = footer if footer else ""
+        self.children: dict[str,LatexDocumentBlock] = dict[str,LatexDocumentBlock]()
+
+        # blocks = [
+        #     LatexDocumentBlock("imports"),
+        #     LatexDocumentBlock("definitions"),
+        #     LatexDocumentBlock("document")
+        # ]
+        # self.blocks = {}
+        # for block in blocks:
+        #     self.attachBlock(block)
+
     
     def Build(self) -> str:
         return self.header + "\n" + self.BuildBody() + "\n" + self.footer
 
     def BuildBody(self) -> str:
-        childrenContentsList = [childBlock.Build() for childBlock in self.children]
+        childrenContentsList = [block.Build() for id, block in self.children.items()]
         childrenContentsJoined = "\n".join(childrenContentsList)
         return self.body + "\n" + childrenContentsJoined
+    
+    def getBlock(self, blockId, recursive=True) -> LatexDocumentBlock | None:
+        if not recursive:
+            block = self.children[blockId] if blockId in self.children else None #LatexDocumentBlock(blockId)
+            return block
+        
+        if blockId in self.children: return self.children[blockId]
+        for child in self.children.values():
+            block = child.getBlock(blockId=blockId, recursive=True)
+            if block: return block
+        return None
+    
+    def attachBlock(self, block, force = False, keepIndex = True) -> bool:
+        if not block.id in self.children or force:
+            index = self.children[block.id].index if block.id in self.children else -1
+            index = index if keepIndex else block.index if block.index != -1 else self.getNewChildIndex()
+            block.index = index
+            self.children[block.id] = block
+        elif not force:
+            return False
+        return True
+    
+    def createBlock(self, id: str = "", title: str = "", header: str = "", body: str = "", footer: str = "", index: int = -1, force = False, keepIndex = True) -> LatexDocumentBlock:
+        idRoot, reqIdInstNum = self.getIdRootAndInstNum(id=id)
+        id = self.getNewChildId(idRoot=idRoot, reqIdInstNum=reqIdInstNum)
+        block = LatexDocumentBlock(id=id, title=title, header=header, body=body, footer=footer, parent=self, index=index)
+        success = self.attachBlock(block=block, force=force, keepIndex=keepIndex)
+        if not success: raise Exception(f"Could not bind new child block. Child block with id '{id}' already exist!")
+        return block
+
+    def getNewChildIndex(self):
+        return len(self.children) + 1
+    
+    def getIdRootAndInstNum(self, id: str) -> tuple[str,int]:
+        m = self.idRootInstNumPattern.match(id)
+        if not m: return ("", -1)
+        idRoot = m.group("idRoot")
+        idInstNum = int(m.group("idInstNum")) if "idInstNum" in m.groups() else -1
+        return (idRoot, idInstNum)
+    
+    def getNewChildId(self, idRoot: str = "", reqIdInstNum: int = -1) -> str:
+        if not idRoot: return self.getNewChildId(idRoot=self.idRoot)
+        newId = idRoot if reqIdInstNum == -1 else f"{idRoot}_{reqIdInstNum}"
+        if newId not in self.children: return newId
+        reservedIndexes = [ ] #int(self.idRootInstNumPattern.match(childId).group("idInstNum")) for childId in self.children]
+        for childId in self.children:
+            m = self.idRootInstNumPattern.match(childId)
+            if m: reservedIndexes.append(int(m.group("idInstNum")))
+        newIdInstNum = max(reservedIndexes)+1
+        newId = f"{idRoot}_{newIdInstNum}"
+        return newId
+
+
     
 class LatexDocumentBuilder:
     def __repr__(self):
@@ -50,7 +126,7 @@ class LatexDocumentBuilder:
         ]
         self.blocks = {}
         for block in blocks:
-            self.addBlock(block)
+            self.attachBlock(block)
         # self.blocks = {block.id: block for block in blocks}
 
     def Build(self):
@@ -61,7 +137,7 @@ class LatexDocumentBuilder:
         block = self.blocks[blockId] if blockId in self.blocks else LatexDocumentBlock(blockId)
         return block
     
-    def addBlock(self, block, force = False, keepIndex = True):
+    def attachBlock(self, block, force = False, keepIndex = True):
         if not block.id in self.blocks or force:
             index = self.blocks[block.id].index if block.id in self.blocks else -1
             index = index if keepIndex else block.index if block.index != -1 else self.getNextBlockIndex()
@@ -82,7 +158,7 @@ class LatexResumeBuilder(LatexDocumentBuilder):
             LatexResumeBlock("education")
         ]
         for block in blocks:
-            self.addBlock(block)
+            self.attachBlock(block)
 
 class LatexResumeBlock(LatexDocumentBlock):
     # def __init__(self, id: str, title: str = "", index: int = -1):
