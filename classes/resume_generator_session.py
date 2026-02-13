@@ -71,7 +71,22 @@ class LatexDocumentBlock:
         with open("resume_gen.log", "a", encoding="utf-8") as f:
                 f.write(f"Build-Start -- self id: {self.id}\n")
                 f.write(f"            -- self children ({len(self.children)}): {self.children}\n")
-        return self.header + "\n" + self.BuildBody() + "\n" + self.footer
+        # buildOutput = ""
+        # if self.header: output += self.header + "\n"
+        # body = self.BuildBody()
+        # if body: output += body + "\n"
+        # if self.footer: output += self.footer # + "\n"
+        # return output
+        buildElements = [
+            self.header,
+            self.BuildBody(),
+            self.footer
+        ]
+        idx = len(buildElements)-1
+        while idx >=0:
+            if buildElements[idx] == "": buildElements.pop(idx)
+            idx -=1
+        return "\n".join(buildElements)
 
     def BuildBody(self) -> str:
         # childrenContentsList = [block.Build() for id, block in self.children.items()]
@@ -82,9 +97,36 @@ class LatexDocumentBlock:
                 f.write(f"self id: {self.id}\n")
                 f.write(f"block id: {block.id}\n")
             childrenContentsList.append(block.Build())
+
+        
+        # buildElements = [
+        #     self.header,
+        #     self.BuildBody(),
+        #     self.footer
+        # ]
+        idx = len(childrenContentsList)-1
+        while idx >=0:
+            if childrenContentsList[idx] == "": childrenContentsList.pop(idx)
+            idx -=1
+        # return "\n".join(buildElements)
+
             
         childrenContentsJoined = "\n".join(childrenContentsList)
-        return self.body + "\n" + childrenContentsJoined
+        body = ""
+
+        buildElements = [
+            self.body,
+            childrenContentsJoined
+        ]
+        idx = len(buildElements)-1
+        while idx >=0:
+            if buildElements[idx] == "": buildElements.pop(idx)
+            idx -=1
+        return "\n".join(buildElements)
+
+        # if self.body and childrenContentsJoined: body += self.body + "\n"
+        # if childrenContentsJoined: body += childrenContentsJoined
+        # return body
     
     def getBlock(self, blockId, recursive=True) -> LatexDocumentBlock | None:
         if not recursive:
@@ -244,7 +286,6 @@ class LatexResumeBuilder(LatexDocumentBuilder):
 \usepackage{xcolor}
 \usepackage{smartdiagram}
 \usepackage{fontspec}
-
 %\usepackage{fontawesome}
 \usepackage{metalogo}
 \usepackage{dtklogos}
