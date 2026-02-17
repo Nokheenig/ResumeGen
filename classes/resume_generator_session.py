@@ -47,7 +47,10 @@ class LatexDocumentBlock:
         elif id and not parent:
             self.id = id
         elif parent: 
-            self.id = parent.getNewChildId(parent=self, idRoot=self.idRoot)
+            if id:
+                self.id = parent.getNewChildId(parent=parent, idRoot=id)
+            else:
+                self.id = parent.getNewChildId(parent=parent, idRoot=parent.idRoot)
         # self.id = id if not parent else parent.getNewChildId() 
         
         self.title = title
@@ -128,14 +131,14 @@ class LatexDocumentBlock:
         # if childrenContentsJoined: body += childrenContentsJoined
         # return body
     
-    def getBlock(self, blockId, recursive=True) -> LatexDocumentBlock | None:
+    def getBlock(self, id, recursive=True) -> LatexDocumentBlock | None:
         if not recursive:
-            block = self.children[blockId] if blockId in self.children else None #LatexDocumentBlock(blockId)
+            block = self.children[id] if id in self.children else None #LatexDocumentBlock(blockId)
             return block
         
-        if blockId in self.children: return self.children[blockId]
+        if id in self.children: return self.children[id]
         for child in self.children.values():
-            block = child.getBlock(blockId=blockId, recursive=True)
+            block = child.getBlock(id=id, recursive=True)
             if block: return block
         return None
     
@@ -149,6 +152,14 @@ class LatexDocumentBlock:
             return False
         return True
     
+    def createChild(self, id: str = "", title: str = "", header: str = "", body: str = "", footer: str = "", index: int = -1) -> LatexDocumentBlock:
+        parent = self
+        idRoot, reqIdInstNum = LatexDocumentBlock.getIdRootAndInstNum(id=id)
+        id = LatexDocumentBlock.getNewChildId(parent=parent, idRoot=idRoot, reqIdInstNum=reqIdInstNum)
+        block = LatexDocumentBlock(id=id, title=title, header=header, body=body, footer=footer, parent=parent, index=index)
+        self.attachBlock(block=block)
+        return block
+
     @staticmethod
     def createBlock(parent: LatexDocumentBlock, id: str = "", title: str = "", header: str = "", body: str = "", footer: str = "", index: int = -1) -> LatexDocumentBlock: #, parent: LatexDocumentBlock | None = None, index: int = -1, force = False, keepIndex = True) -> LatexDocumentBlock:
         #parent = parent if parent else self
@@ -177,10 +188,13 @@ class LatexDocumentBlock:
         if not idRoot: return LatexDocumentBlock.getNewChildId(parent=parent, idRoot=parent.idRoot)
         newId = idRoot if reqIdInstNum == -1 else f"{idRoot}_{reqIdInstNum}"
         if newId not in parent.children.keys(): return newId
-        reservedIndexes = [ ] #int(self.idRootInstNumPattern.match(childId).group("idInstNum")) for childId in self.children]
+        reservedIndexes = [ 0 ] #int(self.idRootInstNumPattern.match(childId).group("idInstNum")) for childId in self.children]
         for childId in parent.children:
             m = parent.idRootInstNumPattern.match(childId)
-            if m: reservedIndexes.append(int(m.group("idInstNum")))
+            if m and m.group("idRoot") == idRoot: 
+                if "idInstNum" in m.groups():
+                    reservedIndex = int(m.group("idInstNum"))
+                    reservedIndexes.append(reservedIndex)
         newIdInstNum = max(reservedIndexes)+1
         newId = f"{idRoot}_{newIdInstNum}"
         return newId
@@ -193,10 +207,25 @@ class LatexDocumentConstants:
 
 class LatexResumeConstants(LatexDocumentConstants):
     section_header = "header"
+    section_quote = "quote"
     section_aside = "aside"
+    section_aside_infos = "aside_infos"
+    section_aside_contact = "aside_contact"
+    section_aside_links = "aside_links"
+    section_aside_languages = "aside_languages"
+    section_aside_strengths = "aside_strengths"
+    section_aside_hobbies = "aside_hobbies"
+    section_aside_dateid = "aside_dateid"
     section_skills = "skills"
     section_experience = "experience"
     section_education = "education"
+    section_aside_mechanicalskills = "aside_mechanicalskills"
+    section_skills_backend = "skills_backend"
+    section_skills_devopscicd = "skills_devopscicd"
+    section_skills_web = "skills_web"
+    section_skills_authentication = "skills_authentication"
+    section_skills_databases = "skills_databases"
+    section_skills_others = "skills_others"
     
 class LatexDocumentBuilder:
     const = LatexDocumentConstants()
@@ -225,6 +254,12 @@ class LatexDocumentBuilder:
         for block in self.blocks.keys():
             if block != self.document.id: self.document.attachBlock(block=self.blocks[block])
 
+    def createBlock(self, id: str = "", title: str = "", header: str = "", body: str = "", footer: str = "", parent: LatexDocumentBlock | None = None, index: int = -1) -> LatexDocumentBlock:
+        block = LatexDocumentBlock(id=id, title=title, header=header, body=body, footer=footer, parent=parent, index=index)
+        # self.blocks[id] = block
+        if parent:
+            parent.attachBlock(block=block)
+        return block
 
     def Build(self):
         # return self.imports.Build() + "\n" + self.definitions.Build() + "\n" + self.document.Build()
@@ -264,22 +299,28 @@ class LatexResumeBuilder(LatexDocumentBuilder):
         # self.document.createBlock("skills")
         # self.document.createBlock("experience")
         # self.document.createBlock("education")
-        blocks = {
-            self.const.section_header: LatexDocumentBlock.createBlock(parent=self.document, id=self.const.section_header),
-            self.const.section_aside: LatexDocumentBlock.createBlock(parent=self.document, id=self.const.section_aside),
-            self.const.section_skills: LatexDocumentBlock.createBlock(parent=self.document, id=self.const.section_skills),
-            self.const.section_experience: LatexDocumentBlock.createBlock(parent=self.document, id=self.const.section_experience),
-            self.const.section_education: LatexDocumentBlock.createBlock(parent=self.document, id=self.const.section_education),
-        }
-        self.blocks = {**self.blocks, **blocks}
 
-        # blocks[0].header = "Ingénieur et Concepteur Développeur d'Application guidé par un sens du détail et de la performance, à la recherche de nouveaux défis!"
 
-        for block in blocks.keys():
-            self.blocks[self.const.section_document].attachBlock(block=blocks[block])
+        # blocks = {
+        #     # self.const.section_header: LatexDocumentBlock.createBlock(parent=self.document, id=self.const.section_header),
+        #     # self.const.section_aside: LatexDocumentBlock.createBlock(parent=self.document, id=self.const.section_aside),
+        #     # self.const.section_skills: LatexDocumentBlock.createBlock(parent=self.document, id=self.const.section_skills),
+        #     # self.const.section_experience: LatexDocumentBlock.createBlock(parent=self.document, id=self.const.section_experience),
+        #     self.const.section_education: LatexDocumentBlock.createBlock(parent=self.document, id=self.const.section_education),
+        # }
+        # self.blocks = {**self.blocks, **blocks}
 
-        self.blocks[self.const.document_root].header = r"%!TEX TS-program = xelatex"
-        self.blocks[self.const.section_imports].header = r"""\documentclass[]{friggeri-cv}
+        # # blocks[0].header = "Ingénieur et Concepteur Développeur d'Application guidé par un sens du détail et de la performance, à la recherche de nouveaux défis!"
+
+        # for block in blocks.keys():
+        #     self.blocks[self.const.section_document].attachBlock(block=blocks[block])
+
+        root = self.document
+        root.header = r"%!TEX TS-program = xelatex"
+
+        imports = root.getBlock(id=self.const.section_imports)
+        if imports:
+            imports.header = r"""\documentclass[]{friggeri-cv}
 \usepackage{afterpage}
 \usepackage{hyperref}
 \usepackage{color}
@@ -293,9 +334,11 @@ class LatexResumeBuilder(LatexDocumentBuilder):
 \usepackage{tikz}
 \usepackage{multicol}
 \usepackage{setspace}
-\usepackage[document]{ragged2e}
-"""
-        self.blocks[self.const.section_definitions].header = r"""\usetikzlibrary{mindmap,shadows}
+\usepackage[document]{ragged2e}"""
+
+        definitions = root.getBlock(id=self.const.section_definitions)
+        if definitions:
+            definitions.header = r"""\usetikzlibrary{mindmap,shadows}
 \hypersetup{
     pdftitle={},
     pdfauthor={},
@@ -324,22 +367,18 @@ class LatexResumeBuilder(LatexDocumentBuilder):
     % sets the opacity at which the bubble text is shown
     bubble text opacity = 0.5,
 }
-
 \addbibresource{bibliography.bib}
 \RequirePackage{xcolor}
 \definecolor{pblue}{HTML}{0395DE}
-
 %\titlespacing*{\section}
 %{0pt}{12pt plus 4pt minus 2pt}{0pt plus 2pt minus 2pt}
 %\titlespacing*{\subsection}
 %{0pt}{12pt plus 4pt minus 2pt}{0pt plus 2pt minus 2pt}
 %\titlespacing*{\subsubsection}
 %{0pt}{12pt plus 4pt minus 2pt}{0pt plus 2pt minus 2pt}
-
 \title{Yoann Chamillard -- Resume}
 \author{Yoann Chamillard}
 \date{05/2/2026}
-
 \hypersetup{
   pdftitle={Yoann Chamillard -- Resume},
   pdfauthor={Yoann Chamillard},
@@ -347,38 +386,273 @@ class LatexResumeBuilder(LatexDocumentBuilder):
   pdfkeywords={profile:softDev; resume; developer; software; engineer; C\# .Net; Python; Javascript; Node.js; Java; Kotlin; Android; Rest API; Git  GitLab; Docker; Jenkins; Selenium; Cron; Html-Css; MySQL; PostgreSQL; MongoDB; SQLite; Firebase; Bash; Jira; Regex; createdAt:2026-02-05 14:54:58.769054 ; id:084fe0},
   pdfcreator={LuaLaTeX},
   pdfproducer={LuaLaTeX}
-}
-"""
-        self.blocks[self.const.section_document].header = r"\begin{document}"
-        self.blocks[self.const.section_document].footer = r"\end{document}"
+}"""
+        document = root.getBlock(id=self.const.section_document)
+        if document:
+            document.header = r"\begin{document}"
+            document.footer = r"\end{document}"
+
+        header = document and document.createChild(id=self.const.section_header)
+        if header:
+            # header = self.createBlock(id=self.const.section_header, parent=self.blocks[self.const.section_document])
+            header.body = r"""\header{Yoann}{Chamillard}
+      {~~~~~~Software Developer}
+      {}"""
+
+        # Duplicate
+        aside = document and document.createChild(id=self.const.section_aside)
+        if aside:
+            # aside = self.createBlock(id=self.const.section_aside, parent=self.blocks[self.const.section_document])
+            aside.header = r"""\begin{aside}
+\vspace{21mm}"""
+            aside.footer = r"""\end{aside}"""
+
+        quote = document and document.createChild(id=self.const.section_quote)
+        if quote:
+            # quote = self.createBlock(id=self.const.section_quote, parent=self.blocks[self.const.section_document])
+            quote.header = r"""\vspace*{-2.0mm}
+\noindent\parbox{\linewidth}{
+\centering"""
+            quote.body = "Engineer by training (France, CTI-accredited), now working as a software developer with a strong engineering mindset. Always eager to learn and improve, I am now looking for new challenges!"
+            quote.footer = "}"
+
+        # duplicate
+        skills = document and document.createChild(id=self.const.section_skills)
+        if skills:
+            # skills = self.createBlock(id=self.const.section_skills, parent=self.blocks[self.const.section_document])
+            skills.header = r"""\vspace*{0.8mm}
+\section{IT-Skills}
+\vspace*{-0.45cm}
+\setlength{\columnsep}{-0.3cm}
+\begin{flushleft}
+\begin{multicols}{3}
+\begin{itemize}
+    \setlength{\itemsep}{5pt}
+    \setlength{\parskip}{0pt}
+    \setlength{\parsep}{0pt}"""
+            skills.footer = r"""\end{itemize}
+\end{multicols}
+%\end{itemize}
+\end{flushleft} \normalsize
+\vspace*{-0.65cm}"""
+
+        # duplicate
+        experience = document and document.createChild(id=self.const.section_experience)
+        if experience:
+            # experience = self.createBlock(id=self.const.section_experience, parent=self.blocks[self.const.section_document])
+            experience.header = r"""\section{Work Experience}
+\vspace*{-0.25cm}"""
+
+        education = document and document.createChild(id=self.const.section_education)
+        if education:
+            education.header = r"""\vspace*{-0.5cm}
+\vspace*{0.45cm}
+\section{Education - Certifications}
+\vspace*{-0.25cm}
+\vspace{0.5mm}"""
+
+        aside_infos = aside and aside.createChild(id=self.const.section_aside_infos)
+        if aside_infos:
+            # aside_infos = self.createBlock(id=self.const.section_aside_infos, parent=self.blocks[self.const.section_aside])
+            aside_infos.header = r"""\section{Infos}"""
+            # aside_infos.body = r"""\\section{Infos}"""
+            block = aside_infos.createChild()
+            block.body = r"""%33 yo\\
+Full driving licence\\"""
+            block.footer = r"""\vspace{3.5mm}"""
+
+            block = aside_infos.createChild()
+            block.body = r"""Legally authorized to work in Canada.\\"""
+            block.footer = r"""\vspace{2.5mm}"""
+        
+        aside_contact = aside and aside.createChild(id=self.const.section_aside_contact)
+        if aside_contact:
+            # aside_contact = self.createBlock(id=self.const.section_aside_contact, parent=self.blocks[self.const.section_aside])
+        
+            block = aside_contact.createChild() # self.createBlock(parent=self.blocks[self.const.section_aside_contact])
+            block.body = r"""\href{mailto:y.chamillard.pro@gmail.com}{\small y.chamillard.pro@gmail.com}\\"""
+            block.footer = r"""\vspace{2.5mm}"""
+            
+            block = aside_contact.createChild() # self.createBlock(parent=self.blocks[self.const.section_aside_contact])
+            block.body = r"""\href{https://www.linkedin.com/in/yoannchamillard/?locale=en_US}{LinkedIn\hspace{1.5mm}\includegraphics[scale=0.075]{hlink.png}}\\"""
+            block.footer = r"""\vspace{2.5mm}"""
+
+        aside_links = aside and aside.createChild(id=self.const.section_aside_links)
+        if aside_links:
+            # aside_links = self.createBlock(id=self.const.section_aside_links, parent=self.blocks[self.const.section_aside])
+        
+            block = aside_links.createChild() # self.createBlock(parent=self.blocks[self.const.section_aside_links])
+            block.body = r"""\href{https://github.com/Nokheenig?tab=stars}{GitHub\hspace{1.5mm}\includegraphics[scale=0.075]{hlink.png}}\\"""
+            block.footer = r"""\vspace{2.5mm}"""
+            
+            block = aside_links.createChild() # self.createBlock(parent=self.blocks[self.const.section_aside_links])
+            block.body = r"""\includegraphics[width=1.5cm,height=3cm,keepaspectratio]{qr/resume_CAN_softDev.png}\\"""
+            block.footer = r"""\vspace{2.5mm}"""
+
+        aside_languages = aside and aside.createChild(id=self.const.section_aside_languages)
+        if aside_languages:
+            # aside_languages = self.createBlock(id=self.const.section_aside_languages, parent=self.blocks[self.const.section_aside])
+            aside_languages.footer = r"""\vspace{2.5mm}%"""
+
+            block = aside_languages.createChild() # self.createBlock(parent=self.blocks[self.const.section_aside_languages])
+            block.body = r"""\makebox[4.3cm][l]{\textbf{French} (native)}\\"""
+
+            block = aside_languages.createChild() # self.createBlock(parent=self.blocks[self.const.section_aside_languages])
+            block.body = r"""\makebox[4.3cm][l]{\textbf{English} (C1,Bulats)}\\"""
+
+            block = aside_languages.createChild() # self.createBlock(parent=self.blocks[self.const.section_aside_languages])
+            block.body = r"""\makebox[4.3cm][l]{\textbf{German} (B1)}\\"""
+
+            block = aside_languages.createChild() # self.createBlock(parent=self.blocks[self.const.section_aside_languages])
+            block.body = r"""\makebox[4.3cm][l]{\textbf{Korean} (A1-2)}\\"""
+
+        aside_strengths = aside and aside.createChild(id=self.const.section_aside_strengths)
+        if aside_strengths:
+            # aside_strengths = self.createBlock(id="strengths", parent=self.blocks[self.const.section_aside])
+            pass
+
+        aside_strengths_list = aside_strengths and aside_strengths.createChild(id=f"{aside_strengths.id}_list")
+        if aside_strengths_list:
+            # aside_strengths_list = self.createBlock(id="strengths_list", parent=self.blocks["strengths"])
+            aside_strengths_list.header = r"""\begin{itemize}"""
+            aside_strengths_list.footer = r"""\end{itemize}"""
+
+            block = aside_strengths_list.createChild() # self.createBlock(parent=self.blocks["strengths_list"])
+            block.body = r"""\item Teamwork"""
+
+            block = aside_strengths_list.createChild() # self.createBlock(parent=self.blocks["strengths_list"])
+            block.body = r"""\item Curiosity/Creativity"""
+
+            block = aside_strengths_list.createChild() # self.createBlock(parent=self.blocks["strengths_list"])
+            block.body = r"""\item Initiative"""
+
+            block = aside_strengths_list.createChild() # self.createBlock(parent=self.blocks["strengths_list"])
+            block.body = r"""\item Organization"""
+
+            block = aside_strengths_list.createChild() # self.createBlock(parent=self.blocks["strengths_list"])
+            block.body = r"""\item Adaptability"""
+
+        aside_mechanical_skills = aside and aside.createChild(id=self.const.section_aside_mechanicalskills)
+        if aside_mechanical_skills:
+            # aside_mechanical_skills = self.createBlock(id=self.const.section_aside_mechanicalskills, parent=self.blocks[self.const.section_aside])
+            aside_mechanical_skills.header = r"""\section{Mechanical Skills}
+\begin{itemize}"""
+            aside_mechanical_skills.footer = r"""\end{itemize}"""
+
+            block = aside_mechanical_skills.createChild() # self.createBlock(parent=self.blocks[self.const.section_aside_mechanicalskills])
+            block.header = r"""\item CAD"""
+            block.body = r""" \\ \hspace*{0.2em}\small\textit{Catia, Creo, TopSolid}"""
+
+            block = aside_mechanical_skills.createChild() # self.createBlock(parent=self.blocks[self.const.section_aside_mechanicalskills])
+            block.header = r"""\item CAM"""
+            block.body = r""" \\ \hspace*{0.2em}\small\textit{TopSolid}"""
+
+            block = aside_mechanical_skills.createChild() # self.createBlock(parent=self.blocks[self.const.section_aside_mechanicalskills])
+            block.header = r"""\item PDM"""
+            block.body = r""" \\ \hspace*{0.2em}\small\textit{NewPDM, Windchill, TopSolid}"""
+
+            block = aside_mechanical_skills.createChild() # self.createBlock(parent=self.blocks[self.const.section_aside_mechanicalskills])
+            block.header = r"""\item FEM / CAE"""
+            block.body = r""" \\ \hspace*{0.2em}\small\textit{Ansys, Abaqus, Hyperworks}"""
+
+            block = aside_mechanical_skills.createChild() # self.createBlock(parent=self.blocks[self.const.section_aside_mechanicalskills])
+            block.header = r"""\item 3D Printing"""
+            block.body = r""""""
+
+        aside_hobbies = aside and aside.createChild(id=self.const.section_aside_hobbies)
+        if aside_hobbies:
+            # aside_hobbies = self.createBlock(id=self.const.section_aside_hobbies, parent=self.blocks[self.const.section_aside])
+            aside_hobbies.header = r"""\section{Hobbies}
+\begin{itemize}"""
+            aside_hobbies.footer = r"""\end{itemize}"""
+
+            block = aside_hobbies.createChild() # self.createBlock(parent=self.blocks[self.const.section_aside_mechanicalskills])
+            block.header = r"""\item Hiking"""
+
+            block = aside_hobbies.createChild() # self.createBlock(parent=self.blocks[self.const.section_aside_mechanicalskills])
+            block.header = r"""\item Music / Concerts"""
+
+            block = aside_hobbies.createChild() # self.createBlock(parent=self.blocks[self.const.section_aside_mechanicalskills])
+            block.header = r"""\item Cycling, Motorcycling"""
+
+            block = aside_hobbies.createChild() # self.createBlock(parent=self.blocks[self.const.section_aside_mechanicalskills])
+            block.header = r"""\item Photography"""
+
+            block = aside_hobbies.createChild() # self.createBlock(parent=self.blocks[self.const.section_aside_mechanicalskills])
+            block.header = r"""\item Traveling"""
+
+        aside_dateid = aside and aside.createChild(id=self.const.section_aside_dateid)
+        if aside_dateid:
+            # aside_dateid = self.createBlock(id=self.const.section_aside_dateid, parent=self.blocks[self.const.section_aside])
+            aside_dateid.header = r"""\vspace{2.5mm}%\begin{flushleft}
+\small \emph{Auto-generated in \LaTeX}\\"""
+            aside_dateid.body = r"""\small \emph{Date: 02/05/2026} \hspace*{8mm}\\
+\small \emph{Id: 084fe0}"""
+
+        skills_item = skills and skills.createChild(id=self.const.section_skills_backend)
+        if skills_item:
+            # skills_item = self.createBlock(id=self.const.section_skills_backend, parent=self.blocks[self.const.section_skills])
+            skills_item.header = r"""\item \large Back-end / Server \
+\normalsize
+\begin{flushleft}"""
+            skills_item.footer = r"""\end{flushleft}   """
+            skills_item.body = r"""\includegraphics[scale=0.40]{5stars.png}\hspace{1.5mm}\textbf{C\#}
+\includegraphics[scale=0.40]{5stars.png}\hspace{1.5mm}\textbf{Python}\\Flask, Django, FastAPI, SQLAlchemy, PyMongo, PyTest, Numpy, Uvicorn, Pydantic, Requests\\\vspace{2mm}
+\includegraphics[scale=0.40]{4stars.png}\hspace{1.5mm}\textbf{Node.js}\\Express.js, Bcrypt\\
+\includegraphics[scale=0.40]{3stars.png}\hspace{1.5mm}\textbf{Java}
+\includegraphics[scale=0.40]{3stars.png}\hspace{1.5mm}\textbf{\small Nginx,Apache}
+\includegraphics[scale=0.40]{4stars.png}\hspace{1.5mm}\textbf{Rest API}\\OpenAPI standard\\"""
+
+        exp_item = experience and experience.createChild()
+        if exp_item:
+            # exp_item = self.createBlock(parent=self.blocks[self.const.section_experience])
+            exp_item.body = r"""\begin{entrylist}
+    \entry
+    {09/24 - Today.}
+    {Software Engineer}
+    {TopSolid, \textit{Paris, FR}}
+    {Post-processors developement in: C\# (.Net)}
+\end{entrylist}"""
+            exp_item_details = exp_item.createChild()
+            list_block = exp_item_details.createChild()
+            list_block.header = r"""\vspace{-15pt}
+\vspace{0.5mm}
+\begin{itemize}
+    \setlength{\itemsep}{1pt}
+    \setlength{\parskip}{0pt}
+    \setlength{\parsep}{0pt}"""
+            list_block.footer = r"""\end{itemize}"""
+
+            block = list_block.createChild()
+            block.body = r"\item Develop from scratch CNC machines, 6 axes robots and 2D/3D laser cutting machines post-processors in C\# (.Net), G-code (Fanuc), ... + customization layer in proprietary language for our integrators."
+
+            block = list_block.createChild()
+            block.body = r"\item Write documentations and specifications."
+
+            block = list_block.createChild()
+            block.body = r"\item Test and fine-tune in production on customer site."
+
+            block = list_block.createChild()
+            block.body = r"\item Write scripts and automations."
+
+            block = list_block.createChild()
+            block.body = r"\item Install and configure test/machining simulation virtual machines."
+
+            block = list_block.createChild()
+            block.body = r"\item Ensure technical support for customers and improve existing post-processors."
+
+        if education:
+            education_item = education and education.createChild()
+            education_item.body = r"""\begin{entrylist}
+    \entry
+    {09/22 - 08/23}
+    {Bachelor Degree in Software Design \& Development}
+    {EPSI, \textit{Lyon, FR}}
+    {Minor: Data/AI; \hspace{7mm} 09/23: Government Skill Certification}
+\end{entrylist}
+\vspace{0.5mm}"""
 
 
-
-class LatexResumeBlock(LatexDocumentBlock):
-    # def __init__(self, id: str, title: str = "", index: int = -1):
-    #     self.id = id
-    #     self.title = title
-    #     self.index = index
-    #     self.header : str = ""
-    #     self.body: str = ""
-    #     self.footer: str = ""
-    #     self.children: list[LatexDocumentBlock] = []
-
-    def __init__(self, id: str, title: str = "", index: int = -1):
-        super().__init__(id=id, title=title, index=index)  
-
-    
-    def __repr__(self):
-        return self.Build()
-
-    
-    def Build(self) -> str:
-        return self.header + "\n" + self.BuildBody() + "\n" + self.footer
-
-    def BuildBody(self) -> str:
-        childrenContentsList = [childBlock.Build() for childBlock in self.children.values()]
-        childrenContentsJoined = "\n".join(childrenContentsList)
-        return self.body + "\n" + childrenContentsJoined
 
 if __name__ == "__main__":
     resume = LatexResumeBuilder()
