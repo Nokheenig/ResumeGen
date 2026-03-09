@@ -2,6 +2,7 @@ arc/
 logs/
 pdf/
 side
+.venv
 
 # Ignore general files
 *.bcf
