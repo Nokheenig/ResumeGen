@@ -15,7 +15,7 @@
     "label": "",
     "picture": "",
     "email": "y.chamillard.pro@gmail.com",
-    "phone": ".",
+    "phone": "+1 263 379-2042",
     "degree": "",
     "website": "",
     "summary": "~~~~~~Software Developer",
@@ -653,7 +653,7 @@
         },
         "address":{
           "name":"Address",
-          "mobility":"Legally authorized to work in Canada.\\\\"
+          "mobility":""
         },
         "contact":{
           "name":"Contact"

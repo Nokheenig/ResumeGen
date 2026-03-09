@@ -25,8 +25,8 @@ class LatexDocumentBlock:
         return f"[LatexDocumentBlock-{self.id}]"
 
     def __init__(self, id: str = "", title: str = "", header: str = "", body: str = "", footer: str = "", parent: LatexDocumentBlock | None = None, index: int = -1): #, root: LatexDocumentBlock | None = None):
-        with open("resume_gen.log", "w", encoding="utf-8") as f:
-            f.write("pouet")
+        # with open("resume_gen.log", "w", encoding="utf-8") as f:
+        #     f.write("pouet")
         self.root = parent.root if parent else self
         self.parent = parent
         self.children = dict[str,LatexDocumentBlock]()

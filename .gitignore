@@ -1,6 +1,7 @@
 arc/
 logs/
 pdf/
+side
 
 # Ignore general files
 *.bcf
