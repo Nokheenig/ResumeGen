@@ -2,8 +2,13 @@ from __future__ import annotations
 from datetime import datetime #, timedelta
 import argparse
 import re
+import os
 
-parse = argparse.ArgumentParser().parse_args()
+parser = argparse.ArgumentParser(description="A resume generator script that takes some options to control the script output.")
+
+parser.add_argument("-o", "--output", help="Specify the output directory")
+
+args = parser.parse_args()
 
 class ResumeGeneratorSession:
     def __init__(self, args) -> None:
@@ -404,16 +409,17 @@ class LatexResumeBuilder(LatexDocumentBuilder):
         if aside:
             # aside = self.createBlock(id=self.const.section_aside, parent=self.blocks[self.const.section_document])
             aside.header = r"""\begin{aside}
-\vspace{21mm}"""
+\vspace{30mm}"""
             aside.footer = r"""\end{aside}"""
 
         quote = document and document.createChild(id=self.const.section_quote)
         if quote:
             # quote = self.createBlock(id=self.const.section_quote, parent=self.blocks[self.const.section_document])
-            quote.header = r"""\vspace*{-2.0mm}
+            quote.header = r"""\vspace*{-4.5mm}
 \noindent\parbox{\linewidth}{
+\vspace*{8.5mm}
 \centering"""
-            quote.body = "Engineer by training (France, CTI-accredited), now working as a software developer with a strong engineering mindset. Always eager to learn and improve, I am now looking for new challenges!"
+            quote.body = "French Engineer (CTI-accredited), now working as a software developer with a strong engineering mindset. Always eager to learn and improve, I am looking for new challenges!"
             quote.footer = "}"
 
         # duplicate
@@ -434,7 +440,7 @@ class LatexResumeBuilder(LatexDocumentBuilder):
 \end{multicols}
 %\end{itemize}
 \end{flushleft} \normalsize
-\vspace*{-0.65cm}"""
+\vspace*{-2.0mm}"""
 
         # duplicate
         experience = document and document.createChild(id=self.const.section_experience)
@@ -659,7 +665,12 @@ if __name__ == "__main__":
 
     resumeContents = resume.Build()
 
-    with open("resume.tex", "w", encoding="utf-8") as f:
+    outputFilesDirPath = "."
+    outputFilesDirPath = args.output if args.output else "." # os.path.join(args,"tex")
+    
+    outputFilePath = os.path.join(outputFilesDirPath, "resume.tex")
+
+    with open(outputFilePath, "w", encoding="utf-8") as f:
         f.write(resumeContents)
 
     # with open("file.txt", "r", encoding="utf-8") as f:

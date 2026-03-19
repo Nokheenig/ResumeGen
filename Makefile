@@ -8,7 +8,7 @@ QR_DIR = qr
 BUILD_DIR = build
 TEXMF = texmf
 
-VENV := venv
+VENV := .venv
 # Create venv if missing
 $(VENV)/bin/python:
 	python3 -m venv $(VENV)
@@ -35,10 +35,11 @@ all: pdfs
 
 pdfs: $(PDF_FILES)
 
-qrcodes: $(QR_FILES)
 
 # Génère les QR codes et compile les PDF associés
 pdfsWithQr: defaultTex prepareQr qrcodes pdfs
+
+qrcodes: $(QR_FILES)
 
 setup:
 	@echo "System requirements:"
@@ -54,6 +55,7 @@ deps: $(VENV)/bin/python requirements.txt
 
 defaultTex: deps
 	$(PYTHON) ./generate_tex.py -p softDev -f res/resumesData/resume_CAN*
+# 	$(PYTHON) ./classes/resume_generator_session.py -o ./tex
 # 	$(PYTHON) ./generate_tex.py -p softDev webDev mobileDev -f res/resumesData/*
 
 # Ensure image assets are available in the build dir

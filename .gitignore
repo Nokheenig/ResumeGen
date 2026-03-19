@@ -18,6 +18,8 @@ build/
 
 qr
 
+*.tex
+
 # Ignore Python cache
 __pycache__/
 *.pyc
