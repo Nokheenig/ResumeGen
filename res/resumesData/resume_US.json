@@ -11,7 +11,8 @@
     ]
   },
   "basics": {
-    "name": "Yoann Chamillard",
+    "firstname": "Yoann",
+    "lastname": "Chamillard",
     "label": "",
     "picture": "",
     "email": "y.chamillard.pro@gmail.com",
@@ -60,7 +61,7 @@
         "region": "Rhone-Alpes"
       }
     },
-    "profiles": [
+    "online-profiles": [
       {
         "network": "LinkedIn",
         "username": "Yoann Chamillard",

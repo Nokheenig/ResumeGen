@@ -289,6 +289,10 @@ class LatexResumeBuilder(LatexDocumentBuilder):
 
     def __init__(self):
         super().__init__()
+        
+
+    def __init__default(self):
+        super().__init__()
         # blocks = [
         #     LatexResumeBlock("header"),
         #     LatexResumeBlock("aside"),

@@ -6,7 +6,11 @@ import time
 from enum import Enum
 import re
 import math
-from utils import deep_merge_dict
+from utils import deep_merge_dict, deep_extend_dict
+import copy
+from pathlib import Path
+from __future__ import annotations
+from classes.resume_generator_session import LatexResumeBuilder
 
 # import logging as logDal
 # logDal.basicConfig(filename=os.path.join(ROOT_DIR,"logs","resumeGenerator.log"), encoding='utf-8', filemode='w', format='%(asctime)s-%(levelname)s:%(message)s', level=logDal.DEBUG)
@@ -29,9 +33,13 @@ parser.add_argument("-f", "--files", help="Specify the desired resumes (source d
     nargs="+",  # allows multiple values
     required=True
                     )
+parser.add_argument("-o", "--outputdir") # , action='store_true'
 
 args = parser.parse_args()
 
+OUTPUT_DIR = Path(os.path.join(ROOT_DIR,"tex"))
+if args.outputdir:
+    OUTPUT_DIR = Path(args.outputdir)
 # if args.output:
 #     print("Arguments Passed with -o Option:-", args.output)
 # if args.profiles:
@@ -40,6 +48,359 @@ args = parser.parse_args()
 #     pass
 
 class ResumeGenerator:
+    class Resume:
+        def __init__(self, resumeData: dict, profile: str, outputFile: str):
+            self.resumeData = resumeData
+            self.profile = profile
+            self.outputFile = outputFile
+            self.builder = LatexResumeBuilder()
+            self.documentRoot = self.builder.document
+            
+            pass
+        def __repr__(self):
+            return self.buildResume()
+        
+        def buildResume(self) -> str:
+            return self.__repr__()
+        
+        def initialize(self):
+            self.init_base_document()
+            self.init_build_header()
+            self.init_build_aside()
+            self.init_build_skills()
+            self.init_build_experience()
+            self.init_build_education()
+            
+
+        def init_base_document(self):
+            self.documentRoot.header = r"%!TEX TS-program = xelatex"
+            imports = self.documentRoot.getBlock(id=self.const.section_imports)
+            if imports:
+                imports.header = r"""\documentclass[]{friggeri-cv}
+\usepackage{afterpage}
+\usepackage{hyperref}
+\usepackage{color}
+\usepackage{xcolor}
+\usepackage{smartdiagram}
+\usepackage{fontspec}
+%\usepackage{fontawesome}
+\usepackage{metalogo}
+\usepackage{dtklogos}
+\usepackage[utf8]{inputenc}
+\usepackage{tikz}
+\usepackage{multicol}
+\usepackage{setspace}
+\usepackage[document]{ragged2e}"""
+
+            definitions = self.documentRoot.getBlock(id=self.const.section_definitions)
+            if definitions:
+                definitions.header = r"""\usetikzlibrary{mindmap,shadows}
+\hypersetup{
+    pdftitle={},
+    pdfauthor={},
+    pdfsubject={},
+    pdfkeywords={},
+    colorlinks=false,           % no lik border color
+    allbordercolors=white       % white border color for all
+}
+\smartdiagramset{
+    bubble center node font = \footnotesize,
+    bubble node font = \footnotesize,
+    % specifies the minimum size of the bubble center node
+    bubble center node size = 0.5cm,
+    %  specifies the minimum size of the bubbles
+    bubble node size = 0.5cm,
+    % specifies which is the distance among the bubble center node and the other bubbles
+    distance center/other bubbles = 0.3cm,
+    % sets the distance from the text to the border of the bubble center node
+    distance text center bubble = 0.5cm,
+    % set center bubble color
+    bubble center node color = pblue,
+    % define the list of colors usable in the diagram
+    set color list = {lightgray, materialcyan, orange, green, materialorange, materialteal, materialamber, materialindigo, materialgreen, materiallime},
+    % sets the opacity at which the bubbles are shown
+    bubble fill opacity = 0.6,
+    % sets the opacity at which the bubble text is shown
+    bubble text opacity = 0.5,
+}
+\addbibresource{bibliography.bib}
+\RequirePackage{xcolor}
+\definecolor{pblue}{HTML}{0395DE}
+%\titlespacing*{\section}
+%{0pt}{12pt plus 4pt minus 2pt}{0pt plus 2pt minus 2pt}
+%\titlespacing*{\subsection}
+%{0pt}{12pt plus 4pt minus 2pt}{0pt plus 2pt minus 2pt}
+%\titlespacing*{\subsubsection}
+%{0pt}{12pt plus 4pt minus 2pt}{0pt plus 2pt minus 2pt}
+\title{Yoann Chamillard -- Resume}
+\author{Yoann Chamillard}
+\date{05/2/2026}
+\hypersetup{
+  pdftitle={Yoann Chamillard -- Resume},
+  pdfauthor={Yoann Chamillard},
+  pdfsubject={Software Developer - Resume},
+  pdfkeywords={profile:softDev; resume; developer; software; engineer; C\# .Net; Python; Javascript; Node.js; Java; Kotlin; Android; Rest API; Git  GitLab; Docker; Jenkins; Selenium; Cron; Html-Css; MySQL; PostgreSQL; MongoDB; SQLite; Firebase; Bash; Jira; Regex; createdAt:2026-02-05 14:54:58.769054 ; id:084fe0},
+  pdfcreator={LuaLaTeX},
+  pdfproducer={LuaLaTeX}
+}"""
+            self.document = self.documentRoot.getBlock(id=self.const.section_document)
+            if self.document:
+                self.document.header = r"\begin{document}"
+                self.document.footer = r"\end{document}"
+
+        def init_build_header(self):
+            header = self.document.createChild(id=self.const.section_header)
+            basics = self.resumeData["basics"]
+            fname = basics["firstname"]
+            lname = basics["lastname"]
+            summary = basics["summary"]
+            # catchPhrase = basics["catchPhrase"]
+
+            if header and fname and lname and summary:
+
+                header.body = rf"""\header{fname}{lname}
+      {summary}
+      {{}}"""
+            
+            quote = self.document.createChild(id=self.const.section_quote)
+            if quote:
+                    quote.header = r"""\vspace*{-4.5mm}
+\noindent\parbox{\linewidth}{
+\vspace*{8.5mm}
+\centering"""
+                    quote.body = "French Engineer (CTI-accredited), now working as a software developer with a strong engineering mindset. Always eager to learn and improve, I am looking for new challenges!"
+                    quote.footer = "}"
+            pass
+
+        def init_build_aside(self):
+            aside = self.document.createChild(id=self.const.section_aside)
+            if aside:
+                aside.header = r"""\begin{aside}
+\vspace{30mm}"""
+                aside.footer = r"""\end{aside}"""   
+            pass
+
+            aside_infos = aside and aside.createChild(id=self.const.section_aside_infos)
+            if aside_infos:
+                aside_infos.header = r"""\section{Infos}"""
+                block = aside_infos.createChild()
+                block.body = r"""%33 yo\\
+Full driving licence\\"""
+                block.footer = r"""\vspace{3.5mm}"""
+
+                block = aside_infos.createChild()
+                block.body = r"""Legally authorized to work in Canada.\\"""
+                block.footer = r"""\vspace{2.5mm}"""
+            
+            aside_contact = aside and aside.createChild(id=self.const.section_aside_contact)
+            if aside_contact:
+                block = aside_contact.createChild() 
+                block.body = r"""\href{mailto:y.chamillard.pro@gmail.com}{\small y.chamillard.pro@gmail.com}\\"""
+                block.footer = r"""\vspace{2.5mm}"""
+                
+                block = aside_contact.createChild() 
+                block.body = r"""\href{https://www.linkedin.com/in/yoannchamillard/?locale=en_US}{LinkedIn\hspace{1.5mm}\includegraphics[scale=0.075]{hlink.png}}\\"""
+                block.footer = r"""\vspace{2.5mm}"""
+
+            aside_links = aside and aside.createChild(id=self.const.section_aside_links)
+            if aside_links:
+                block = aside_links.createChild()
+                block.body = r"""\href{https://github.com/Nokheenig?tab=stars}{GitHub\hspace{1.5mm}\includegraphics[scale=0.075]{hlink.png}}\\"""
+                block.footer = r"""\vspace{2.5mm}"""
+                
+                block = aside_links.createChild()
+                block.body = r"""\includegraphics[width=1.5cm,height=3cm,keepaspectratio]{qr/resume_CAN_softDev.png}\\"""
+                block.footer = r"""\vspace{2.5mm}"""
+
+            aside_languages = aside and aside.createChild(id=self.const.section_aside_languages)
+            if aside_languages:
+                aside_languages.footer = r"""\vspace{2.5mm}%"""
+
+                block = aside_languages.createChild() 
+                block.body = r"""\makebox[4.3cm][l]{\textbf{French} (native)}\\"""
+
+                block = aside_languages.createChild() 
+                block.body = r"""\makebox[4.3cm][l]{\textbf{English} (C1,Bulats)}\\"""
+
+                block = aside_languages.createChild() 
+                block.body = r"""\makebox[4.3cm][l]{\textbf{German} (B1)}\\"""
+
+                block = aside_languages.createChild() 
+                block.body = r"""\makebox[4.3cm][l]{\textbf{Korean} (A1-2)}\\"""
+
+            aside_strengths = aside and aside.createChild(id=self.const.section_aside_strengths)
+            if aside_strengths:
+                pass
+
+            aside_strengths_list = aside_strengths and aside_strengths.createChild(id=f"{aside_strengths.id}_list")
+            if aside_strengths_list:
+                aside_strengths_list.header = r"""\begin{itemize}"""
+                aside_strengths_list.footer = r"""\end{itemize}"""
+
+                block = aside_strengths_list.createChild()
+                block.body = r"""\item Teamwork"""
+
+                block = aside_strengths_list.createChild()
+                block.body = r"""\item Curiosity/Creativity"""
+
+                block = aside_strengths_list.createChild()
+                block.body = r"""\item Initiative"""
+
+                block = aside_strengths_list.createChild()
+                block.body = r"""\item Organization"""
+
+                block = aside_strengths_list.createChild()
+                block.body = r"""\item Adaptability"""
+
+            aside_mechanical_skills = aside and aside.createChild(id=self.const.section_aside_mechanicalskills)
+            if aside_mechanical_skills:
+                aside_mechanical_skills.header = r"""\section{Mechanical Skills}
+\begin{itemize}"""
+                aside_mechanical_skills.footer = r"""\end{itemize}"""
+
+                block = aside_mechanical_skills.createChild()
+                block.header = r"""\item CAD"""
+                block.body = r""" \\ \hspace*{0.2em}\small\textit{Catia, Creo, TopSolid}"""
+
+                block = aside_mechanical_skills.createChild()
+                block.header = r"""\item CAM"""
+                block.body = r""" \\ \hspace*{0.2em}\small\textit{TopSolid}"""
+
+                block = aside_mechanical_skills.createChild()
+                block.header = r"""\item PDM"""
+                block.body = r""" \\ \hspace*{0.2em}\small\textit{NewPDM, Windchill, TopSolid}"""
+
+                block = aside_mechanical_skills.createChild()
+                block.header = r"""\item FEM / CAE"""
+                block.body = r""" \\ \hspace*{0.2em}\small\textit{Ansys, Abaqus, Hyperworks}"""
+
+                block = aside_mechanical_skills.createChild()
+                block.header = r"""\item 3D Printing"""
+                block.body = r""""""
+
+            aside_hobbies = aside and aside.createChild(id=self.const.section_aside_hobbies)
+            if aside_hobbies:
+                aside_hobbies.header = r"""\section{Hobbies}
+\begin{itemize}"""
+                aside_hobbies.footer = r"""\end{itemize}"""
+
+                block = aside_hobbies.createChild()
+                block.header = r"""\item Hiking"""
+
+                block = aside_hobbies.createChild()
+                block.header = r"""\item Music / Concerts"""
+
+                block = aside_hobbies.createChild()
+                block.header = r"""\item Cycling, Motorcycling"""
+
+                block = aside_hobbies.createChild()
+                block.header = r"""\item Photography"""
+
+                block = aside_hobbies.createChild()
+                block.header = r"""\item Traveling"""
+
+            aside_dateid = aside and aside.createChild(id=self.const.section_aside_dateid)
+            if aside_dateid:
+                aside_dateid.header = r"""\vspace{2.5mm}%\begin{flushleft}
+\small \emph{Auto-generated in \LaTeX}\\"""
+                aside_dateid.body = r"""\small \emph{Date: 02/05/2026} \hspace*{8mm}\\
+\small \emph{Id: 084fe0}"""
+
+        def init_build_skills(self):
+            skills = self.document.createChild(id=self.const.section_skills)
+            if skills:
+                skills.header = r"""\vspace*{0.8mm}
+\section{IT-Skills}
+\vspace*{-0.45cm}
+\setlength{\columnsep}{-0.3cm}
+\begin{flushleft}
+\begin{multicols}{3}
+\begin{itemize}
+    \setlength{\itemsep}{5pt}
+    \setlength{\parskip}{0pt}
+    \setlength{\parsep}{0pt}"""
+                skills.footer = r"""\end{itemize}
+\end{multicols}
+%\end{itemize}
+\end{flushleft} \normalsize
+\vspace*{-2.0mm}"""
+
+            skills_item = skills and skills.createChild(id=self.const.section_skills_backend)
+            if skills_item:
+                skills_item.header = r"""\item \large Back-end / Server \
+\normalsize
+\begin{flushleft}"""
+                skills_item.footer = r"""\end{flushleft}   """
+                skills_item.body = r"""\includegraphics[scale=0.40]{5stars.png}\hspace{1.5mm}\textbf{C\#}
+\includegraphics[scale=0.40]{5stars.png}\hspace{1.5mm}\textbf{Python}\\Flask, Django, FastAPI, SQLAlchemy, PyMongo, PyTest, Numpy, Uvicorn, Pydantic, Requests\\\vspace{2mm}
+\includegraphics[scale=0.40]{4stars.png}\hspace{1.5mm}\textbf{Node.js}\\Express.js, Bcrypt\\
+\includegraphics[scale=0.40]{3stars.png}\hspace{1.5mm}\textbf{Java}
+\includegraphics[scale=0.40]{3stars.png}\hspace{1.5mm}\textbf{\small Nginx,Apache}
+\includegraphics[scale=0.40]{4stars.png}\hspace{1.5mm}\textbf{Rest API}\\OpenAPI standard\\"""
+
+        def init_build_experience(self):
+            experience = self.document.createChild(id=self.const.section_experience)
+            if experience:
+                experience.header = r"""\section{Work Experience}
+\vspace*{-0.25cm}"""
+
+            exp_item = experience and experience.createChild()
+            if exp_item:
+                exp_item.body = r"""\begin{entrylist}
+    \entry
+    {09/24 - Today.}
+    {Software Engineer}
+    {TopSolid, \textit{Paris, FR}}
+    {Post-processors developement in: C\# (.Net)}
+\end{entrylist}"""
+                exp_item_details = exp_item.createChild()
+                list_block = exp_item_details.createChild()
+                list_block.header = r"""\vspace{-15pt}
+\vspace{0.5mm}
+\begin{itemize}
+    \setlength{\itemsep}{1pt}
+    \setlength{\parskip}{0pt}
+    \setlength{\parsep}{0pt}"""
+                list_block.footer = r"""\end{itemize}"""
+
+                block = list_block.createChild()
+                block.body = r"\item Develop from scratch CNC machines, 6 axes robots and 2D/3D laser cutting machines post-processors in C\# (.Net), G-code (Fanuc), ... + customization layer in proprietary language for our integrators."
+
+                block = list_block.createChild()
+                block.body = r"\item Write documentations and specifications."
+
+                block = list_block.createChild()
+                block.body = r"\item Test and fine-tune in production on customer site."
+
+                block = list_block.createChild()
+                block.body = r"\item Write scripts and automations."
+
+                block = list_block.createChild()
+                block.body = r"\item Install and configure test/machining simulation virtual machines."
+
+                block = list_block.createChild()
+                block.body = r"\item Ensure technical support for customers and improve existing post-processors."
+        
+        def init_build_education(self):
+            education = self.document.createChild(id=self.const.section_education)
+            if education:
+                education.header = r"""\vspace*{-0.5cm}
+    \vspace*{0.45cm}
+    \section{Education - Certifications}
+    \vspace*{-0.25cm}
+    \vspace{0.5mm}"""
+                
+            if education:
+                education_item = education and education.createChild()
+                education_item.body = r"""\begin{entrylist}
+    \entry
+    {09/22 - 08/23}
+    {Bachelor Degree in Software Design \& Development}
+    {EPSI, \textit{Lyon, FR}}
+    {Minor: Data/AI; \hspace{7mm} 09/23: Government Skill Certification}
+\end{entrylist}
+\vspace{0.5mm}"""
+        
     def __init__(self, args) -> None:
         with open(os.path.join(ROOT_DIR,"res",f"doc_header.tex")) as f:
             self.docHeader = f.read()
@@ -51,10 +412,11 @@ class ResumeGenerator:
         self.month = str(self.targetDay.month)
         self.day = "0" + str(self.targetDay.day) if len(str(self.targetDay.day)) < 2 else str(self.targetDay.day) #on ajoute 0 devant le jour s'il est compris entre 1 et 9
         self.currentProfile = None
-        self.sessionProfiles = ["all"] if "all" in self.args.profiles else self.args.profiles # self.getCurrentProfiles()
+        # self.sessionProfiles = self.getSessionProfileList
+        self.isResumeFilter = True # #TODO when starting a new resume, set back to true unless current resume profile is unfiltered -> profile repalced with default and isFiltered set to false
         self.currentProfiles = None
 
-        self.resumeGenerateList = self.getResumeGenerateList()
+        self.validatedInputFilesPathList = self.getValidatedInputFiles()
         self.isDetailedResume = self.args.no_filtering is not None and self.args.no_filtering
         self.currentFile = None
         self.currentFileName = None
@@ -65,7 +427,211 @@ class ResumeGenerator:
         # print("cancelling job...")
         # exit()
     
-    def getResumeGenerateList(self) -> list[tuple[str, list[str]]]:
+    # def isResumeDataFiltered(self) -> bool:
+    #     return "-unfiltered" in self.currentProfile
+        
+    def getSessionProfileList(self) -> list[str]:
+        profiles = ["default"]
+        if self.args.profiles:
+            profiles =  [ profile for profile in self.args.profiles if profile in self.rawDataDictionariesProfileFullList] #TODO : change from list comprehension to add notification when a profile has been discarded for not existing in base data
+
+        if "all" in profiles: 
+            return self.rawDataDictionariesProfileFullList
+        else:
+            return profiles
+
+    def generateResumes(self):
+        # Load all unfiltered data files from leaf to root (no parent data source)
+        self.rawDataDictionariesByFile = self.getRawDataDictionariesByFile()
+
+        # get a list of all profiles in loaded data files
+        self.rawDataDictionariesProfileFullList = self.getRawDataProfileFullList()
+
+        # get resume generating session profiles list
+        self.sessionProfileList = self.getSessionProfileList()
+
+        # 
+        self.unconsolidatedResumeDataByFileByProfile = self.getUnconsolidatedResumeDataByFileByProfile()
+
+        self.consolidatedResumeDataByFileByProfile = self.getConsolidatedResumeDataByFileByProfile()
+
+        self.resumesByFileByProfile = self.getResumesByFileByProfile()
+
+        self.writeResumes()
+        pass
+    
+    def writeResumes(self, inResumes: dict[str,dict[str,ResumeGenerator.Resume]]):
+        for file, resumeByProfile in inResumes.items():
+            for profile, resume in resumeByProfile.items():
+                self.writeResume(resume)
+
+    def writeResume(self, inResume: ResumeGenerator.Resume):
+        with open(inResume.outputFile, "w", encoding='utf-8') as f:
+            f.write(inResume.buildResume())
+
+            
+
+    def getResumesByFileByProfile(self) -> dict[str,dict[str,ResumeGenerator.Resume]]:
+        output = {}
+        for file, fileDataByProfile in enumerate(self.consolidatedResumeDataByFileByProfile):
+            output[file] = {}
+            for profile, data in enumerate(fileDataByProfile):
+                extIndex = f"{file}".rfind(".")
+                filename = f"{file}"[:extIndex]
+                extension = f"{file}"[extIndex+1:]
+                profileTag = f"_{profile}" if profile not in ["default"] else ""
+                filename = f"{filename}{profileTag}.tex"
+                outputFile = OUTPUT_DIR / filename
+                resume = self.Resume(resumeData=data, profile=profile, outputFile=outputFile)
+                output[file][profile] = resume
+        return output
+
+    def getConsolidatedResumeDataByFileByProfile(self) -> dict:
+        output = {}
+        # resumeHasParentData = lambda  
+        for file in self.validatedInputFilesPathList:
+            output[file] = {}
+            for profile in self.sessionProfileList:
+                resumeDataStack = []
+                fileData = self.unconsolidatedResumeDataByFileByProfile[file][profile]
+
+                while fileData is not None:
+                    resumeDataStack.add(fileData)
+                    fileData = self.getResumeParentData(fileData)
+
+                # resume base data is base of the stack
+                resumeData = resumeDataStack.pop(0)
+
+                # while elements left on the stack, extend base resume data
+                while len(resumeDataStack)>0:
+                    resumeData = deep_extend_dict(base=resumeData, extension=resumeDataStack.pop(0))
+
+                # add resulting dictionary to output dict under current file key
+                output[file][profile] = resumeData
+        return output
+    
+    def getRawDataProfileFullList(self) -> set[str]:
+        profileList = set()
+        for file, fileData in enumerate(self.rawDataDictionariesByFile):
+            fileProfiles = self.getResumeProfiles(fileData)
+            for profile in fileProfiles: profileList.add(profile)
+        profileList.add("default")
+
+        return profileList
+
+    def getUnconsolidatedResumeDataByFileByProfile(self) -> dict:
+        outData = {}
+        for file, fileData in enumerate(self.rawDataDictionariesByFile):
+            fileProfiles = self.getResumeProfiles(fileData)
+            filteredProfiles = [profile for profile in fileProfiles if profile in self.sessionProfileList]
+            for profile in filteredProfiles:
+                if file not in outData: outData[file] = {}
+                data = copy.deepcopy(fileData)
+                data = self.deepFilterProfileDict(inRawDict=data, inProfile=profile, isFilter="unfiltered" in profile)
+                # key = f"{file}_{profile}"
+                outData[file][profile] = data
+        return outData
+            
+    # def getProfileFilteredDict(self, inRawDict: dict, inProfile: str) -> dict:
+    #     return self.deepFilterProfileDict(inDict=inRawDict, inProfile=inProfile, isFilter="unfiltered" in inProfile)
+
+    def deepFilterProfileDict(self, inDict: dict, inProfile: str, isFilter = True) -> dict:
+        """
+        Filter input dictionary with inProfile
+        """
+        for key, val in enumerate(inDict):
+            # if key->value is dictionary recursively call function to filter deeper dictionary
+            if isinstance(val, dict): self.deepFilterProfileDict(inDict=val, inProfile=inProfile, isFilter=isFilter)
+            # if key is list of dict: loop on items to filter and keep or remove them based on profile
+            if isinstance(val, list[dict]):
+                for itemIdx in range(len(val), -1, -1):
+                    item = val[itemIdx]
+                    if "profile" in item:
+                        profile = item["profile"]
+                        pin = "in" in profile
+                        pex = "except" in profile
+                        isDisplayed = True
+                        if pin and inProfile not in pin and isFilter: isDisplayed = False
+                        if pex and inProfile in pex and isFilter: isDisplayed = False
+                        if not isDisplayed:
+                            val.pop(itemIdx)
+                            continue
+                        if pin: profile.pop("in", None)
+                        if pex: profile.pop("except", None)
+                        if inProfile in profile:
+                            overrides = profile[inProfile]
+                            item.pop("profile", None)
+                            for overFieldKey, overFieldData in enumerate(overrides):
+                                if overFieldKey in item and isinstance(overFieldData, dict) and isinstance(item[overFieldKey], dict):
+                                    deep_merge_dict(base=item, override=overFieldData)
+                                else:
+                                    item[overFieldKey] = overFieldData
+                        if "profile" in item: item.pop("profile", None)
+            else:
+                pass
+        
+        if "profile" in inDict:
+            profile = inDict["profile"]
+            if inProfile in profile:
+                overrides = profile[inProfile]
+                inDict.pop("profile", None)
+                for overFieldKey, overFieldData in enumerate(overrides):
+                    if overFieldKey in inDict and isinstance(overFieldData, dict) and isinstance(inDict[overFieldKey], dict):
+                        deep_merge_dict(base=inDict, override=overFieldData)
+                    else:
+                        inDict[overFieldKey] = overFieldData
+            if "profile" in inDict: inDict.pop("profile", None)
+
+            pass
+        return inDict
+
+    def getResumeProfiles(self, inDict: dict) -> list[str]:
+        if "file" in inDict and "profiles" in inDict["file"] and isinstance(inDict["file"]["profiles"], list[str]):
+            fileProfiles = inDict["file"]["profiles"]
+            if "default" not in fileProfiles: fileProfiles.append("default")
+            return fileProfiles
+        else:
+            return ["default"]
+
+        
+
+    def getResumeParentData(self, inDict: dict, inProfile: str) -> dict|None:
+        if not self.resumeHasParentData(inDict):
+            return None
+        parentFile = inDict["file"]["parent"]
+        return self.unconsolidatedResumeDataByFileByProfile[parentFile][inProfile] # TODO must harden, what if key doesn t exist ?
+
+    def resumeHasParentData(self, inDict: dict) -> bool:
+        return "file" in inDict and "parent" in inDict["file"] and inDict["file"]["parent"]
+
+    def getRawDataDictionariesByFile(self) -> dict[str,dict]:
+        output = {}
+        for file in self.validatedInputFilesPathList:
+            fileBranchLoaded = False
+            currentFile = file
+            while not fileBranchLoaded:
+                if currentFile in output:
+                    fileBranchLoaded = True
+                    continue
+                else:
+                    with open(file, "r", encoding='utf-8') as f:
+                        fileContents = json.loads(f.read())
+                        output[currentFile] = fileContents
+                        if "file" in fileContents and "parent" in fileContents["file"]:
+                            parentFile = fileContents["file"]["parent"]
+                            if parentFile:
+                                currentFile = parentFile
+                                continue
+                            else:
+                                fileBranchLoaded = True
+                                continue
+                        else:
+                            fileBranchLoaded = True
+                            continue
+            # if fileBranchLoaded:
+        return output
+
+    def getValidatedInputFiles(self) -> list[tuple[str, list[str]]]:
         if self.args.files is None or len(self.args.files) < 1:
             print(f"No target json resume in input !\nAdd -f and specify the target resumes to generate tex resumes\nCancelling job...")
             exit()
@@ -115,13 +681,13 @@ class ResumeGenerator:
         # for filename in ["resume_FR", "resume_FR_detailed", "resume_CAN", "resume_CAN_detailed", "resume_CAN-QC", "resume_CAN-QC_detailed", "resume_AS_detailed"]:
         profileThreshold = 5
         profileGenerated = 0
-        while len(self.resumeGenerateList) > 0:
+        while len(self.validatedInputFilesPathList) > 0:
             # if profileGenerated >= profileThreshold:
             #     print(f"Profile generation threshold reached: {profileThreshold} profiles generated.")
             #     logDal.info(f"Profile generation threshold reached: {profileThreshold} profiles generated.")
             #     break
             # profileGenerated += 1
-            self.currentFile = self.resumeGenerateList.pop(0)
+            self.currentFile = self.validatedInputFilesPathList.pop(0)
             self.currentFileName = self.currentFile[self.currentFile.rfind("/")+1:self.currentFile.rfind(".json")] 
             self.currentFileDir = os.path.dirname(self.currentFile)
             print(f"Processing file: {self.currentFileName}.json")
@@ -813,6 +1379,7 @@ class ResumeGenerator:
         else:
             hobbiesData = self.currentResumeData['interests']
             return ""#hobbies
+
 
 class ResumeLocation(Enum):
     PARIS = "Paris,France"
