@@ -1,5 +1,10 @@
 {
     "file": {
         "parent": "resume_FR.json"
+    },
+    "data": {
+        "contacts": {
+            "phone": [ "+1 263 379-2042" ]
+        } 
     }
 }
