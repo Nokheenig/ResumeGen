@@ -766,27 +766,33 @@
       {
         "groups": [
           {
-            "name": "Outings",
+            "name": "Hiking",
             "items": [
               "Hiking, Cycling, Motorcycling, Concerts, Photography"
             ]
           },
           {
-            "name": "Music",
+            "name": "Music / Concerts",
             "items": [
               "Drums, Piano"
+            ]
+          },
+          {
+            "name": "Cycling, Motorcycling",
+            "items": [
+              "Hiking, Cycling, Motorcycling, Concerts, Photography"
+            ]
+          },
+          {
+            "name": "Photography",
+            "items": [
+              "B.Werber, M.Chattam, F.Thilliez"
             ]
           },
           {
             "name": "Travels",
             "items": [
               "Sweden, Cambodia, Thailand, Germany"
-            ]
-          },
-          {
-            "name": "Reads",
-            "items": [
-              "B.Werber, M.Chattam, F.Thilliez"
             ]
           }
         ],
@@ -800,21 +806,24 @@
       }
     ]
   },
-  "translations": {
-    "headers": {
-        "infos": "Infos",
-        "address": "Address",
-        "contact": "Contact",
-        "online-profiles": "Online Profiles",
-        "languages": "Languages",
-        "soft-skills": "Soft Skills",
-        "skills": "Skills",
-        "skills-it": "It-Skills",
-        "strengths": "Strengths",
-        "mechanical-skills": "Mechanical Skills",
-        "hobbies": "Hobbies"
-    }
-  },
+  "document": {
+    "translations": {
+      "headers": {
+          "infos": "Infos",
+          "address": "Address",
+          "contact": "Contact",
+          "online-profiles": "Online Profiles",
+          "languages": "Languages",
+          "soft-skills": "Soft Skills",
+          "skills": "Skills",
+          "skills-it": "It-Skills",
+          "strengths": "Strengths",
+          "mechanical-skills": "Mechanical Skills",
+          "hobbies": "Hobbies",
+          "experience": "Work Experience",
+          "education": "Education - Certifications"
+      }
+    },
   "layout": {
     "sections":{
       "skills":{
@@ -958,5 +967,9 @@
         "hobbies": "Hobbies"
       }
     }
-   }
+   },
+    "formats": {
+      "date": "%m/%d/%Y"
+    }
+  }
 }

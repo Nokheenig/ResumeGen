@@ -767,27 +767,33 @@
       {
         "groups": [
           {
-            "name": "Sorties",
+            "name": "Randonnée",
             "items": [
               "Randonnée, Vélo, Moto, Concerts, Photo"
             ]
           },
           {
-            "name": "Musique",
+            "name": "Musique / Concerts",
             "items": [
               "Batterie, Piano"
             ]
           },
           {
-            "name": "Voyage",
+            "name": "Vélo, Moto",
             "items": [
-              "Suède, Cambodge, Thailande, Allemagne"
+              "Randonnée, Vélo, Moto, Concerts, Photo"
             ]
           },
           {
-            "name": "Lecture",
+            "name": "Photo",
             "items": [
               "B.Werber, M.Chattam, F.Thilliez"
+            ]
+          },
+          {
+            "name": "Voyages",
+            "items": [
+              "Suède, Cambodge, Thailande, Allemagne"
             ]
           }
         ],
@@ -801,163 +807,170 @@
       }
     ]
   },
-  "translations": {
-    "headers": {
-        "infos": "Infos",
-        "address": "Adresse",
-        "contact": "Contact",
-        "online-profiles": "Profils en ligne",
-        "languages": "Langues",
-        "soft-skills": "Savoir-être / Personnalité",
-        "skills": "Compétences",
-        "skills-it": "Compétences informatiques",
-        "strengths": "Forces",
-        "mechanical-skills": "Compétences mécaniques",
-        "hobbies": "Loisirs"
-    }
-  },
-  "layout": {
-    "sections":{
-      "skills":{
-        "id": "skills",
-        "name":"Skills",
-        "contents": [
-          {
-            "type": "latexcmd",
-            "cmd": "vspace*",
-            "args": ["-0.45cm"]
-          },
-          {
-            "type": "latexcmd",
-            "cmd": "setlength",
-            "args": ["\\columnsep", "-0.3cm"]
-          },
-          {
-            "type": "latexenv",
-            "env": "flushleft",
-            "args": [],
-            "items": [
-              {
-                "type": "latexenv",
-                "env": "multicols",
-                "$options": {"columnsep": "auto"},
-                "items": [
-                  {
-                    "type": "@LatexDocumentBlock",
-                    "items":[
-                          {
-                        "type": "latexenv",
-                        "env": "itemize",
-                        "header": {
-                          "items":[
+  "document": {
+    "translations": {
+        "headers": {
+            "infos": "Infos",
+            "address": "Adresse",
+            "contact": "Contact",
+            "online-profiles": "Profils en ligne",
+            "languages": "Langues",
+            "soft-skills": "Savoir-être / Personnalité",
+            "skills": "Compétences",
+            "skills-it": "Compétences informatiques",
+            "strengths": "Forces",
+            "mechanical-skills": "Compétences mécaniques",
+            "hobbies": "Loisirs"
+        }
+      },
+    "layout": {
+      "sections":{
+        "skills":{
+          "id": "skills",
+          "name":"Skills",
+          "contents": [
+            {
+              "type": "latexcmd",
+              "cmd": "vspace*",
+              "args": ["-0.45cm"]
+            },
+            {
+              "type": "latexcmd",
+              "cmd": "setlength",
+              "args": ["\\columnsep", "-0.3cm"]
+            },
+            {
+              "type": "latexenv",
+              "env": "flushleft",
+              "args": [],
+              "items": [
+                {
+                  "type": "latexenv",
+                  "env": "multicols",
+                  "$options": {"columnsep": "auto"},
+                  "items": [
+                    {
+                      "type": "@LatexDocumentBlock",
+                      "items":[
                             {
-                              "type": "latexcmd",
-                              "cmd": "setlength",
-                              "args": ["\\itemsep", "5pt"]
-                            },
-                            {
-                              "type": "latexcmd",
-                              "cmd": "setlength",
-                              "args": ["\\parskip", "0pt"]
-                            },
-                            {
-                              "type": "latexcmd",
-                              "cmd": "setlength",
-                              "args": ["\\parsep", "0pt"]
-                            }
-                          ]
-                        },
-                        "items": {
-                          "items-data": "@{data|skills|groups}",
-                          "items-layout": [
-                            {
-                              "type": "item",
-                              "name": "${#name}"
-                            },
-                            {
-                              "type": "latexcmd",
-                              "cmd": "normalsize",
-                              "args": []
-                            },
-                            {
-                              "type": "latexenv",
-                              "env": "flushleft",
-                              "items": {
-                                "items-data": "@{#items}",
-                                "items-layout": [
-                                  {
-                                    "type": "latexcmd",
-                                    "cmd": "includegraphics[scale=0.40]",
-                                    "args": ["${level}stars.png"],
-                                    "eol": ""
-                                  },
-                                  {
-                                    "type": "latexcmd",
-                                    "cmd": "hspace",
-                                    "args": ["1.5mm"],
-                                    "eol": ""
-                                  },
-                                  {
-                                    "type": "latexcmd",
-                                    "cmd": "textbf",
-                                    "args": ["${name}"],
-                                    "eol": "\\\\"
-                                  },
-                                  {
-                                    "type": "latexline",
-                                    "data": ["${details}"]
-                                  }
-                                ]
+                          "type": "latexenv",
+                          "env": "itemize",
+                          "header": {
+                            "items":[
+                              {
+                                "type": "latexcmd",
+                                "cmd": "setlength",
+                                "args": ["\\itemsep", "5pt"]
+                              },
+                              {
+                                "type": "latexcmd",
+                                "cmd": "setlength",
+                                "args": ["\\parskip", "0pt"]
+                              },
+                              {
+                                "type": "latexcmd",
+                                "cmd": "setlength",
+                                "args": ["\\parsep", "0pt"]
                               }
-                            }
-                          ]
+                            ]
+                          },
+                          "items": {
+                            "items-data": "@{data|skills|groups}",
+                            "items-layout": [
+                              {
+                                "type": "item",
+                                "name": "${#name}"
+                              },
+                              {
+                                "type": "latexcmd",
+                                "cmd": "normalsize",
+                                "args": []
+                              },
+                              {
+                                "type": "latexenv",
+                                "env": "flushleft",
+                                "items": {
+                                  "items-data": "@{#items}",
+                                  "items-layout": [
+                                    {
+                                      "type": "latexcmd",
+                                      "cmd": "includegraphics[scale=0.40]",
+                                      "args": ["${level}stars.png"],
+                                      "eol": ""
+                                    },
+                                    {
+                                      "type": "latexcmd",
+                                      "cmd": "hspace",
+                                      "args": ["1.5mm"],
+                                      "eol": ""
+                                    },
+                                    {
+                                      "type": "latexcmd",
+                                      "cmd": "textbf",
+                                      "args": ["${name}"],
+                                      "eol": "\\\\"
+                                    },
+                                    {
+                                      "type": "latexline",
+                                      "data": ["${details}"]
+                                    }
+                                  ]
+                                }
+                              }
+                            ]
+                          }
                         }
-                      }
-                    ]
-                    
-                  }
-                ]
-              }
-            ]
+                      ]
+                      
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "$overrides":[
+          {
+            "with": [ "profile:it*" ],
+            "except": [  ],
+            "data": { "name": "IT-Skills" }
           }
-        ],
-        "$overrides":[
-        {
-          "with": [ "profile:it*" ],
-          "except": [  ],
-          "data": { "name": "IT-Skills" }
+        ]
+        },
+        "experience":{
+          "name":"Work Experience",
+          "details": {
+            "context-mission": "Context - Mission: ",
+            "goals": "Goal: ",
+            "achievements": "Tasks - Achievements: ",
+            "results": "Results: ",
+            "tech-env": "Tech. Envir.: "
+          }
+        },
+        "education":{
+          "name":"Education - Certifications"
+        },
+        "hobbies":{
+          "name":"Hobbies"
         }
-      ]
       },
-      "experience":{
-        "name":"Work Experience",
-        "details": {
-          "context-mission": "Context - Mission: ",
-          "goals": "Goal: ",
-          "achievements": "Tasks - Achievements: ",
-          "results": "Results: ",
-          "tech-env": "Tech. Envir.: "
+      "aside": {
+        "sections": {
+          "infos": "Infos",
+          "address": "Address",
+          "contact": "Contact",
+          "online-profiles": "Online Profiles",
+          "languages": "Languages",
+          "soft-skills": "Soft Skills",
+          "strengths": "Strengths",
+          "mechanical-skills": "Mechanical Skills",
+          "hobbies": "Hobbies",
+          "experience": "Experience",
+          "education": "Education - Certifications"
         }
-      },
-      "education":{
-        "name":"Education - Certifications"
-      },
-      "hobbies":{
-        "name":"Hobbies"
       }
     },
-    "aside": {
-      "sections": {
-        "infos": "Infos",
-        "address": "Address",
-        "contact": "Contact",
-        "online-profiles": "Online Profiles",
-        "languages": "Languages",
-        "soft-skills": "Soft Skills",
-        "strengths": "Strengths",
-        "mechanical-skills": "Mechanical Skills",
-        "hobbies": "Hobbies"
-      }
+    "formats": {
+      "date": "%d/%m/%Y"
     }
-   }
+  }
 }

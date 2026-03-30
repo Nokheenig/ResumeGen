@@ -29,7 +29,7 @@ class LatexDocumentBlock:
     def __repr__(self):
         return f"[LatexDocumentBlock-{self.id}]"
 
-    def __init__(self, id: str = "", title: str = "", header: str = "", body: str = "", footer: str = "", parent: LatexDocumentBlock | None = None, index: int = -1): #, root: LatexDocumentBlock | None = None):
+    def __init__(self, id: str = "", title: str = "", header: str | LatexDocumentBlock = "", body: str = "", footer: str | LatexDocumentBlock = "", parent: LatexDocumentBlock | None = None, index: int = -1): #, root: LatexDocumentBlock | None = None):
         # with open("resume_gen.log", "w", encoding="utf-8") as f:
         #     f.write("pouet")
         self.root = parent.root if parent else self
@@ -85,10 +85,14 @@ class LatexDocumentBlock:
         # if body: output += body + "\n"
         # if self.footer: output += self.footer # + "\n"
         # return output
+
+        header = self.header.Build() if isinstance(self.header, LatexDocumentBlock) else self.header
+        footer = self.footer.Build() if isinstance(self.footer, LatexDocumentBlock) else self.footer
+
         buildElements = [
-            self.header,
+            header,
             self.BuildBody(),
-            self.footer
+            footer
         ]
         idx = len(buildElements)-1
         while idx >=0:
@@ -157,7 +161,7 @@ class LatexDocumentBlock:
             return False
         return True
     
-    def createChild(self, id: str = "", title: str = "", header: str = "", body: str = "", footer: str = "", index: int = -1) -> LatexDocumentBlock:
+    def createChild(self, id: str = "", title: str = "", header: str | LatexDocumentBlock = "", body: str = "", footer: str | LatexDocumentBlock = "", index: int = -1) -> LatexDocumentBlock:
         parent = self
         idRoot, reqIdInstNum = LatexDocumentBlock.getIdRootAndInstNum(id=id)
         id = LatexDocumentBlock.getNewChildId(parent=parent, idRoot=idRoot, reqIdInstNum=reqIdInstNum)
@@ -166,7 +170,7 @@ class LatexDocumentBlock:
         return block
 
     @staticmethod
-    def createBlock(parent: LatexDocumentBlock, id: str = "", title: str = "", header: str = "", body: str = "", footer: str = "", index: int = -1) -> LatexDocumentBlock: #, parent: LatexDocumentBlock | None = None, index: int = -1, force = False, keepIndex = True) -> LatexDocumentBlock:
+    def createBlock(parent: LatexDocumentBlock, id: str = "", title: str = "", header: str | LatexDocumentBlock = "", body: str = "", footer: str | LatexDocumentBlock = "", index: int = -1) -> LatexDocumentBlock: #, parent: LatexDocumentBlock | None = None, index: int = -1, force = False, keepIndex = True) -> LatexDocumentBlock:
         #parent = parent if parent else self
         #if parent.root != self.root: raise Exception("Not allowed to attach a new block to a different document tree!")
 
@@ -259,7 +263,7 @@ class LatexDocumentBuilder:
         for block in self.blocks.keys():
             if block != self.document.id: self.document.attachBlock(block=self.blocks[block])
 
-    def createBlock(self, id: str = "", title: str = "", header: str = "", body: str = "", footer: str = "", parent: LatexDocumentBlock | None = None, index: int = -1) -> LatexDocumentBlock:
+    def createBlock(self, id: str = "", title: str = "", header: str | LatexDocumentBlock = "", body: str = "", footer: str | LatexDocumentBlock = "", parent: LatexDocumentBlock | None = None, index: int = -1) -> LatexDocumentBlock:
         block = LatexDocumentBlock(id=id, title=title, header=header, body=body, footer=footer, parent=parent, index=index)
         # self.blocks[id] = block
         if parent:

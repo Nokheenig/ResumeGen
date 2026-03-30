@@ -10,7 +10,7 @@ from utils import deep_merge_dict, deep_extend_dict
 import copy
 from pathlib import Path
 from __future__ import annotations
-from classes.resume_generator_session import LatexResumeBuilder
+from classes.resume_generator_session import LatexResumeBuilder, LatexDocumentBlock
 
 # import logging as logDal
 # logDal.basicConfig(filename=os.path.join(ROOT_DIR,"logs","resumeGenerator.log"), encoding='utf-8', filemode='w', format='%(asctime)s-%(levelname)s:%(message)s', level=logDal.DEBUG)
@@ -49,12 +49,16 @@ if args.outputdir:
 
 class ResumeGenerator:
     class Resume:
-        def __init__(self, resumeData: dict, profile: str, outputFile: str):
+        def __init__(self, resumeData: dict, profile: str, outputFile: Path):
             self.resumeData = resumeData
+            self.data = resumeData["data"]
+            self.document_data = resumeData["document"]
+            self.translations = self.document_data["translations"]
             self.profile = profile
             self.outputFile = outputFile
             self.builder = LatexResumeBuilder()
             self.documentRoot = self.builder.document
+            self.resumeId = self.getResumeId()
             
             pass
         def __repr__(self):
@@ -150,25 +154,27 @@ class ResumeGenerator:
 
         def init_build_header(self):
             header = self.document.createChild(id=self.const.section_header)
-            basics = self.resumeData["basics"]
+            basics = self.data["basics"]
             fname = basics["firstname"]
             lname = basics["lastname"]
-            summary = basics["summary"]
-            # catchPhrase = basics["catchPhrase"]
+            intro = basics["intro"]
+            title = intro["title"]
 
-            if header and fname and lname and summary:
-
+            if header and fname and lname and title:
                 header.body = rf"""\header{fname}{lname}
-      {summary}
+      {title}
       {{}}"""
             
             quote = self.document.createChild(id=self.const.section_quote)
             if quote:
+                    # basics = self.data["basics"]
+                    catchPhrase = intro["catchPhrase"]
+
                     quote.header = r"""\vspace*{-4.5mm}
 \noindent\parbox{\linewidth}{
 \vspace*{8.5mm}
 \centering"""
-                    quote.body = "French Engineer (CTI-accredited), now working as a software developer with a strong engineering mindset. Always eager to learn and improve, I am looking for new challenges!"
+                    quote.body = catchPhrase
                     quote.footer = "}"
             pass
 
@@ -178,228 +184,350 @@ class ResumeGenerator:
                 aside.header = r"""\begin{aside}
 \vspace{30mm}"""
                 aside.footer = r"""\end{aside}"""   
-            pass
+            
+            self.init_build_aside_infos(aside)
 
-            aside_infos = aside and aside.createChild(id=self.const.section_aside_infos)
+            self.init_build_aside_contacts(aside)
+
+            self.init_build_aside_links(aside)
+
+            self.init_build_aside_languages(aside)
+
+            self.init_build_aside_strengths(aside)
+
+            self.init_build_aside_mechanical_skills(aside)
+
+            self.init_build_aside_hobbies(aside)
+
+            self.init_build_aside_dateid(aside)
+            
+
+        def init_build_aside_infos(self, inAsideBlock: LatexDocumentBlock):
+            aside_infos = inAsideBlock and inAsideBlock.createChild(id=self.const.section_aside_infos)
             if aside_infos:
                 aside_infos.header = r"""\section{Infos}"""
-                block = aside_infos.createChild()
-                block.body = r"""%33 yo\\
-Full driving licence\\"""
-                block.footer = r"""\vspace{3.5mm}"""
+                basics = self.data["basics"]
+                licence = basics["licence"]
+                mobility = basics["mobility"]
+                if licence:
+                    block = aside_infos.createChild()
+                    block.body = rf"""{licence}\\"""
+                    block.footer = r"""\vspace{3.5mm}"""
+                if mobility:
+                    block = aside_infos.createChild()
+                    block.body = rf"""{mobility}\\"""
+                    block.footer = r"""\vspace{2.5mm}"""
 
-                block = aside_infos.createChild()
-                block.body = r"""Legally authorized to work in Canada.\\"""
-                block.footer = r"""\vspace{2.5mm}"""
-            
-            aside_contact = aside and aside.createChild(id=self.const.section_aside_contact)
+        def init_build_aside_contacts(self, inAsideBlock: LatexDocumentBlock):
+            aside_contact = inAsideBlock and inAsideBlock.createChild(id=self.const.section_aside_contact)
             if aside_contact:
-                block = aside_contact.createChild() 
-                block.body = r"""\href{mailto:y.chamillard.pro@gmail.com}{\small y.chamillard.pro@gmail.com}\\"""
-                block.footer = r"""\vspace{2.5mm}"""
-                
-                block = aside_contact.createChild() 
-                block.body = r"""\href{https://www.linkedin.com/in/yoannchamillard/?locale=en_US}{LinkedIn\hspace{1.5mm}\includegraphics[scale=0.075]{hlink.png}}\\"""
-                block.footer = r"""\vspace{2.5mm}"""
+                contacts = self.data["contacts"]
+                email = contacts["email"]
+                phone = contacts["phone"]
+                online_profiles = contacts["online"]
 
-            aside_links = aside and aside.createChild(id=self.const.section_aside_links)
+                if email and len(email)>0:
+                    block = aside_contact.createChild() 
+                    block.body = rf"""\href{{mailto:{email}}}{{\small {email}}}\\"""
+                    block.footer = r"""\vspace{2.5mm}"""
+                
+                if phone and len(phone)>0:
+                    block = aside_contact.createChild() 
+                    block.body = rf"""{phone[0]}\\"""
+                    block.footer = r""""""
+
+                
+
+        def init_build_aside_links(self, inAsideBlock: LatexDocumentBlock):
+            aside_links = inAsideBlock and inAsideBlock.createChild(id=self.const.section_aside_links)
             if aside_links:
-                block = aside_links.createChild()
-                block.body = r"""\href{https://github.com/Nokheenig?tab=stars}{GitHub\hspace{1.5mm}\includegraphics[scale=0.075]{hlink.png}}\\"""
-                block.footer = r"""\vspace{2.5mm}"""
+                contacts = self.data["contacts"]
+                online_profiles = contacts["online"]
+
+                if online_profiles and len(online_profiles)>0:
+                    for online_profile in online_profiles:
+                        profile_name = online_profile["name"]
+                        profile_type = online_profile["type"]
+                        profile_alias = online_profile["alias"]
+                        profile_url = online_profile["url"]
+                        
+                        block = aside_links.createChild() 
+                        block.body = rf"""\href{{{profile_url}}}{{{profile_name}\hspace{{1.5mm}}\includegraphics[scale=0.075]{{hlink.png}}}}\\"""
+                        block.footer = r"""\vspace{2.5mm}"""
                 
+                # Add QR code with the link to the resume in github pages
+                filename = self.outputFile.stem
                 block = aside_links.createChild()
-                block.body = r"""\includegraphics[width=1.5cm,height=3cm,keepaspectratio]{qr/resume_CAN_softDev.png}\\"""
+                block.body = rf"""\includegraphics[width=1.5cm,height=3cm,keepaspectratio]{{qr/{filename}.png}}\\"""
                 block.footer = r"""\vspace{2.5mm}"""
 
-            aside_languages = aside and aside.createChild(id=self.const.section_aside_languages)
-            if aside_languages:
-                aside_languages.footer = r"""\vspace{2.5mm}%"""
+        def init_build_aside_languages(self, inAsideBlock: LatexDocumentBlock):
+            languages = self.data["languages"]
+            if languages and len(languages)>0:
+                aside_languages = inAsideBlock and inAsideBlock.createChild(id=self.const.section_aside_languages)
+                if aside_languages:
+                    aside_languages.footer = r"""\vspace{2.5mm}%"""
 
-                block = aside_languages.createChild() 
-                block.body = r"""\makebox[4.3cm][l]{\textbf{French} (native)}\\"""
+                    for lang in languages:
+                        language = lang["language"]
+                        fluency = lang["fluency"]
+                        test = lang["test"]
 
-                block = aside_languages.createChild() 
-                block.body = r"""\makebox[4.3cm][l]{\textbf{English} (C1,Bulats)}\\"""
+                        block = aside_languages.createChild() 
+                        block.body = rf"""\makebox[4.3cm][l]{{\textbf{language} ({test})}}\\"""
 
-                block = aside_languages.createChild() 
-                block.body = r"""\makebox[4.3cm][l]{\textbf{German} (B1)}\\"""
 
-                block = aside_languages.createChild() 
-                block.body = r"""\makebox[4.3cm][l]{\textbf{Korean} (A1-2)}\\"""
+        def init_build_aside_strengths(self, inAsideBlock: LatexDocumentBlock):
+            soft_skills = self.data["soft-skills"]
+            strengths = soft_skills["strengths"] if soft_skills else []
 
-            aside_strengths = aside and aside.createChild(id=self.const.section_aside_strengths)
-            if aside_strengths:
-                pass
+            if strengths and len(strengths)>0:
+                aside_strengths = inAsideBlock and inAsideBlock.createChild(id=self.const.section_aside_strengths)
+                if aside_strengths:
+                    pass
 
-            aside_strengths_list = aside_strengths and aside_strengths.createChild(id=f"{aside_strengths.id}_list")
-            if aside_strengths_list:
-                aside_strengths_list.header = r"""\begin{itemize}"""
-                aside_strengths_list.footer = r"""\end{itemize}"""
+                aside_strengths_list = aside_strengths and aside_strengths.createChild(id=f"{aside_strengths.id}_list")
+                if aside_strengths_list:
+                    aside_strengths_list.header = r"""\begin{itemize}"""
+                    aside_strengths_list.footer = r"""\end{itemize}"""
 
-                block = aside_strengths_list.createChild()
-                block.body = r"""\item Teamwork"""
+                    for strength in strengths:
+                        strength_name = strength["name"]
+                        strength_details = strength["details"]
 
-                block = aside_strengths_list.createChild()
-                block.body = r"""\item Curiosity/Creativity"""
+                        block = aside_strengths_list.createChild()
+                        block.body = rf"""\item {strength_name}"""
 
-                block = aside_strengths_list.createChild()
-                block.body = r"""\item Initiative"""
 
-                block = aside_strengths_list.createChild()
-                block.body = r"""\item Organization"""
+        def init_build_aside_mechanical_skills(self, inAsideBlock: LatexDocumentBlock):
+            hard_skills = self.data["hard-skills"]
+            mechanical_skills = hard_skills["mechanical-skills"] if hard_skills else []
+            headers_trans = self.translations["headers"]if "headers" in self.translations else {}
+            title = headers_trans["mechanical-skills"] if "mechanical_skills" in headers_trans else ""
 
-                block = aside_strengths_list.createChild()
-                block.body = r"""\item Adaptability"""
+            if mechanical_skills and len(mechanical_skills)> 0:
+                aside_mechanical_skills = inAsideBlock and inAsideBlock.createChild(id=self.const.section_aside_mechanicalskills)
+                if aside_mechanical_skills:
+                    aside_mechanical_skills.header = rf"""\section{{{title}}}
+    \begin{{itemize}}"""
+                    aside_mechanical_skills.footer = r"""\end{itemize}"""
 
-            aside_mechanical_skills = aside and aside.createChild(id=self.const.section_aside_mechanicalskills)
-            if aside_mechanical_skills:
-                aside_mechanical_skills.header = r"""\section{Mechanical Skills}
-\begin{itemize}"""
-                aside_mechanical_skills.footer = r"""\end{itemize}"""
+                    for skill in mechanical_skills:
+                        name = skill["name"]
+                        details = skill["details"]
+                        if not name: continue
 
-                block = aside_mechanical_skills.createChild()
-                block.header = r"""\item CAD"""
-                block.body = r""" \\ \hspace*{0.2em}\small\textit{Catia, Creo, TopSolid}"""
+                        block = aside_mechanical_skills.createChild()
+                        block.header = rf"""\item {name}"""
+                        block.body = rf""" \\ \hspace*{{0.2em}}\small\textit{{{details}}}""" if not details else ""
 
-                block = aside_mechanical_skills.createChild()
-                block.header = r"""\item CAM"""
-                block.body = r""" \\ \hspace*{0.2em}\small\textit{TopSolid}"""
 
-                block = aside_mechanical_skills.createChild()
-                block.header = r"""\item PDM"""
-                block.body = r""" \\ \hspace*{0.2em}\small\textit{NewPDM, Windchill, TopSolid}"""
+        def init_build_aside_hobbies(self, inAsideBlock: LatexDocumentBlock):
+            interests = self.data["interests"] if "interests" in self.data else {}
+            groups = interests["groups"] if "groups" in interests else []
+            headers_trans = self.translations["headers"]if "headers" in self.translations else {}
+            title = headers_trans["hobbies"] if "hobbies" in headers_trans else ""
 
-                block = aside_mechanical_skills.createChild()
-                block.header = r"""\item FEM / CAE"""
-                block.body = r""" \\ \hspace*{0.2em}\small\textit{Ansys, Abaqus, Hyperworks}"""
+            if not groups or len(groups) == 0: return
 
-                block = aside_mechanical_skills.createChild()
-                block.header = r"""\item 3D Printing"""
-                block.body = r""""""
+            aside_hobbies = inAsideBlock and inAsideBlock.createChild(id=self.const.section_aside_hobbies)
+            if not aside_hobbies: return
 
-            aside_hobbies = aside and aside.createChild(id=self.const.section_aside_hobbies)
-            if aside_hobbies:
-                aside_hobbies.header = r"""\section{Hobbies}
-\begin{itemize}"""
-                aside_hobbies.footer = r"""\end{itemize}"""
+            aside_hobbies.header = rf"""\section{{{title}}}
+\begin{{itemize}}"""
+            aside_hobbies.footer = r"""\end{itemize}"""
 
+            for hobby in groups:
+                hobby_name = hobby["name"] if "name" in hobby else ""
                 block = aside_hobbies.createChild()
-                block.header = r"""\item Hiking"""
+                block.header = rf"""\item {hobby_name}"""
 
-                block = aside_hobbies.createChild()
-                block.header = r"""\item Music / Concerts"""
+        def init_build_aside_dateid(self, inAsideBlock: LatexDocumentBlock):
+            document_formats = self.document_data["formats"] if "formats" in self.document_data else {}
+            date_format = document_formats["date"] if "date" in document_formats else "%d/%m/%Y"
+            createdOn = datetime.now().strftime(date_format)
+            resumeId = self.resumeId
 
-                block = aside_hobbies.createChild()
-                block.header = r"""\item Cycling, Motorcycling"""
+            aside_dateid = inAsideBlock and inAsideBlock.createChild(id=self.const.section_aside_dateid)
+            if not aside_dateid: return
 
-                block = aside_hobbies.createChild()
-                block.header = r"""\item Photography"""
-
-                block = aside_hobbies.createChild()
-                block.header = r"""\item Traveling"""
-
-            aside_dateid = aside and aside.createChild(id=self.const.section_aside_dateid)
-            if aside_dateid:
-                aside_dateid.header = r"""\vspace{2.5mm}%\begin{flushleft}
-\small \emph{Auto-generated in \LaTeX}\\"""
-                aside_dateid.body = r"""\small \emph{Date: 02/05/2026} \hspace*{8mm}\\
-\small \emph{Id: 084fe0}"""
+            aside_dateid.header = rf"""\vspace{{2.5mm}}%\begin{{flushleft}}
+\small \emph{{Auto-generated in \LaTeX}}\\"""
+            aside_dateid.body = rf"""\small \emph{{Date: {createdOn}}} \hspace*{{8mm}}\\
+\small \emph{{Id: {resumeId}}}"""
 
         def init_build_skills(self):
+            skills_data = self.data["skills"] if "skills" in self.data else {}
+            hard_skills = skills_data["hard-skills"] if "hard-skills" in skills_data else {}
+            it_skills = hard_skills["it-skills"] if "it-skills" in hard_skills else {}
+            groups = it_skills["groups"] if "groups" in it_skills else []
+
+            if not groups or len(groups) == 0: return
+
             skills = self.document.createChild(id=self.const.section_skills)
-            if skills:
-                skills.header = r"""\vspace*{0.8mm}
-\section{IT-Skills}
-\vspace*{-0.45cm}
-\setlength{\columnsep}{-0.3cm}
-\begin{flushleft}
-\begin{multicols}{3}
-\begin{itemize}
-    \setlength{\itemsep}{5pt}
-    \setlength{\parskip}{0pt}
-    \setlength{\parsep}{0pt}"""
-                skills.footer = r"""\end{itemize}
+            if not skills: return
+
+            headers_trans = self.translations["headers"] if "headers" in self.translations else {}
+            section_title = headers_trans["skills-it"] if "skills-it" in headers_trans else ""
+
+            skills.header = rf"""\vspace*{{0.8mm}}
+\section{{{section_title}}}
+\vspace*{{-0.45cm}}
+\setlength{{\columnsep}}{{-0.3cm}}
+\begin{{flushleft}}
+\begin{{multicols}}{{3}}
+\begin{{itemize}}
+\setlength{{\itemsep}}{{5pt}}
+\setlength{{\parskip}}{{0pt}}
+\setlength{{\parsep}}{{0pt}}"""
+            skills.footer = r"""\end{itemize}
 \end{multicols}
 %\end{itemize}
 \end{flushleft} \normalsize
 \vspace*{-2.0mm}"""
 
-            skills_item = skills and skills.createChild(id=self.const.section_skills_backend)
-            if skills_item:
-                skills_item.header = r"""\item \large Back-end / Server \
+            for skill_section in groups:
+                section_name = skill_section["name"] if "name" in skill_section else ""
+                section_items = skill_section["items"] if "items" in skill_section else []
+
+                if not section_name or not section_items or len(section_items) == 0: continue
+
+                skills_group = skills and skills.createChild(id=section_name)
+                if not skills_group: continue
+
+                skills_group.header = rf"""\item \large {section_name} \
 \normalsize
-\begin{flushleft}"""
-                skills_item.footer = r"""\end{flushleft}   """
-                skills_item.body = r"""\includegraphics[scale=0.40]{5stars.png}\hspace{1.5mm}\textbf{C\#}
-\includegraphics[scale=0.40]{5stars.png}\hspace{1.5mm}\textbf{Python}\\Flask, Django, FastAPI, SQLAlchemy, PyMongo, PyTest, Numpy, Uvicorn, Pydantic, Requests\\\vspace{2mm}
-\includegraphics[scale=0.40]{4stars.png}\hspace{1.5mm}\textbf{Node.js}\\Express.js, Bcrypt\\
-\includegraphics[scale=0.40]{3stars.png}\hspace{1.5mm}\textbf{Java}
-\includegraphics[scale=0.40]{3stars.png}\hspace{1.5mm}\textbf{\small Nginx,Apache}
-\includegraphics[scale=0.40]{4stars.png}\hspace{1.5mm}\textbf{Rest API}\\OpenAPI standard\\"""
+\begin{{flushleft}}"""
+                skills_group.footer = r"""\end{flushleft}   """
+
+                for item in section_items:
+                    item_name = item["name"] if "name" in item else ""
+                    item_level = item["level"] if "level" in item else None
+                    item_details = item["details"] if "details" in item else None
+
+                    if not item_name or not item_level: continue
+
+                    skills_group_item = skills_group.createChild(id=item_name)
+                    skills_group_item.body = rf"""\includegraphics[scale=0.40]{{{item_level}stars.png}}\hspace{{1.5mm}}\textbf{{{item_name}}}\\"""
+                    if item_details: skills_group_item.body += rf"""{item_details}\\\vspace{{2mm}}"""
+
+
 
         def init_build_experience(self):
+            experience_items = self.data["experience"] if "experience" in self.data else []
+
+            headers_trans = self.translations["headers"]if "headers" in self.translations else {}
+            title = headers_trans["experience"] if "experience" in headers_trans else ""
+
+            if not experience_items or len(experience_items) == 0 or not title: return
+            
             experience = self.document.createChild(id=self.const.section_experience)
-            if experience:
-                experience.header = r"""\section{Work Experience}
-\vspace*{-0.25cm}"""
+            if not experience: return
+            
+            experience.header = rf"""\section{{{title}}}
+\vspace*{{-0.25cm}}"""
 
-            exp_item = experience and experience.createChild()
-            if exp_item:
-                exp_item.body = r"""\begin{entrylist}
+            for experience in experience_items:
+                date_from = experience["date-from"] if "date-from" in experience else ""
+                date_to = experience["date-to"] if "date-to" in experience else ""
+                
+                company = experience["company"] if "company" in experience else ""
+                position = experience["position"] if "position" in experience else ""
+                summary = experience["summary"] if "summary" in experience else ""
+
+                location = experience["location"] if "location" in experience else {}
+                city = location["city"] if "city" in location else ""
+                country = location["country"] if "country" in location else ""
+                countryCode = location["countryCode"] if "countryCode" in location else ""
+                zipCode = location["zipCode"] if "zipCode" in location else ""
+
+                if not date_from or not company or not position or not summary or not city or not countryCode: continue
+
+                exp_item = experience.createChild()
+                if not exp_item: continue
+
+                exp_item.body = rf"""\begin{{entrylist}}
     \entry
-    {09/24 - Today.}
-    {Software Engineer}
-    {TopSolid, \textit{Paris, FR}}
-    {Post-processors developement in: C\# (.Net)}
-\end{entrylist}"""
+    {{{date_from} - {date_to}}}
+    {{{position}}}
+    {{{company}, \textit{{{city}, {countryCode}}}}}
+    {{{summary}}}
+\end{{entrylist}}"""
+                
+                context_mission = experience["context-mission"] if "context-mission" in experience else ""
+                goals = experience["goals"] if "goals" in experience else []
+                achievements = experience["achievements"] if "achievements" in experience else []
+                results = experience["results"] if "results" in experience else []
+                tech_env = experience["tech-env"] if "tech-env" in experience else []
+                detailed = context_mission or goals or achievements or results or tech_env
+
+                if not detailed: continue
+
                 exp_item_details = exp_item.createChild()
-                list_block = exp_item_details.createChild()
-                list_block.header = r"""\vspace{-15pt}
-\vspace{0.5mm}
-\begin{itemize}
-    \setlength{\itemsep}{1pt}
-    \setlength{\parskip}{0pt}
-    \setlength{\parsep}{0pt}"""
-                list_block.footer = r"""\end{itemize}"""
+                # TODO Continue from here
+                
+                if achievements and len(achievements)>0:
+                    list_block = exp_item_details.createChild()
+                    list_block.header = r"""\vspace{-15pt}
+    \vspace{0.5mm}
+    \begin{itemize}
+        \setlength{\itemsep}{1pt}
+        \setlength{\parskip}{0pt}
+        \setlength{\parsep}{0pt}"""
+                    list_block.footer = r"""\end{itemize}"""
 
-                block = list_block.createChild()
-                block.body = r"\item Develop from scratch CNC machines, 6 axes robots and 2D/3D laser cutting machines post-processors in C\# (.Net), G-code (Fanuc), ... + customization layer in proprietary language for our integrators."
+                    for achievement in achievements:
+                        block = list_block.createChild()
+                        block.body = rf"\item {achievement}"
 
-                block = list_block.createChild()
-                block.body = r"\item Write documentations and specifications."
-
-                block = list_block.createChild()
-                block.body = r"\item Test and fine-tune in production on customer site."
-
-                block = list_block.createChild()
-                block.body = r"\item Write scripts and automations."
-
-                block = list_block.createChild()
-                block.body = r"\item Install and configure test/machining simulation virtual machines."
-
-                block = list_block.createChild()
-                block.body = r"\item Ensure technical support for customers and improve existing post-processors."
         
         def init_build_education(self):
+            education_items = self.data["education"] if "education" in self.data else []
+
+            headers_trans = self.translations["headers"]if "headers" in self.translations else {}
+            title = headers_trans["education"] if "education" in headers_trans else ""
+
             education = self.document.createChild(id=self.const.section_education)
-            if education:
-                education.header = r"""\vspace*{-0.5cm}
+            if not education or len(education_items) == 0: return
+            
+            education.header = r"""\vspace*{-0.5cm}
     \vspace*{0.45cm}
     \section{Education - Certifications}
     \vspace*{-0.25cm}
     \vspace{0.5mm}"""
-                
-            if education:
-                education_item = education and education.createChild()
-                education_item.body = r"""\begin{entrylist}
+
+            for education_entry in education_items:
+                institution = education_entry["institution"] if "institution" in education_entry else ""
+                area = education_entry["area"] if "area" in education_entry else ""
+                subarea = education_entry["subarea"] if "subarea" in education_entry else ""
+                date_from = education_entry["date-from"] if "date-from" in education_entry else ""
+                date_to = education_entry["date-to"] if "date-to" in education_entry else ""
+                location = education_entry["location"] if "location" in education_entry else {}
+                city = location["city"] if "city" in location else ""
+                country = location["country"] if "country" in location else ""
+                countryCode = location["countryCode"] if "countryCode" in location else ""
+                zipCode = location["zipCode"] if "zipCode" in location else ""
+                detailsBlock = education_entry["detailsBlock"] if "detailsBlock" in education_entry else ""
+
+                if not date_from or not area or not institution or not city or not countryCode: continue
+
+                education_item = education.createChild()
+                education_item.body = rf"""\begin{{entrylist}}
     \entry
-    {09/22 - 08/23}
-    {Bachelor Degree in Software Design \& Development}
-    {EPSI, \textit{Lyon, FR}}
-    {Minor: Data/AI; \hspace{7mm} 09/23: Government Skill Certification}
-\end{entrylist}
-\vspace{0.5mm}"""
+    {{{date_from} - {date_to}}}
+    {{{area}}}
+    {{{institution}, \textit{{{city}, {countryCode}}}}}
+    {{{subarea}}}
+\end{{entrylist}}
+\vspace{{0.5mm}}"""
+
+        def getResumeId(self) -> str:
+            resumeId = "default"
+            if self.currentProfile is not None:
+                resumeId = self.currentProfile
+            resumeId += f"_{self.createdAt}"
+            resumeId = hashlib.shake_256(resumeId.encode()).hexdigest(3)
+            return resumeId
         
     def __init__(self, args) -> None:
         with open(os.path.join(ROOT_DIR,"res",f"doc_header.tex")) as f:
