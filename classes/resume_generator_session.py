@@ -4,11 +4,11 @@ import argparse
 import re
 import os
 
-parser = argparse.ArgumentParser(description="A resume generator script that takes some options to control the script output.")
+# parser = argparse.ArgumentParser(description="A resume generator script that takes some options to control the script output.")
 
-parser.add_argument("-o", "--output", help="Specify the output directory")
+# parser.add_argument("-o", "--output", help="Specify the output directory")
 
-args = parser.parse_args()
+# args = parser.parse_args()
 
 class ResumeGeneratorSession:
     def __init__(self, args) -> None:
@@ -668,18 +668,18 @@ Full driving licence\\"""
 
 
 
-if __name__ == "__main__":
-    resume = LatexResumeBuilder()
+# if __name__ == "__main__":
+#     resume = LatexResumeBuilder()
 
-    resumeContents = resume.Build()
+#     resumeContents = resume.Build()
 
-    outputFilesDirPath = "."
-    outputFilesDirPath = args.output if args.output else "." # os.path.join(args,"tex")
+#     outputFilesDirPath = "."
+#     outputFilesDirPath = args.output if args.output else "." # os.path.join(args,"tex")
     
-    outputFilePath = os.path.join(outputFilesDirPath, "resume.tex")
+#     outputFilePath = os.path.join(outputFilesDirPath, "resume.tex")
 
-    with open(outputFilePath, "w", encoding="utf-8") as f:
-        f.write(resumeContents)
+#     with open(outputFilePath, "w", encoding="utf-8") as f:
+#         f.write(resumeContents)
 
-    # with open("file.txt", "r", encoding="utf-8") as f:
-    #     print(f.read())
+#     # with open("file.txt", "r", encoding="utf-8") as f:
+#     #     print(f.read())

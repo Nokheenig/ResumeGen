@@ -37,7 +37,7 @@ pdfs: $(PDF_FILES)
 
 
 # Génère les QR codes et compile les PDF associés
-pdfsWithQr: defaultTex prepareQr qrcodes pdfs
+pdfsWithQr: qrTex prepareQr qrcodes pdfs
 
 qrcodes: $(QR_FILES)
 
@@ -54,9 +54,15 @@ deps: $(VENV)/bin/python requirements.txt
 	$(PIP) install -r requirements.txt
 
 defaultTex: deps
-	$(PYTHON) ./generate_tex.py -p softDev -f res/resumesData/resume_CAN*
+	$(PYTHON) ./generate_tex.py -p "itsoftware" -f res/resumesData/resume_CAN*
 # 	$(PYTHON) ./classes/resume_generator_session.py -o ./tex
 # 	$(PYTHON) ./generate_tex.py -p softDev webDev mobileDev -f res/resumesData/*
+
+qrTex: deps
+# 	@ls -al
+# 	$(PYTHON) --version
+	$(PYTHON) ./generate_tex.py --profiles it-software --files ./res/resumesData/resume_CAN*
+# 	$(PYTHON) ./generate_tex.py -p itsoftware -f res/resumesData/resume_CAN*
 
 # Ensure image assets are available in the build dir
 prepare:

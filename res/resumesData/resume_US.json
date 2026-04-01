@@ -439,7 +439,7 @@
               {
                 "name":"Kotlin",
                 "level": "5",
-                "details": "\\\\Room, Firebase, Gson, Jetpack Compose, Retrofit, MVVM, Coroutine\\\\\\vspace{2mm}"
+                "details": "\\\\Room, Firebase, Compose, Retrofit, MVVM, Coroutine\\\\\\vspace{2mm}"
               },
               {
                 "name":"Flutter",

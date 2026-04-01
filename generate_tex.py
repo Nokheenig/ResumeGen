@@ -1,3 +1,4 @@
+from __future__ import annotations
 import os
 import json
 from definitions import ROOT_DIR
@@ -9,7 +10,6 @@ import math
 from utils import deep_merge_dict, deep_extend_dict
 import copy
 from pathlib import Path
-from __future__ import annotations
 from classes.resume_generator_session import LatexResumeBuilder, LatexDocumentBlock
 
 # import logging as logDal
@@ -18,52 +18,29 @@ from classes.resume_generator_session import LatexResumeBuilder, LatexDocumentBl
 import argparse
 import hashlib
 
-parser = argparse.ArgumentParser(description="A resume generator script that takes some options to control the script output.")
-
-# parser.add_argument("-o", "--output", help="Specify the output file")
-parser.add_argument("-p", "--profiles", help="Specify the resume profiles to generate: webDev, mobileDev, dataScientist, dataEngineer, devOps, ...",
-    nargs="+",  # allows multiple values
-    required=False
-                    )
-parser.add_argument("-n", "--nofiltering", help="Override the filtering of resume data and generate with the maximum of data available.", action='store_true')
-# parser.add_argument("-h", "--help", action="help", help="Show help message and exit")
-parser.add_argument("-f", "--files", help="Specify the desired resumes (source data files, optionally with profiles) to generate.",
-    nargs="+",  # allows multiple values
-    required=True
-                    )
-parser.add_argument("-o", "--outputdir") # , action='store_true'
-
-args = parser.parse_args()
-
-OUTPUT_DIR = Path(os.path.join(ROOT_DIR,"tex"))
-if args.outputdir:
-    OUTPUT_DIR = Path(args.outputdir)
-# if args.output:
-#     print("Arguments Passed with -o Option:-", args.output)
-# if args.profiles:
-#     print("Arguments Passed with -o Option:-", args.output)
-# else:
-#     pass
-
 class ResumeGenerator:
     class Resume:
+        const = LatexResumeBuilder.const
         def __init__(self, resumeData: dict, profile: str, outputFile: Path):
             self.resumeData = resumeData
             self.data = resumeData["data"]
             self.document_data = resumeData["document"]
             self.translations = self.document_data["translations"]
+            self.createdOn = datetime.now().strftime("%d/%m/%Y") 
             self.profile = profile
             self.outputFile = outputFile
             self.builder = LatexResumeBuilder()
             self.documentRoot = self.builder.document
             self.resumeId = self.getResumeId()
+            self.selfRefQr = False
+
             
             pass
         def __repr__(self):
             return self.buildResume()
         
         def buildResume(self) -> str:
-            return self.__repr__()
+            return self.documentRoot.Build()
         
         def initialize(self):
             self.init_base_document()
@@ -159,8 +136,8 @@ class ResumeGenerator:
             title = intro["title"]
 
             if header and fname and lname and title:
-                header.body = rf"""\header{fname}{lname}
-      {title}
+                header.body = rf"""\header{{{fname}}}{{{lname}}}
+      {{{title}}}
       {{}}"""
             
             quote = self.document.createChild(id=self.const.section_quote)
@@ -250,14 +227,15 @@ class ResumeGenerator:
                         profile_url = online_profile["url"]
                         
                         block = aside_links.createChild() 
-                        block.body = rf"""\href{{{profile_url}}}{{{profile_name}\hspace{{1.5mm}}\includegraphics[scale=0.075]{{hlink.png}}}}\\"""
+                        block.body = rf"""\href{{{profile_url}}}{{{profile_name}\hspace{{1.5mm}}\includegraphics[scale=0.075]{{hlink.png}}}}"""
                         block.footer = r"""\vspace{2.5mm}"""
                 
                 # Add QR code with the link to the resume in github pages
-                filename = self.outputFile.stem
-                block = aside_links.createChild()
-                block.body = rf"""\includegraphics[width=1.5cm,height=3cm,keepaspectratio]{{qr/{filename}.png}}\\"""
-                block.footer = r"""\vspace{2.5mm}"""
+                if(self.selfRefQr):
+                    filename = self.outputFile.stem
+                    block = aside_links.createChild()
+                    block.body = rf"""\includegraphics[width=1.5cm,height=3cm,keepaspectratio]{{qr/{filename}.png}}"""
+                    block.footer = r"""\vspace{2.5mm}"""
 
         def init_build_aside_languages(self, inAsideBlock: LatexDocumentBlock):
             languages = self.data["languages"]
@@ -272,11 +250,11 @@ class ResumeGenerator:
                         test = lang["test"]
 
                         block = aside_languages.createChild() 
-                        block.body = rf"""\makebox[4.3cm][l]{{\textbf{language} ({test})}}\\"""
+                        block.body = rf"""\makebox[4.3cm][l]{{\textbf{{{language}}} ({test})}}\\"""
 
 
         def init_build_aside_strengths(self, inAsideBlock: LatexDocumentBlock):
-            soft_skills = self.data["soft-skills"]
+            soft_skills = self.data["skills"]["soft-skills"]
             strengths = soft_skills["strengths"] if soft_skills else []
 
             if strengths and len(strengths)>0:
@@ -298,7 +276,7 @@ class ResumeGenerator:
 
 
         def init_build_aside_mechanical_skills(self, inAsideBlock: LatexDocumentBlock):
-            hard_skills = self.data["hard-skills"]
+            hard_skills = self.data["skills"]["hard-skills"]
             mechanical_skills = hard_skills["mechanical-skills"] if hard_skills else []
             headers_trans = self.translations["headers"]if "headers" in self.translations else {}
             title = headers_trans["mechanical-skills"] if "mechanical_skills" in headers_trans else ""
@@ -343,7 +321,7 @@ class ResumeGenerator:
         def init_build_aside_dateid(self, inAsideBlock: LatexDocumentBlock):
             document_formats = self.document_data["formats"] if "formats" in self.document_data else {}
             date_format = document_formats["date"] if "date" in document_formats else "%d/%m/%Y"
-            createdOn = datetime.now().strftime(date_format)
+            createdOn = datetime.now().strftime(date_format) # "%d/%m/%Y"
             resumeId = self.resumeId
 
             aside_dateid = inAsideBlock and inAsideBlock.createChild(id=self.const.section_aside_dateid)
@@ -406,8 +384,8 @@ class ResumeGenerator:
                     if not item_name or not item_level: continue
 
                     skills_group_item = skills_group.createChild(id=item_name)
-                    skills_group_item.body = rf"""\includegraphics[scale=0.40]{{{item_level}stars.png}}\hspace{{1.5mm}}\textbf{{{item_name}}}\\"""
-                    if item_details: skills_group_item.body += rf"""{item_details}\\\vspace{{2mm}}"""
+                    skills_group_item.body = rf"""\includegraphics[scale=0.40]{{{item_level}stars.png}}\hspace{{1.5mm}}\textbf{{{item_name}}}"""
+                    if item_details: skills_group_item.body += rf"""{item_details}\vspace{{2mm}}"""
 
 
 
@@ -425,15 +403,15 @@ class ResumeGenerator:
             experience.header = rf"""\section{{{title}}}
 \vspace*{{-0.25cm}}"""
 
-            for experience in experience_items:
-                date_from = experience["date-from"] if "date-from" in experience else ""
-                date_to = experience["date-to"] if "date-to" in experience else ""
+            for exp in experience_items:
+                date_from = exp["date-from"] if "date-from" in exp else ""
+                date_to = exp["date-to"] if "date-to" in exp else ""
                 
-                company = experience["company"] if "company" in experience else ""
-                position = experience["position"] if "position" in experience else ""
-                summary = experience["summary"] if "summary" in experience else ""
+                company = exp["company"] if "company" in exp else ""
+                position = exp["position"] if "position" in exp else ""
+                summary = exp["summary"] if "summary" in exp else ""
 
-                location = experience["location"] if "location" in experience else {}
+                location = exp["location"] if "location" in exp else {}
                 city = location["city"] if "city" in location else ""
                 country = location["country"] if "country" in location else ""
                 countryCode = location["countryCode"] if "countryCode" in location else ""
@@ -452,11 +430,11 @@ class ResumeGenerator:
     {{{summary}}}
 \end{{entrylist}}"""
                 
-                context_mission = experience["context-mission"] if "context-mission" in experience else ""
-                goals = experience["goals"] if "goals" in experience else []
-                achievements = experience["achievements"] if "achievements" in experience else []
-                results = experience["results"] if "results" in experience else []
-                tech_env = experience["tech-env"] if "tech-env" in experience else []
+                context_mission = exp["context-mission"] if "context-mission" in exp else ""
+                goals = exp["goals"] if "goals" in exp else []
+                achievements = exp["achievements"] if "achievements" in exp else []
+                results = exp["results"] if "results" in exp else []
+                tech_env = exp["tech-env"] if "tech-env" in exp else []
                 detailed = context_mission or goals or achievements or results or tech_env
 
                 if not detailed: continue
@@ -521,9 +499,9 @@ class ResumeGenerator:
 
         def getResumeId(self) -> str:
             resumeId = "default"
-            if self.currentProfile is not None:
-                resumeId = self.currentProfile
-            resumeId += f"_{self.createdAt}"
+            if self.profile is not None:
+                resumeId = self.profile
+            resumeId += f"_{self.createdOn}"
             resumeId = hashlib.shake_256(resumeId.encode()).hexdigest(3)
             return resumeId
         
@@ -531,7 +509,7 @@ class ResumeGenerator:
         # with open(os.path.join(ROOT_DIR,"res",f"doc_header.tex")) as f:
         #     self.docHeader = f.read()
 
-        # self.args = args
+        self.args = args
         # self.today = datetime.now()
         # self.targetDay = self.today
         # self.year = str(self.targetDay.year)
@@ -547,18 +525,9 @@ class ResumeGenerator:
         if self.args.nofiltering is not None and self.args.nofiltering:
             self.isDetailedResume = True
             self.options.append("detailed")
-        # self.currentFile = None
-        # self.currentFileName = None
-        # self.currentFileDir = None
-        # self.currentResumeData = None
-        # self.currentResumeProfiles = None
-        # self.currentResume = None
-        # # print("cancelling job...")
-        # # exit()
-    
-    # def isResumeDataFiltered(self) -> bool:
-    #     return "-unfiltered" in self.currentProfile
-        
+
+        if self.args.selfrefqr is not None and self.args.selfrefqr:
+            self.options.append("selfRefQr")
 
 
     def generateResumes(self):
@@ -601,6 +570,8 @@ class ResumeGenerator:
                 outputFile = OUTPUT_DIR / filename
 
                 resume = self.Resume(resumeData=resumeData, profile=profile, outputFile=outputFile)
+                resume.initialize()
+                resume.selfRefQr = "selfRefQr" in self.options
                 output[file][profile] = resume
         return output
 
@@ -609,7 +580,7 @@ class ResumeGenerator:
         
         for file, resumeDataStackByProfile in inResumeDataStackByFileByProfile.items():
             output[file] = {}
-            for profile, resumeDataStack in resumeDataStackByProfile:
+            for profile, resumeDataStack in resumeDataStackByProfile.items():
                 resumeData = {}
                 for dataShard in resumeDataStack:
                     resumeData = deep_extend_dict(base=resumeData, extension=dataShard)
@@ -625,7 +596,11 @@ class ResumeGenerator:
 
             fileBranchLoaded = False
             currentFile = file
+            loopIdx = 0
             while not fileBranchLoaded:
+                loopIdx +=1
+                if loopIdx %100 == 0:
+                    print(f"getAvailableProfilesByResume >> while loop idx: '{loopIdx}'")
                 fileContents = self.rawDataDictionariesByFile[currentFile]
                 fileSectionData = fileContents["file"] if "file" in fileContents else {}
                 parentFileName = fileSectionData["parent"] if "parent" in fileSectionData else ""
@@ -664,9 +639,13 @@ class ResumeGenerator:
 
                 fileBranchLoaded = False
                 currentFile = file
+                loopIdx = 0
                 while not fileBranchLoaded:
+                    loopIdx +=1
+                    if loopIdx %100 == 0:
+                        print(f"getResumeDataStackByFileByProfile >> while loop idx: '{loopIdx}'")
                     rawData = copy.deepcopy(self.rawDataDictionariesByFile[currentFile])
-                    profileFilteredData = self.deepFilterProfileDict(inRawDict=rawData, inProfile=profile, isFilter="unfiltered" in profile)
+                    profileFilteredData = self.deepFilterProfileDict(inDict=rawData, inProfile=profile, isFilter="unfiltered" in profile)
                     outResumeProfileDataStack.append(profileFilteredData)
 
                     fileSectionData = profileFilteredData["file"] if "file" in profileFilteredData else {}
@@ -705,9 +684,9 @@ class ResumeGenerator:
                     inDict[key] = item
 
             # if key is list of dict: loop on items to filter and keep or remove them based on profile
-            if isinstance(val, list[dict]):
+            if isinstance(val, list) and val and isinstance(val[0], dict):
                 inListIndexesToRemove = []
-                for itemIdx in range(len(val), -1, -1):
+                for itemIdx in range(len(val)-1, -1, -1):
                     item: dict = val[itemIdx]
                     item = self.deepFilterProfileDict(inDict=item, inProfile=inProfile, isFilter=isFilter)
 
@@ -728,15 +707,17 @@ class ResumeGenerator:
         return inDict
 
     def getProfileOverridenDictionary(self, inDict: dict, inProfile: str) -> dict:
-        overrides = inDict["$overrides"]
-        
-        pass
+        overrides = inDict["$overrides"][0]
+        if not self.isDictionaryProfileOverriden(inOverridesDict=overrides, inProfile=inProfile):
+            return inDict
+        inDict.pop("$overrides")
+        return deep_merge_dict(base=inDict, override=overrides) #TODO see later to allow additional overrides profiles
 
     def isDictionaryProfileOverriden(self, inOverridesDict: dict, inProfile: str) -> bool:
         withConditions = inOverridesDict["with"]
         exceptConditions = inOverridesDict["except"]
         optionPattern = re.compile(r"option:(?P<option>\w+)")
-        profilePattern = re.compile(r"profile:(?P<profile>[a-zA-Z0-9_-*]+)")
+        profilePattern = re.compile(r"profile:(?P<profile>[a-zA-Z0-9-*_]+)") # TODO fix later for _-*
 
         isWithConditionsTriggered = False
         for condition in withConditions:
@@ -822,20 +803,25 @@ class ResumeGenerator:
         for file in self.validatedInputFilesPathList:
             fileBranchLoaded = False
             currentFile: Path = file
+            loopIdx = 0
             while not fileBranchLoaded:
+                loopIdx +=1
+                if loopIdx %100 == 0:
+                    print(f"getRawDataDictionariesByFile >> while loop idx: '{loopIdx}'")
                 if currentFile in output:
                     # parents and deeper parents have already been loaded
                     fileBranchLoaded = True
                     continue
                 else:
-                    with open(file, "r", encoding='utf-8') as f:
+                    with open(currentFile, "r", encoding='utf-8') as f:
                         fileContents = json.loads(f.read())
                         output[currentFile] = fileContents
                         if "file" in fileContents and "parent" in fileContents["file"]:
-                            parentFile = fileContents["file"]["parent"]
-                            if parentFile:
-                                currentFile = parentFile
-                                continue
+                            parentFileName = fileContents["file"]["parent"]
+                            if parentFileName:
+                                parentPath = Path(os.path.join(currentFile.parent, parentFileName))
+                                currentFile = parentPath
+                                # continue
                             else:
                                 fileBranchLoaded = True
                                 continue
@@ -856,7 +842,7 @@ class ResumeGenerator:
         jsonResumeValidator = re.compile("resume_[A-Z0-9_-]+\\.json")
 
         for file in self.args.files:
-            filepath = Path(file)
+            filepath = Path(os.path.join(ROOT_DIR, file))  # Path(file)
             # filename = file[file.rfind("/")+1:]
             filename = filepath.name
             
@@ -1601,7 +1587,48 @@ class ResumeGenerator:
 #     PARIS = "Paris,France"
 #     LYON = "Lyon,France"
 
-if __name__ == "__main__" :
-    gen = ResumeGenerator(args).createResumes()
+# if __name__ == "__main__" :
+#     # gen = ResumeGenerator(args).createResumes()
+#     pass
 
+def find_root(marker="Makefile"):
+    current = Path(__file__).resolve()
+    for parent in current.parents:
+        if (parent / marker).exists():
+            return parent
+    raise FileNotFoundError(f"Could not find project root (looking for {marker})")
+
+def main(args):
+    ROOT_DIR = find_root()
+    generator = ResumeGenerator(args=args)
+    generator.generateResumes()
+
+if __name__ == "__main__":
+    # parser = argparse.ArgumentParser(...)
+    # parser.add_argument(...)
+    # args = parser.parse_args()
+
+    parser = argparse.ArgumentParser(description="A resume generator script that takes some options to control the script output.")
+
+    parser.add_argument("-p", "--profiles", help="Specify the resume profiles to generate: webDev, mobileDev, dataScientist, dataEngineer, devOps, ...",
+        nargs="+",  # allows multiple values
+        required=False
+                        )
+    parser.add_argument("-n", "--nofiltering", help="Override the filtering of resume data and generate with the maximum of data available.", action='store_true')
+
+    parser.add_argument("-q", "--selfrefqr", help="add a qr code in resume to open itself in pdf", action='store_true')
+    # parser.add_argument("-h", "--help", action="help", help="Show help message and exit")
+    parser.add_argument("-f", "--files", help="Specify the desired resumes (source data files, optionally with profiles) to generate.",
+        nargs="+",  # allows multiple values
+        required=True
+                        )
+    parser.add_argument("-o", "--outputdir")
+
+    args = parser.parse_args()
+
+    OUTPUT_DIR = Path(os.path.join(ROOT_DIR,"tex"))
+    if args.outputdir:
+        OUTPUT_DIR = Path(args.outputdir)
+
+    main(args)
 
