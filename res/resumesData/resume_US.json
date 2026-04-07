@@ -151,9 +151,9 @@
               "goals": [  ],
               "achievements": [ 
                 "Android 14 and Kotlin development masterclass.",
-                "Kotlin apps: quiz app, drawing app, note-taking app, weather app, chat app (whatsapp-like with notifications), Uber clone app",
-                "Python apps: flexible multilingual LateX resume generator based on the JSON Resume standard",
-                "Javascript apps: CRM web app to assist me in my job hunting and applications management + job boards scraping to have all job postings and manage them and my applications in one place.",
+                "Kotlin apps: drawing app, note app, weather app, chat app (whatsapp-like), Uber clone app",
+                "Python apps: flexible multilingual LateX resume generator",
+                "Javascript apps: Job hunt management/CRM web app + job boards scraper to manage job postings and applications all in one place.",
                 "Build a home server to backup my data with redundancy (raid) + deploy and expose apps and services"
               ],
               "results": [  ],

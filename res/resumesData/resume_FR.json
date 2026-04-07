@@ -151,9 +151,9 @@
               "goals": [  ],
               "achievements": [ 
                 "Formation masterclass Android 14 et développement Kotlin.",
-                "Développements Kotlin: appli de quiz, de dessin, appli de prise de note, appli météo, appli de chat avec notifications, clone de l'appli Uber",
-                "Développements Python: générateur de CV flexible en LateX multilingues se basant sur le standard JSON Resume",
-                "Développements Javascript: Appli web CRM pour m'assister dans la gestion de mes candidatures + scraping des offres d'emploi de multiples plateformes pour les centraliser et en réaliser la gestion dans une interface unique.",
+                "Développements Kotlin: applis de - dessin, prise de note, météo, chat (whatsapp), transport (Uber-clone)",
+                "Développements Python: générateur de CV multilingues et flexible en LateX",
+                "Développements Javascript: Appli web CRM de gestion des candidatures + scraping des offres d'emploi de multiples plateformes pour les centraliser les offres et suivre les candidatures sur une plateforme unique.",
                 "Montage d'un serveur personnel pour sauvegarder mes données avec redondance (raid) + déploiement et exposition d'applis et services"
               ],
               "results": [  ],
@@ -683,7 +683,7 @@
               {
                 "with": [ "*" ],
                 "except": [  ],
-                "data": null
+                "data": { }
               }
             ],
             "items":[
