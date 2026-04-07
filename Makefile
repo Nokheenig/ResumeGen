@@ -27,6 +27,8 @@ all:
 tex: prepareTex
 	$(MAKE) deps
 	$(PYTHON) ./generate_tex.py --profiles it-software --files ./res/resumesData/resume_CAN* -o $(TEX_DIR) --selfrefqr
+	$(PYTHON) ./generate_tex.py --profiles it-software --files ./res/resumesData/resume_FR* -o $(TEX_DIR) --selfrefqr
+	$(PYTHON) ./generate_tex.py --profiles it-software --files ./res/resumesData/resume_US* -o $(TEX_DIR) --selfrefqr
 
 # ── Python venv ──────────────────────────────────────────────────────────────
 $(VENV)/bin/python:
