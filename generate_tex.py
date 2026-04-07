@@ -43,6 +43,7 @@ class ResumeGenerator:
             return self.documentRoot.Build()
         
         def initialize(self):
+            self.init_vars()
             self.init_base_document()
             self.init_build_header()
             self.init_build_aside()
@@ -50,6 +51,12 @@ class ResumeGenerator:
             self.init_build_experience()
             self.init_build_education()
             
+
+        def init_vars(self):
+            formats = self.document_data["formats"] if "formats" in self.document_data else {}
+            self.format_date = formats["date"] if "date" in formats else "%m/%d/%Y"
+            self.format_date_short = formats["date-short"] if "date-short" in formats else "%m/%y"
+            pass
 
         def init_base_document(self):
             self.documentRoot.header = r"%!TEX TS-program = xelatex"
@@ -178,20 +185,30 @@ class ResumeGenerator:
             
 
         def init_build_aside_infos(self, inAsideBlock: LatexDocumentBlock):
+            headers_trans = self.translations["headers"] if "headers" in self.translations else {}
+            section_title = headers_trans["infos"] if "infos" in headers_trans else ""
+            
             aside_infos = inAsideBlock and inAsideBlock.createChild(id=self.const.section_aside_infos)
-            if aside_infos:
-                aside_infos.header = r"""\section{Infos}"""
-                basics = self.data["basics"]
-                licence = basics["licence"]
-                mobility = basics["mobility"]
-                if licence:
-                    block = aside_infos.createChild()
-                    block.body = rf"""{licence}\\"""
-                    block.footer = r"""\vspace{3.5mm}"""
-                if mobility:
-                    block = aside_infos.createChild()
-                    block.body = rf"""{mobility}\\"""
-                    block.footer = r"""\vspace{2.5mm}"""
+
+            if not aside_infos: return
+
+            aside_infos.header = rf"""\section{{{section_title}}}\\"""
+            basics = self.data["basics"]
+            licence = basics["licence"]
+            mobility = basics["mobility"]
+            side_highlight = basics["side-highlight"]
+            if licence:
+                block = aside_infos.createChild()
+                block.body = rf"""{licence}\\"""
+                block.footer = r"""\vspace{3.5mm}"""
+            if side_highlight:
+                block = aside_infos.createChild()
+                block.body = rf"""{side_highlight}\\"""
+                block.footer = r"""\vspace{2.5mm}"""
+            if mobility:
+                block = aside_infos.createChild()
+                block.body = rf"""{mobility}\\"""
+                block.footer = r"""\vspace{2.5mm}"""
 
         def init_build_aside_contacts(self, inAsideBlock: LatexDocumentBlock):
             aside_contact = inAsideBlock and inAsideBlock.createChild(id=self.const.section_aside_contact)
@@ -201,41 +218,44 @@ class ResumeGenerator:
                 phone = contacts["phone"]
                 online_profiles = contacts["online"]
 
-                if email and len(email)>0:
-                    block = aside_contact.createChild() 
-                    block.body = rf"""\href{{mailto:{email}}}{{\small {email}}}\\"""
-                    block.footer = r"""\vspace{2.5mm}"""
-                
                 if phone and len(phone)>0:
                     block = aside_contact.createChild() 
                     block.body = rf"""{phone[0]}\\"""
-                    block.footer = r""""""
+                    block.footer = r"""\vspace{2.5mm}"""
 
+                if email and len(email)>0:
+                    block = aside_contact.createChild() 
+                    block.body = rf"""\href{{mailto:{email}}}{{{email}}}\\"""
+                    block.footer = r"""\vspace{2.5mm}"""
                 
 
         def init_build_aside_links(self, inAsideBlock: LatexDocumentBlock):
             aside_links = inAsideBlock and inAsideBlock.createChild(id=self.const.section_aside_links)
-            if aside_links:
-                contacts = self.data["contacts"]
-                online_profiles = contacts["online"]
+            if not aside_links: return
+            
+            aside_links.footer = r"""\vspace{1.0mm}"""
 
-                if online_profiles and len(online_profiles)>0:
-                    for online_profile in online_profiles:
-                        profile_name = online_profile["name"]
-                        profile_type = online_profile["type"]
-                        profile_alias = online_profile["alias"]
-                        profile_url = online_profile["url"]
-                        
-                        block = aside_links.createChild() 
-                        block.body = rf"""\href{{{profile_url}}}{{{profile_name}\hspace{{1.5mm}}\includegraphics[scale=0.075]{{hlink.png}}}}"""
-                        block.footer = r"""\vspace{2.5mm}"""
-                
-                # Add QR code with the link to the resume in github pages
-                if(self.selfRefQr):
-                    filename = self.outputFile.stem
-                    block = aside_links.createChild()
-                    block.body = rf"""\includegraphics[width=1.5cm,height=3cm,keepaspectratio]{{qr/{filename}.png}}"""
-                    block.footer = r"""\vspace{2.5mm}"""
+            contacts = self.data["contacts"]
+            online_profiles = contacts["online"]
+
+            if online_profiles and len(online_profiles)>0:
+                for online_profile in online_profiles:
+                    profile_name = online_profile["name"]
+                    profile_type = online_profile["type"]
+                    profile_alias = online_profile["alias"]
+                    profile_url = online_profile["url"]
+                    
+                    block = aside_links.createChild() 
+                    block.body = rf"""\href{{{profile_url}}}{{{profile_name}\hspace{{1.5mm}}\includegraphics[scale=0.075]{{hlink.png}}}}\\"""
+                    block.footer = r"""\vspace{0.75mm}"""
+            
+            # Add QR code with the link to the resume in github pages
+            if(self.selfRefQr):
+                filename = f"{self.outputFile.stem}.png"
+                filepath = QR_DIR / filename
+                block = aside_links.createChild()
+                block.body = rf"""\includegraphics[width=1.5cm,height=3cm,keepaspectratio]{{{filepath}}}"""
+                block.footer = r"""\vspace{1.5mm}"""
 
         def init_build_aside_languages(self, inAsideBlock: LatexDocumentBlock):
             languages = self.data["languages"]
@@ -255,12 +275,17 @@ class ResumeGenerator:
 
         def init_build_aside_strengths(self, inAsideBlock: LatexDocumentBlock):
             soft_skills = self.data["skills"]["soft-skills"]
-            strengths = soft_skills["strengths"] if soft_skills else []
+            strengths = soft_skills["strengths"] if "strengths" in soft_skills else []
+
+            headers_trans = self.translations["headers"] if "headers" in self.translations else {}
+            section_title = headers_trans["strengths"] if "strengths" in headers_trans else ""
+
 
             if strengths and len(strengths)>0:
                 aside_strengths = inAsideBlock and inAsideBlock.createChild(id=self.const.section_aside_strengths)
-                if aside_strengths:
-                    pass
+                if not aside_strengths: return
+
+                aside_strengths.header = rf"""\section{{{section_title}}}"""
 
                 aside_strengths_list = aside_strengths and aside_strengths.createChild(id=f"{aside_strengths.id}_list")
                 if aside_strengths_list:
@@ -277,9 +302,10 @@ class ResumeGenerator:
 
         def init_build_aside_mechanical_skills(self, inAsideBlock: LatexDocumentBlock):
             hard_skills = self.data["skills"]["hard-skills"]
-            mechanical_skills = hard_skills["mechanical-skills"] if hard_skills else []
+            mechanical_skills = hard_skills["mechanical-skills"] if "mechanical-skills" in hard_skills else []
             headers_trans = self.translations["headers"]if "headers" in self.translations else {}
-            title = headers_trans["mechanical-skills"] if "mechanical_skills" in headers_trans else ""
+            # skills = headers_trans["skills"] if "skills" in headers_trans else ""
+            title = headers_trans["mechanical-skills"] if "mechanical-skills" in headers_trans else ""
 
             if mechanical_skills and len(mechanical_skills)> 0:
                 aside_mechanical_skills = inAsideBlock and inAsideBlock.createChild(id=self.const.section_aside_mechanicalskills)
@@ -295,7 +321,7 @@ class ResumeGenerator:
 
                         block = aside_mechanical_skills.createChild()
                         block.header = rf"""\item {name}"""
-                        block.body = rf""" \\ \hspace*{{0.2em}}\small\textit{{{details}}}""" if not details else ""
+                        block.body = rf""" \\ \hspace*{{0.2em}}\small\textit{{{details}}}""" if details else ""
 
 
         def init_build_aside_hobbies(self, inAsideBlock: LatexDocumentBlock):
@@ -337,6 +363,7 @@ class ResumeGenerator:
             hard_skills = skills_data["hard-skills"] if "hard-skills" in skills_data else {}
             it_skills = hard_skills["it-skills"] if "it-skills" in hard_skills else {}
             groups = it_skills["groups"] if "groups" in it_skills else []
+            columns = it_skills["columns"] if "columns" in it_skills else 2
 
             if not groups or len(groups) == 0: return
 
@@ -351,7 +378,7 @@ class ResumeGenerator:
 \vspace*{{-0.45cm}}
 \setlength{{\columnsep}}{{-0.3cm}}
 \begin{{flushleft}}
-\begin{{multicols}}{{3}}
+\begin{{multicols}}{{{columns}}}
 \begin{{itemize}}
 \setlength{{\itemsep}}{{5pt}}
 \setlength{{\parskip}}{{0pt}}
@@ -361,15 +388,25 @@ class ResumeGenerator:
 %\end{itemize}
 \end{flushleft} \normalsize
 \vspace*{-2.0mm}"""
+            groupOrder = {"columns": {
+                0: []
+            }}
 
             for skill_section in groups:
                 section_name = skill_section["name"] if "name" in skill_section else ""
                 section_items = skill_section["items"] if "items" in skill_section else []
+                section_column = skill_section["column"] if "column" in skill_section else 0
+                section_position = skill_section["position"] if "position" in skill_section else 0
 
                 if not section_name or not section_items or len(section_items) == 0: continue
 
                 skills_group = skills and skills.createChild(id=section_name)
                 if not skills_group: continue
+
+                if section_column not in groupOrder["columns"]: 
+                    groupOrder["columns"][section_column]=[]
+
+                groupOrder["columns"][section_column].append([section_position, skills_group])
 
                 skills_group.header = rf"""\item \large {section_name} \
 \normalsize
@@ -387,7 +424,28 @@ class ResumeGenerator:
                     skills_group_item.body = rf"""\includegraphics[scale=0.40]{{{item_level}stars.png}}\hspace{{1.5mm}}\textbf{{{item_name}}}"""
                     if item_details: skills_group_item.body += rf"""{item_details}\vspace{{2mm}}"""
 
+            
+            for col in groupOrder["columns"].values():
+                col.sort(key=lambda group_pos_block: group_pos_block[0])
+            
+            # column_break_block = skills.createChild(id="column_break")
+            # column_break_block.body = r"\columnbreak"
 
+            new_children = { }
+            column_count = len(groupOrder["columns"])
+            for column_index in range(column_count):
+                column_elements_list = groupOrder["columns"][column_index]
+
+                for el in column_elements_list:
+                    element: LatexDocumentBlock = el[1]
+                    new_children[element.id] = element
+
+                if column_index != column_count - 1:
+                    col_break = skills.createChild(id=f"column_break_{column_index}")
+                    col_break.body = r"\columnbreak"
+                    new_children[col_break.id] = col_break
+
+            skills.children = new_children
 
         def init_build_experience(self):
             experience_items = self.data["experience"] if "experience" in self.data else []
@@ -405,7 +463,16 @@ class ResumeGenerator:
 
             for exp in experience_items:
                 date_from = exp["date-from"] if "date-from" in exp else ""
+                if date_from:
+                    date_from = datetime.strptime(date_from, '%Y-%m-%d')
+                    date_from = date_from.strftime(self.format_date_short)
+                
                 date_to = exp["date-to"] if "date-to" in exp else ""
+                if not date_to:
+                    date_to = datetime.now().strftime("%Y-%m-%d") 
+                if date_to:
+                    date_to = datetime.strptime(date_to, '%Y-%m-%d')
+                    date_to = date_to.strftime(self.format_date_short)
                 
                 company = exp["company"] if "company" in exp else ""
                 position = exp["position"] if "position" in exp else ""
@@ -454,7 +521,50 @@ class ResumeGenerator:
 
                     for achievement in achievements:
                         block = list_block.createChild()
-                        block.body = rf"\item {achievement}"
+                        self.init_build_experience_process_achievement(achievement=achievement, block=block)
+                        # block.body = rf"\item {achievement}"
+
+        def init_build_experience_process_achievement(self, achievement: str, block: LatexDocumentBlock) -> tuple[str,list]:
+            # item_desc, subitems = self.init_build_experience_process_achievement_preprocess(achievement)
+            block.body = rf"\item {achievement}"
+            pass
+
+        # def init_build_experience_process_achievement_preprocess(self, achievement: str) -> tuple[str,list]:
+        #     if achievement.find("|") == -1: return (achievement, None)
+        #     splitmark_found = True
+        #     level = 1
+        #     item_mark = "|" * level + "-"
+        #     subitems = achievement.split(item_mark)
+        #     while splitmark_found:
+        #         level += 1
+        #         item_mark = "|" * level + "-"
+        #         for item in subitems:
+        #             # if isinstance(item, str): continue
+        #             if item.find(item_mark) == -1: continue
+        #             subit = item.split(item_mark)
+
+
+
+
+        #     re.compile(r"")
+        #     pass
+
+        # def split_str(self, inString: str, inSplitLevel: int) -> tuple[str,list]|list[tuple[str,list]]:
+        #     split_string = "|" * inSplitLevel + "-"
+        #     prefix = ""
+        #     if inString.find(split_string) == -1: return (inString, [])
+
+        #     esc_split_string = split_string.replace("|", r"\\|")
+        #     pattern = re.compile(r"(?P<er>^.*?)")
+
+
+
+        #     subStrings = inString.split(split_string)
+        #     if len(subStrings) == 1: return (inString, [])
+        #     result = []
+        #     for it in subStrings:
+
+        #     pass
 
         
         def init_build_education(self):
@@ -476,8 +586,19 @@ class ResumeGenerator:
                 institution = education_entry["institution"] if "institution" in education_entry else ""
                 area = education_entry["area"] if "area" in education_entry else ""
                 subarea = education_entry["subarea"] if "subarea" in education_entry else ""
+                
                 date_from = education_entry["date-from"] if "date-from" in education_entry else ""
+                if date_from:
+                    date_from = datetime.strptime(date_from, '%Y-%m-%d')
+                    date_from = date_from.strftime(self.format_date_short)
+                
                 date_to = education_entry["date-to"] if "date-to" in education_entry else ""
+                if not date_to:
+                    date_to = datetime.now().strftime("%Y-%m-%d") 
+                if date_to:
+                    date_to = datetime.strptime(date_to, '%Y-%m-%d')
+                    date_to = date_to.strftime(self.format_date_short)
+
                 location = education_entry["location"] if "location" in education_entry else {}
                 city = location["city"] if "city" in location else ""
                 country = location["country"] if "country" in location else ""
@@ -570,8 +691,8 @@ class ResumeGenerator:
                 outputFile = OUTPUT_DIR / filename
 
                 resume = self.Resume(resumeData=resumeData, profile=profile, outputFile=outputFile)
-                resume.initialize()
                 resume.selfRefQr = "selfRefQr" in self.options
+                resume.initialize()
                 output[file][profile] = resume
         return output
 
@@ -669,9 +790,13 @@ class ResumeGenerator:
         # Apply overrides before proceeding to dive into the dictionary
         if "$overrides" in inDict:
             inDict = self.getProfileOverridenDictionary(inDict=inDict, inProfile=inProfile)
+            if not inDict:
+                # inDict = {}
+                return {}
 
         inDictKeysToRemove = []
         for key, val in inDict.items():
+            if key == "$overrides": continue # not look for overrides inside an override
 
             # if key->value is dictionary recursively call function to filter deeper dictionary
             if isinstance(val, dict): 
@@ -682,6 +807,8 @@ class ResumeGenerator:
                     inDictKeysToRemove.append(key)
                 else:
                     inDict[key] = item
+
+                continue
 
             # if key is list of dict: loop on items to filter and keep or remove them based on profile
             if isinstance(val, list) and val and isinstance(val[0], dict):
@@ -698,8 +825,10 @@ class ResumeGenerator:
                 for idxToRemove in inListIndexesToRemove:
                     val.pop(idxToRemove)
                 
-                if len(val) == 0:
+                if len(val) == 0: # Mark to remove filtered list which don't contain any element anymore from
                     inDictKeysToRemove.append(key)
+
+                continue
         
         for key in inDictKeysToRemove:
             inDict.pop(key)
@@ -711,7 +840,7 @@ class ResumeGenerator:
         if not self.isDictionaryProfileOverriden(inOverridesDict=overrides, inProfile=inProfile):
             return inDict
         inDict.pop("$overrides")
-        return deep_merge_dict(base=inDict, override=overrides) #TODO see later to allow additional overrides profiles
+        return deep_merge_dict(base=inDict, override=overrides["data"]) #TODO see later to allow additional overrides profiles
 
     def isDictionaryProfileOverriden(self, inOverridesDict: dict, inProfile: str) -> bool:
         withConditions = inOverridesDict["with"]
@@ -720,8 +849,10 @@ class ResumeGenerator:
         profilePattern = re.compile(r"profile:(?P<profile>[a-zA-Z0-9-*_]+)") # TODO fix later for _-*
 
         isWithConditionsTriggered = False
+        if len(withConditions) == 0: 
+            isWithConditionsTriggered = True
         for condition in withConditions:
-            if condition == "*":
+            if condition == "*" or isWithConditionsTriggered:
                 isWithConditionsTriggered = True
                 break
             m = optionPattern.search(condition)
@@ -748,23 +879,25 @@ class ResumeGenerator:
                 else:
                     continue
 
-        isExceptConditionsTriggered = True
+        isExceptConditionsTriggered = False
+        if len(exceptConditions) == 0:
+            isExceptConditionsTriggered = False
         for condition in exceptConditions:
-            if condition == "*":
-                isExceptConditionsTriggered = False
+            if condition == "*" or isExceptConditionsTriggered:
+                isExceptConditionsTriggered = True
                 break
             m = optionPattern.search(condition)
             if m:
                 option = m.group("option")
                 if option in self.options:
-                    isExceptConditionsTriggered = False
+                    isExceptConditionsTriggered = True
                     break
             m = profilePattern.search(condition)
             if m:
                 profile = m.group("profile")
                 if not "*" in profile:
                     if profile == inProfile:
-                        isExceptConditionsTriggered = False
+                        isExceptConditionsTriggered = True
                         break
                     else:
                         continue
@@ -772,11 +905,12 @@ class ResumeGenerator:
                 pattern = re.compile(profile)
                 profileLikePatternMatch = pattern.search(inProfile)
                 if profileLikePatternMatch:
-                    isExceptConditionsTriggered = False
+                    isExceptConditionsTriggered = True
                     break
                 else:
                     continue
-        return isWithConditionsTriggered or isExceptConditionsTriggered
+
+        return isWithConditionsTriggered and not isExceptConditionsTriggered
 
     def getResumeParentData(self, inDict: dict, inProfile: str) -> dict|None:
         if not self.resumeHasParentData(inDict):
@@ -1599,7 +1733,6 @@ def find_root(marker="Makefile"):
     raise FileNotFoundError(f"Could not find project root (looking for {marker})")
 
 def main(args):
-    ROOT_DIR = find_root()
     generator = ResumeGenerator(args=args)
     generator.generateResumes()
 
@@ -1626,7 +1759,13 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
-    OUTPUT_DIR = Path(os.path.join(ROOT_DIR,"tex"))
+    ROOT_DIR = find_root()
+
+    ARTIFACTS_DIR = ROOT_DIR / "artifacts"
+    TEX_DIR = ARTIFACTS_DIR / "tex"
+    QR_DIR = ARTIFACTS_DIR / "qr"
+    
+    OUTPUT_DIR = TEX_DIR
     if args.outputdir:
         OUTPUT_DIR = Path(args.outputdir)
 

@@ -4,6 +4,10 @@ def deep_merge_dict(base: dict, override: dict) -> dict:
     - Nested dictionaries are merged recursively.
     - Scalar values and lists in `override` replace those in `base`.
     """
+    if override == None: # deal with the case where we want to wipe base dictionary
+        # base = {}
+        return {}
+
     for key, override_value in override.items():
         base_value = base.get(key)
 

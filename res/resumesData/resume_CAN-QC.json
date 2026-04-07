@@ -5,6 +5,10 @@
     "data": {
         "contacts": {
             "phone": [ "+1 263 379-2042" ]
-        } 
+        } ,
+        "basics": {
+            "side-highlight": "Titulaire d’un permis de travail ouvert; autorisé à travailler au Canada",
+            "mobility": "Mobile partout au Canada"
+        }
     }
 }

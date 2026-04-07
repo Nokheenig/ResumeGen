@@ -31,7 +31,7 @@
           "region": "Ile de France",
           "$overrides":[
             {
-              "with": [ ],
+              "with": [ "*" ],
               "except": [],
               "data": { }
             }
@@ -96,16 +96,16 @@
           "tech-env": [  ],
         "$overrides":[
           {
-            "with": ["option:detailed"],
+            "with": ["option:detailed", "profile:it*"],
             "except": [],
             "data": {
               "context-mission": "Développer l'offre de post-processeurs pour machines outils à commande numérique (CNC), robots d'usinage 6 axes et machines de découpe laser 2D/3D.",
               "goals": [  ],
               "achievements": [ 
-                "Développement de post-processeurs pour machines outils à commande numérique (CNC), robots industriels 6 axes / cellules robotisées et machines de découpe laser 3/5 axes en C\\# (.Net), G-code (Fanuc), ... -> Création de nouvelles bases post-pro et prise en charge des robots Staubli, Kuka, Universal Robots, Fanuc.., prise en charge des lasers Bystronic, LXD, Mazak,..",
+                "Développement de post-processeurs pour machines outils à commande numérique (CNC), robots industriels 6 axes / cellules robotisées et machines de découpe laser 3/5 axes en C\\# (.Net), G-code (Fanuc), ... |- Création de nouvelles bases post-pro et prise en charge notamment: ||- des robots Staubli, Kuka, Universal Robots, Fanuc.., ||- des lasers Bystronic, LXD, Mazak,..",
                 "Rédaction de documentations et spécifications.",
                 "Essais et mise au point des nouvelles bases machine chez le client.",
-                "Rédaction de scripts et automatisation, développement et déploiement d'outils internes d'initiative personnelle -> un outil de logging, un outil de gestion des sources/ticketing (+ module powershell associé) basé sur git, formation interne des collaborateurs à l'utilisation de git, d'un système de gestion documentaire et des connaissances afin de centraliser et partager la documentation interne",
+                "Rédaction de scripts et automatisation, développement et déploiement d'outils internes d'initiative personnelle, notamment: |- un outil de logging, |- un outil de gestion des sources/ticketing (+ module powershell associé) basé sur git + formation interne des collaborateurs à l'utilisation de git, |- d'un système de gestion documentaire et des connaissances afin de centraliser et partager la documentation interne",
                 "Installation et configuration de machines virtuelles de test / simulation d'usinage",
                 "Support technique client et amélioration de post-processeurs existants."
               ],
@@ -144,7 +144,7 @@
         },
           "$overrides":[
           {
-            "with": ["option:detailed"],
+            "with": ["option:detailed", "profile:it*"],
             "except": [],
             "data": {
               "context-mission": "Acquérir de nouvelles compétences et les mettre en pratique sur des projets concrets persos",
@@ -190,7 +190,7 @@
           "tech-env": [  ],
           "$overrides":[
           {
-            "with": ["option:detailed"],
+            "with": ["option:detailed", "profile:it*"],
             "except": [],
             "data": {
               "context-mission": "Automatiser et améliorer la réactivité du service de repowering (identifier et proposer des panneaux solaires de remplacement aux exploitants de centrales solaire endommagées ou vieillissantes)",
@@ -246,7 +246,7 @@
         "$overrides":[
           {
             "with": ["option:detailed"],
-            "except": [],
+            "except": [  ],
             "data": {
               "context-mission": "Service R\\&D Innovation, développement d'une nouvelle gamme de produits à haute valeur ajoutée - fixations et Systèmes d'assemblage instrumentés.",
               "goals": [  ],
@@ -388,7 +388,7 @@
         "detailsBlock": "",
         "$overrides":[
           {
-            "with": [ ],
+            "with": [ "*" ],
             "except": [],
             "data": { }
           }
@@ -412,7 +412,7 @@
         "detailsBlock": "",
         "$overrides":[
           {
-            "with": [ ],
+            "with": [ "*" ],
             "except": [],
             "data": { }
           }
@@ -424,11 +424,14 @@
     "skills": {
       "hard-skills":{
         "it-skills": {
+          "columns": 3,
           "groups":[
           {
             "groupId": "0",
             "name": "Mobile",
             "type": "rankedItems",
+            "column": 0,
+            "position": 0,
             "$overrides":[
               {
                 "with": [  ],
@@ -458,6 +461,8 @@
             "groupId": "1",
             "name": "Web",
             "type": "rankedItems",
+            "column": 1,
+            "position": 0,
             "$overrides":[
               {
                 "with": [  ],
@@ -482,6 +487,8 @@
             "groupId": "2",
             "name": "Authentification",
             "type": "rankedItems",
+            "column": 1,
+            "position": 1,
             "$overrides":[
               {
                 "with": [  ],
@@ -506,6 +513,8 @@
             "groupId": "3",
             "name": "Application / Serveur",
             "type": "rankedItems",
+            "column": 0,
+            "position": 0,
             "$overrides":[
               {
                 "with": [  ],
@@ -522,7 +531,7 @@
               {
                 "name":"Python",
                 "level": "5",
-                "details": "\\\\Flask, Django, FastAPI, SQLAlchemy, PyMongo, PyTest, Numpy, Uvicorn, Pydantic, Requests\\\\\\vspace{2mm}"
+                "details": "\\\\Flask, Django, FastAPI, SQLAlchemy, PyTest, Requests\\\\\\vspace{2mm}"
               },
               {
                 "name":"Node.js",
@@ -550,6 +559,8 @@
             "groupId": "4",
             "name": "Devops, CI/CD",
             "type": "rankedItems",
+            "column": 1,
+            "position": 2,
             "$overrides":[
               {
                 "with": [  ],
@@ -589,6 +600,8 @@
             "groupId": "5",
             "name": "Bases de données",
             "type": "rankedItems",
+            "column": 2,
+            "position": 0,
             "$overrides":[
               {
                 "with": [  ],
@@ -628,6 +641,8 @@
             "groupId": "6",
             "name": "Data",
             "type": "rankedItems",
+            "column": 2,
+            "position": 0,
             "$overrides":[
               {
                 "with": [ "profile:it*" ],
@@ -662,9 +677,11 @@
             "groupId": "7",
             "name": "Autres",
             "type": "rankedItems",
+            "column": 2,
+            "position": 0,
             "$overrides":[
               {
-                "with": [  ],
+                "with": [ "*" ],
                 "except": [  ],
                 "data": null
               }
@@ -708,7 +725,7 @@
               },
               {
                 "name":"Calcul / FEM",
-                "details": "Ansys, Abaqus, Hyperworks"
+                "details": "Ansys, Abaqus"
               },
               {
                 "name":"Impression 3D",
@@ -745,26 +762,25 @@
       {
         "language": "Français",
         "fluency": "5",
-        "test": "(natif)"
+        "test": "natif"
       },
       {
         "language": "Anglais",
         "fluency": "4",
-        "test": "(C1,Bulats)"
+        "test": "C1,Bulats"
       },
       {
         "language": "Allemand",
         "fluency": "2-5",
-        "test": "(B1)"
+        "test": "B1"
       },
       {
         "language": "Coréen",
         "fluency": "1",
-        "test": "(A1-2)"
+        "test": "A1-2"
       }
     ],
-    "interests": [
-      {
+    "interests": {
         "groups": [
           {
             "name": "Randonnée",
@@ -801,11 +817,10 @@
           {
             "with": [ "*" ],
             "except": [  ],
-            "data": null
+            "data": { }
           }
         ]
       }
-    ]
   },
   "document": {
     "translations": {
@@ -819,8 +834,10 @@
             "skills": "Compétences",
             "skills-it": "Compétences informatiques",
             "strengths": "Forces",
-            "mechanical-skills": "Compétences mécaniques",
-            "hobbies": "Loisirs"
+            "mechanical-skills": "Mécanique",
+            "hobbies": "Loisirs",
+            "experience": "Experience",
+            "education": "Education - Certifications"
         }
       },
     "layout": {
@@ -970,7 +987,8 @@
       }
     },
     "formats": {
-      "date": "%d/%m/%Y"
+      "date": "%d/%m/%Y",
+      "date_short": "%m/%y"
     }
   }
 }

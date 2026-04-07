@@ -5,6 +5,10 @@
     "data": {
         "contacts": {
             "phone": [ "+1 263 379-2042" ]
-        } 
+        },
+        "basics": {
+            "side-highlight": "Open Work Permit holder, authorized to work in Canada",
+            "mobility": "Open to relocation across Canada"
+        }
     }
 }

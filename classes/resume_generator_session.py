@@ -194,7 +194,7 @@ class LatexDocumentBlock:
     
     @staticmethod
     def getNewChildId(parent: LatexDocumentBlock, idRoot: str = "", reqIdInstNum: int = -1) -> str:
-        if not idRoot: return LatexDocumentBlock.getNewChildId(parent=parent, idRoot=parent.idRoot)
+        if not idRoot: return LatexDocumentBlock.getNewChildId(parent=parent, idRoot=f"{parent.idRoot}_{len(parent.children)+1}")
         newId = idRoot if reqIdInstNum == -1 else f"{idRoot}_{reqIdInstNum}"
         if newId not in parent.children.keys(): return newId
         reservedIndexes = [ 0 ] #int(self.idRootInstNumPattern.match(childId).group("idInstNum")) for childId in self.children]

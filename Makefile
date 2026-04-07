@@ -1,46 +1,53 @@
-# Compiler
+# ── Variables ─────────────────────────────────────────────────────────────────
+   # Compiler
 LUATEX = lualatex
 
-# Directories
-TEX_DIR = tex
-PDF_DIR = pdf
-QR_DIR = qr
+   # Directories
+TEX_DIR  = artifacts/tex
+PDF_DIR  = artifacts/pdf
+QR_DIR   = artifacts/qr
 BUILD_DIR = build
-TEXMF = texmf
+RES_DIR = res
+TEXMF    = $(RES_DIR)/tex/texmf
+VENV     := .venv
+PYTHON := $(VENV)/bin/python
+PIP    := $(VENV)/bin/pip
+   # ── TEXINPUTS ────
+TEXINPUTS := $(TEXMF):
 
-VENV := .venv
-# Create venv if missing
+# ── Top-level entry point ─────────────────────────────────────────────────────
+# Phase 1: generate .tex files, then re-invoke make for phase 2.
+# The $(MAKE) call gets a completely fresh parse, so wildcard sees the new files.
+all:
+# 	$(MAKE) deps
+# 	$(PYTHON) ./generate_tex.py --profiles it-software --files ./res/resumesData/resume_CAN*
+	$(MAKE) tex
+	$(MAKE) _build
+
+tex: prepareTex
+	$(MAKE) deps
+	$(PYTHON) ./generate_tex.py --profiles it-software --files ./res/resumesData/resume_CAN* -o $(TEX_DIR) --selfrefqr
+
+# ── Python venv ──────────────────────────────────────────────────────────────
 $(VENV)/bin/python:
 	python3 -m venv $(VENV)
 	$(VENV)/bin/python -m pip install --upgrade pip setuptools wheel
 
-PYTHON := $(VENV)/bin/python
-PIP := $(VENV)/bin/pip
-
-
-# Automatically find all .tex files in the tex directory
+# ── Phase 2: everything that depends on .tex files existing ───────────────────
+# Only reached via the recursive $(MAKE) call above, never directly by the user.
+# At this point the .tex files are guaranteed to be on disk.
 TEX_FILES := $(wildcard $(TEX_DIR)/*.tex)
-
-# Replace .tex with .pdf and change output dir to pdf/
 PDF_FILES := $(patsubst $(TEX_DIR)/%.tex, $(PDF_DIR)/%.pdf, $(TEX_FILES))
+QR_FILES  := $(patsubst $(TEX_DIR)/%.tex, $(QR_DIR)/%.png,  $(TEX_FILES))
 
-# Replace .tex with .png and change output dir to res/img/qr
-QR_FILES := $(patsubst $(TEX_DIR)/%.tex, $(QR_DIR)/%.png, $(TEX_FILES))
+_build: prepareQr qrcodes pdfs
+resumes: pdfs
+qrresumes: prepareQr qrcodes pdfs
 
-# TEXINPUTS tells LaTeX where to find custom classes/styles
-TEXINPUTS := $(TEXMF):
-
-# Default target
-all: pdfs
-
-pdfs: $(PDF_FILES)
-
-
-# Génère les QR codes et compile les PDF associés
-pdfsWithQr: qrTex prepareQr qrcodes pdfs
-
+pdfs:    $(PDF_FILES)
 qrcodes: $(QR_FILES)
 
+# ── Setup / deps ──────────────────────────────────────────────────────────────
 setup:
 	@echo "System requirements:"
 	@echo "  - texlive-luatex"
@@ -49,66 +56,56 @@ setup:
 	@echo ""
 	@echo "Python venv will be created automatically on first build."
 
-# Install Python deps into venv
 deps: $(VENV)/bin/python requirements.txt
 	$(PIP) install -r requirements.txt
 
-defaultTex: deps
-	$(PYTHON) ./generate_tex.py -p "itsoftware" -f res/resumesData/resume_CAN*
-# 	$(PYTHON) ./classes/resume_generator_session.py -o ./tex
-# 	$(PYTHON) ./generate_tex.py -p softDev webDev mobileDev -f res/resumesData/*
-
-qrTex: deps
-# 	@ls -al
-# 	$(PYTHON) --version
-	$(PYTHON) ./generate_tex.py --profiles it-software --files ./res/resumesData/resume_CAN*
-# 	$(PYTHON) ./generate_tex.py -p itsoftware -f res/resumesData/resume_CAN*
-
-# Ensure image assets are available in the build dir
-prepare:
+# ── Prepare build dirs ────────────────────────────────────────────────────────
+preparePdf:
+	@rm -rf $(PDF_DIR)/*
+	@mkdir -p $(PDF_DIR)
 	rm -rf $(BUILD_DIR)/*
 	mkdir -p $(BUILD_DIR)/res/img/qr
 	cp -ru res/img/* $(BUILD_DIR)/res/img/
-	cp -ru qr/* $(BUILD_DIR)/res/img/qr
+	cp -ru $(QR_DIR)/* $(BUILD_DIR)/res/img/qr
 
-# Prépare le dossier QR et installe les dépendances Python
 prepareQr: deps
-	@echo "Preparing QR directory (venv-based Python)..."
-	@rm -rf $(QR_DIR)
+	@echo "Preparing QR directory..."
+	@rm -rf $(QR_DIR)/*
 	@mkdir -p $(QR_DIR)
 
-# Compile rule: .tex in tex/ → .png in qr/
+prepareTex:
+	rm -rf $(TEX_DIR)/*
+	mkdir -p $(TEX_DIR)
+
+# ── Compile rules ─────────────────────────────────────────────────────────────
 $(QR_DIR)/%.png: $(TEX_DIR)/%.tex | prepareQr
 	@echo "Generating QR for $<"
+	@mkdir -p $(QR_DIR)
 	@filename=$$(basename $< .tex); \
-	url="https://nokheenig.github.io/ResumeGen/$$filename.pdf"; \
-	echo "Target URL: $$url"; \
+	    url="https://nokheenig.github.io/ResumeGen/$$filename.pdf"; \
+	    echo "Target URL: $$url"; \
 	$(PYTHON) generate_qr.py -f $@ -u "$$url" -w 2
-# -l ./res/img/logo_resume.jpg
 
-# Compile rule: .tex in tex/ → .pdf in pdf/
-$(PDF_DIR)/%.pdf: $(TEX_DIR)/%.tex | prepare
+$(PDF_DIR)/%.pdf: $(TEX_DIR)/%.tex | preparePdf
 	@echo "Compiling $< to $@"
 	@mkdir -p $(PDF_DIR) $(BUILD_DIR)
 	TEXINPUTS=$(TEXINPUTS) $(LUATEX) -interaction=nonstopmode -halt-on-error -output-directory=$(BUILD_DIR) $<
 	TEXINPUTS=$(TEXINPUTS) $(LUATEX) -interaction=nonstopmode -halt-on-error -output-directory=$(BUILD_DIR) $<
 	@mv $(BUILD_DIR)/$*.pdf $(PDF_DIR)/
 
-# Clean intermediate files
+# ── Utilities ─────────────────────────────────────────────────────────────────
 clean:
 	rm -rf $(BUILD_DIR)/*
 
-# Clean everything (intermediate + output)
 distclean: clean
 	rm -f $(PDF_DIR)/*.pdf
+	rm -f $(TEX_DIR)/*.tex
 
-# Live preview (requires latexmk and fswatch installed)
 watch:
 	@echo "Watching .tex files for changes..."
 	fswatch -o $(TEX_DIR)/*.tex | while read; do make; done
 
-# Open PDFs (macOS: open, Linux: xdg-open)
 open:
 	xdg-open $(PDF_DIR)/resume_FR_webDev.pdf
 
-.PHONY: all clean distclean watch open pdfs qrcodes prepare prepareQr
+.PHONY: all _build clean distclean watch open pdfs qrcodes preparePdf prepareQr prepareTex deps setup tex
