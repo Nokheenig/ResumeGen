@@ -107,7 +107,7 @@
                 "Essais et mise au point des nouvelles bases machine chez le client.",
                 "Rédaction de scripts et automatisation, développement et déploiement d'outils internes d'initiative personnelle, notamment: |- un outil de logging, |- un outil de gestion des sources/ticketing (+ module powershell associé) basé sur git + formation interne des collaborateurs à l'utilisation de git, |- d'un système de gestion documentaire et des connaissances afin de centraliser et partager la documentation interne",
                 "Installation et configuration de machines virtuelles de test / simulation d'usinage",
-                "Support technique client et amélioration de la base de code existante: réduction jusqu'à 92 fois du temps de traitement selon la configuration de post-processeur, réduction de 1000% (à partir de 1800) du nombre de ligne de code de la fonction principale de pré-processing des post-processeurs sheetmetal."
+                "Support technique client et amélioration de la base de code existante: réduction jusqu'à 92x du temps de traitement selon la configuration, réduction de 1000\\% (à partir de 1800) du nombre de ligne de code de la fonction principale de pré-processing des post-pro. sheetmetal."
               ],
               "results": [  ],
               "tech-env": [ 

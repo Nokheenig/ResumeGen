@@ -107,7 +107,7 @@
                         "Test and fine-tune in production on customer site.",
                         "Write scripts and automations, developed and deployed internal tool from personal initiative, e.g.: |- a trace / logging tool, |- a source / ticketing management tool (+ associated powershel module) based on git + in-house training for employees on how to use Git, |- a document and knowledge management system aimed to centralize and share internal documentation",
                         "Install and configure test/machining simulation virtual machines.",
-                        "Ensure technical support for customers and improve existing codebase: reduced processing time up to 92 times depending on post-processor configuration, reduced by 1000% (down from 1800) lines of code of sheetmetal post-processors pre-processing main function."
+                        "Ensure technical support for customers and improve existing codebase: reduced processing time up to 92x depending on configuration, reduced by 1000\\% (down from 1800) lines of code of sheetmetal post-pro. pre-processing main function."
                       ],
                       "results": [  ],
                       "tech-env": [ 
