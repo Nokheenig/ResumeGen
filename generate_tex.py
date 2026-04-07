@@ -10,7 +10,7 @@ import math
 from utils import deep_merge_dict, deep_extend_dict
 import copy
 from pathlib import Path
-from resumeMultilangGenerator.classes.latex_resume import LatexResumeBuilder, LatexDocumentBlock
+from classes.latex_resume import LatexResumeBuilder, LatexDocumentBlock
 
 # import logging as logDal
 # logDal.basicConfig(filename=os.path.join(ROOT_DIR,"logs","resumeGenerator.log"), encoding='utf-8', filemode='w', format='%(asctime)s-%(levelname)s:%(message)s', level=logDal.DEBUG)
@@ -196,7 +196,7 @@ class ResumeGenerator:
             basics = self.data["basics"]
             licence = basics["licence"]
             mobility = basics["mobility"]
-            side_highlight = basics["side-highlight"]
+            side_highlight = basics["side-highlight"] if "side-highlight" in basics else ""
             if licence:
                 block = aside_infos.createChild()
                 block.body = rf"""{licence}\\"""
@@ -1081,10 +1081,6 @@ def main(args):
     generator.generateResumes()
 
 if __name__ == "__main__":
-    # parser = argparse.ArgumentParser(...)
-    # parser.add_argument(...)
-    # args = parser.parse_args()
-
     parser = argparse.ArgumentParser(description="A resume generator script that takes some options to control the script output.")
 
     parser.add_argument("-p", "--profiles", help="Specify the resume profiles to generate: webDev, mobileDev, dataScientist, dataEngineer, devOps, ...",
