@@ -477,7 +477,7 @@
                 "details": "\\\\SCSS/SASS\\\\"
               },
               {
-                "name":"JavaScript",
+                "name":"TypeScript",
                 "level": "4",
                 "details": "\\\\Vue.js, Node.js\\\\"
               }
