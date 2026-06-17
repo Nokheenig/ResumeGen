@@ -28,7 +28,7 @@
           "city": "Paris",
           "countryCode": "FR",
           "country": "France",
-          "region": "Ile de France",
+          "region": "Ile-de-France",
           "$overrides":[
             {
               "with": [ "*" ],
