@@ -99,12 +99,13 @@
             "with": ["option:detailed", "profile:it*"],
             "except": [],
             "data": {
-                      "context-mission": "Develop the product range for CNC machines, 6 axes robots and 2D/3D laser cutting machines post-processors.",
+                      "context-mission": "Develop the product range for CNC machines, 6 axes robots and sheetmetal (2D/3D laser cutting, punching) machines post-processors.",
                       "goals": [  ],
                       "achievements": [ 
-                        "Develop from scratch CNC machines, 6 axes robots / robotic cells and 3/5-axis laser cutting machines post-processors in C\\# (.Net), G-code (Fanuc), ...|- Created new post-processor bases and added support for, e.g.:||- Staubli, Kuka, Universal Robots, and Fanuc robots, ||- and Bystronic, LXD, and Mazak laser machines",
+                        "Develop from scratch CNC machines, 6 axes robots / robotic cells and sheetmetal (2D/3D laser cutting, punching) machines post-processors in C\\# (.Net), G-code (Fanuc), ...|- Created new post-processor bases and added support for, e.g.:||- Staubli, Kuka, Universal Robots, and Fanuc robots, ||- and Bystronic, LXD, Trumpf and Mazak laser and punching machines",
                         "Write documentations and specifications.",
                         "Test and fine-tune in production on customer site.",
+                        "Build from scratch a kernel to control punching machines and refactor existing sheetmetal kernel to integrate it.",
                         "Write scripts and automations, developed and deployed internal tool from personal initiative, e.g.: |- a trace / logging tool, |- a source / ticketing management tool (+ associated powershel module) based on git + in-house training for employees on how to use Git, |- a document and knowledge management system aimed to centralize and share internal documentation",
                         "Install and configure test/machining simulation virtual machines.",
                         "Ensure technical support for customers and improve existing codebase: reduced processing time up to 92x depending on configuration, reduced by 1000\\% (down from 1800) lines of code of sheetmetal post-pro. pre-processing main function."
@@ -539,6 +540,11 @@
               },
               {
                 "name":"Java",
+                "level": "3",
+                "details": ""
+              },
+              {
+                "name":"C++",
                 "level": "3",
                 "details": ""
               },

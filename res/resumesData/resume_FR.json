@@ -99,12 +99,13 @@
             "with": ["option:detailed", "profile:it*"],
             "except": [],
             "data": {
-              "context-mission": "Développer l'offre de post-processeurs pour machines outils à commande numérique (CNC), robots d'usinage 6 axes et machines de découpe laser 2D/3D.",
+              "context-mission": "Développer l'offre de post-processeurs pour machines outils à commande numérique (CNC), robots industriels 6 axes et machines de tolerie: découpe laser 2D/3D, poinçonnage.",
               "goals": [  ],
               "achievements": [ 
-                "Développement de post-processeurs pour machines outils à commande numérique (CNC), robots industriels 6 axes / cellules robotisées et machines de découpe laser 3/5 axes en C\\# (.Net), G-code (Fanuc), ... |- Création de nouvelles bases post-pro et prise en charge notamment: ||- des robots Staubli, Kuka, Universal Robots, Fanuc.., ||- des lasers Bystronic, LXD, Mazak,..",
+                "Développement de post-processeurs pour machines outils à commande numérique (CNC), robots industriels 6 axes / cellules robotisées et machines de tolerie (découpe laser 3/5 axes, poinçonnage) en C\\# (.Net), G-code (Fanuc), ... |- Création de nouvelles bases post-pro et prise en charge notamment: ||- des robots Staubli, Kuka, Universal Robots, Fanuc.., ||- des lasers et poinçonneuse Bystronic, LXD, Mazak, Trumpf,..",
                 "Rédaction de documentations et spécifications.",
                 "Essais et mise au point des nouvelles bases machine chez le client.",
+                "Création from scratch d'un noyau pour gérer les machines de poinçonnage et refactorisation du noyau tolerie existant pour intégration.",
                 "Rédaction de scripts et automatisation, développement et déploiement d'outils internes d'initiative personnelle, notamment: |- un outil de logging, |- un outil de gestion des sources/ticketing (+ module powershell associé) basé sur git + formation interne des collaborateurs à l'utilisation de git, |- d'un système de gestion documentaire et des connaissances afin de centraliser et partager la documentation interne",
                 "Installation et configuration de machines virtuelles de test / simulation d'usinage",
                 "Support technique client et amélioration de la base de code existante: réduction jusqu'à 92x du temps de traitement selon la configuration, réduction de 1000\\% (à partir de 1800) du nombre de ligne de code de la fonction principale de pré-processing des post-pro. sheetmetal."
@@ -540,6 +541,11 @@
               },
               {
                 "name":"Java",
+                "level": "3",
+                "details": ""
+              },
+              {
+                "name":"C++",
                 "level": "3",
                 "details": ""
               },
