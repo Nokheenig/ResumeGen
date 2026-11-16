@@ -125,7 +125,7 @@ class ResumeGenerator:
   pdftitle={Yoann Chamillard -- Resume},
   pdfauthor={Yoann Chamillard},
   pdfsubject={Software Developer - Resume},
-  pdfkeywords={profile:softDev; resume; developer; software; engineer; C\# .Net; Python; Javascript; Node.js; Java; Kotlin; Android; Rest API; Git  GitLab; Docker; Jenkins; Selenium; Cron; Html-Css; MySQL; PostgreSQL; MongoDB; SQLite; Firebase; Bash; Jira; Regex; createdAt:2026-02-05 14:54:58.769054 ; id:084fe0},
+  pdfkeywords={profile:softDev; resume; developer; software; engineer; C\# .Net; Python; Javascript; TypeScript; React; Node.js; Java; Kotlin; Android; Rest API; Git  GitLab; Docker; Jenkins; Selenium; Cron; Html-Css; MySQL; PostgreSQL; MongoDB; SQLite; Firebase; Bash; Jira; Regex; createdAt:2026-02-05 14:54:58.769054 ; id:084fe0},
   pdfcreator={LuaLaTeX},
   pdfproducer={LuaLaTeX}
 }"""
@@ -165,7 +165,13 @@ class ResumeGenerator:
             if aside:
                 aside.header = r"""\begin{aside}
 \vspace{30mm}"""
-                aside.footer = r"""\end{aside}"""   
+                aside.footer = r"""\end{aside}""" 
+
+            if ("resume_FR" in str(self.outputFile)) and ("basics" in self.data) and ("picture" in self.data["basics"]) and (self.data["basics"]["picture"]):
+                picturePath = self.data["basics"]["picture"]
+                aside.header = rf"""\begin{{aside}}
+\vspace{{5mm}}
+\hspace{{10mm}}\includegraphics[scale=0.148]{{{picturePath}}}"""  
             
             self.init_build_aside_infos(aside)
 
